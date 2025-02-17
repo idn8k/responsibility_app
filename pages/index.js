@@ -1,7 +1,19 @@
+import ChildCard from "@/components/ChildCard";
+import Spinner from "@/components/Spinner";
+import useSWR from "swr";
+
 export default function HomePage() {
+  const { data: childrenData, isLoading } = useSWR("/api/children_items", {
+    fallbackData: [],
+  });
+
   return (
     <div>
-      <h1>Hello from Next.js</h1>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        childrenData.map((child) => <ChildCard key={child.id} child={child} />)
+      )}
     </div>
   );
 }
