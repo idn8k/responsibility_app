@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   *,
@@ -9,6 +9,9 @@ export default createGlobalStyle`
 
   body {
     margin: 0;
+    width: 100%;
+    height: 100vh;
+    background: lightgray;
     font-family: system-ui;
   }
 `;
