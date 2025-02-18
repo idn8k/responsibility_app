@@ -1,15 +1,7 @@
-import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 
-// import Logo from "../assets/logo/logo.svg";
-
-// const StyledLogo = styled(Logo)`
-//   width: 50px;
-//   height: 50px;
-//   stroke: #fff;
-//   z-index: 99;
-// `;
+import Logo from "./ui/Logo";
 
 const StyledHeader = styled.header`
   background: #ff3566;
@@ -38,5 +30,9 @@ const StyledImage = styled.div`
 `;
 
 export default function Header() {
-  return <StyledHeader>header</StyledHeader>;
+  return (
+    <StyledHeader>
+      <Logo />
+    </StyledHeader>
+  );
 }

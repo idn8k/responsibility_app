@@ -8,7 +8,7 @@ const StyledChildCard = styled.div`
   justify-content: space-between;
 
   width: 80%;
-  height: 200px;
+  min-height: 150px;
   padding: 10px;
   overflow: hidden;
 
@@ -39,11 +39,10 @@ const StyledName = styled.span`
 
 export default function ChildCard({ child }) {
   const { name, imgUrl } = child;
-  console.log("ChildCard ~ imgUrl:", imgUrl);
   return (
     <StyledChildCard>
       <StyledImage>
-        <Image src={imgUrl} layout="fill" alt="child image" />
+        <Image priority fill src={imgUrl} alt="child image" />
       </StyledImage>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
     </StyledChildCard>

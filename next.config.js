@@ -11,7 +11,7 @@ const nextConfig = {
       },
     ],
     dangerouslyAllowSVG: true, // If you want to allow SVG images
-    // unoptimized: true, // Bypass Next.js Image Optimization
+    unoptimized: true, // Bypass Next.js Image Optimization
   },
   reactStrictMode: true,
   webpack(config) {

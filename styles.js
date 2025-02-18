@@ -10,7 +10,6 @@ export default createGlobalStyle`
   }
 
   body {
-    margin: 0 auto; 
     font-family: system-ui;
   }
 `;
