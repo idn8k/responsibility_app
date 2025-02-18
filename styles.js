@@ -1,5 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 
+import { Roboto } from "next/font/google";
+
 export default createGlobalStyle`
   *,
   *::before,
@@ -8,10 +10,7 @@ export default createGlobalStyle`
   }
 
   body {
-    margin: 0;
-    width: 100%;
-    height: 100vh;
-    background: lightgray;
+    margin: 0 auto; 
     font-family: system-ui;
   }
 `;
