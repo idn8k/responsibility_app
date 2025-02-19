@@ -2,6 +2,7 @@ import useSWR from "swr";
 import ChildCard from "@/components/ChildCard";
 import Spinner from "@/components/ui/Spinner";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -17,10 +18,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* The commented code is for future questions: */}
-      {/* {isLoading && <Spinner />}
-      {childrenData.length === 0 && router.push("/addChildPage")} */}
-
       {childrenData?.map((child) => (
         <ChildCard key={child._id} child={child} />
       ))}
