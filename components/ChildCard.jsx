@@ -17,7 +17,7 @@ const StyledChildCard = styled.div`
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
-const StyledImage = styled.div`
+const ImageWrapper = styled.div`
   width: 40%;
   height: 100%;
   overflow: hidden;
@@ -41,9 +41,9 @@ export default function ChildCard({ child }) {
   const { name, imgUrl } = child;
   return (
     <StyledChildCard>
-      <StyledImage>
+      <ImageWrapper>
         <Image priority fill src={imgUrl} alt="child image" />
-      </StyledImage>
+      </ImageWrapper>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
     </StyledChildCard>
   );

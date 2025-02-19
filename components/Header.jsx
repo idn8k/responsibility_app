@@ -17,17 +17,6 @@ const StyledHeader = styled.header`
   width: 100%;
 `;
 
-const StyledImage = styled.div`
-  width: 100px;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  border-radius: 20px;
-
-  img {
-    object-fit: cover;
-  }
-`;
 
 export default function Header() {
   return (

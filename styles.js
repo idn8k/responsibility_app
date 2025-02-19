@@ -1,6 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-import { Roboto } from "next/font/google";
 
 export default createGlobalStyle`
   *,
