@@ -17,7 +17,7 @@ const StyledChildCard = styled.div`
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
-const StyledImage = styled.div`
+const ImageWrapper = styled.div`
   width: 40%;
   height: 100%;
   overflow: hidden;
