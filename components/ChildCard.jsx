@@ -41,9 +41,9 @@ export default function ChildCard({ child }) {
   const { name, imgUrl } = child;
   return (
     <StyledChildCard>
-      <StyledImage>
+      <ImageWrapper>
         <Image priority fill src={imgUrl} alt="child image" />
-      </StyledImage>
+      </ImageWrapper>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
     </StyledChildCard>
   );
