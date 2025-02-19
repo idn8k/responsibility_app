@@ -1,5 +1,8 @@
+import Header from "@/components/Header";
 import GlobalStyle from "../styles";
 import { SWRConfig } from "swr";
+import Navbar from "@/components/Navbar";
+import MainContainer from "@/components/MainContainer";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -16,7 +19,11 @@ export default function App({ Component, pageProps }) {
         }}
       >
         <GlobalStyle />
-        <Component {...pageProps} />
+        <Header />
+        <MainContainer>
+          <Component {...pageProps} />
+        </MainContainer>
+        <Navbar />
       </SWRConfig>
     </>
   );

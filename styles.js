@@ -8,8 +8,10 @@ export default createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
-
+  
   body {
     font-family: system-ui;
+    margin: 0;
+    padding:0;
   }
 `;

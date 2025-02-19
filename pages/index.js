@@ -1,28 +1,29 @@
 import useSWR from "swr";
-
-import MainContainer from "@/components/MainContainer";
-import Header from "@/components/Header";
 import ChildCard from "@/components/ChildCard";
 import Spinner from "@/components/ui/Spinner";
-import AddChild from "@/components/ui/AddChild";
-import Navbar from "@/components/Navbar";
+import { useRouter } from "next/router";
 
 export default function HomePage() {
+  const router = useRouter();
   const { data: childrenData, isLoading } = useSWR("/api/children_items", {
     fallbackData: [],
   });
 
   if (isLoading) return <Spinner />;
 
+  if (childrenData.length === 0) {
+    router.push("/addChildPage");
+  }
+
   return (
-    <MainContainer>
-      <Header />
-      {!childrenData.length ? (
-        <AddChild />
-      ) : (
-        childrenData.map((child) => <ChildCard key={child._id} child={child} />)
-      )}
-      <Navbar />
-    </MainContainer>
+    <>
+      {/* The commented code is for future questions: */}
+      {/* {isLoading && <Spinner />}
+      {childrenData.length === 0 && router.push("/addChildPage")} */}
+
+      {childrenData?.map((child) => (
+        <ChildCard key={child._id} child={child} />
+      ))}
+    </>
   );
 }
