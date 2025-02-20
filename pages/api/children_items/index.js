@@ -1,16 +1,22 @@
-import { childrenInfo } from "@/lib/db";
+import dbConnect from "@/db/connect";
+import Child from "@/db/models/Child";
 
-export default function handler(request, response) {
-  if (request.method !== "GET") {
-   response.status(405).json({ error: "Method not allowed" });
-   return;
-  }
+export default async function handler(request, response) {
+  await dbConnect();
 
-  if (!childrenInfo) {
-    response.status(500).json({ error: "Failed to retrieve children entries" });
+  if (request.method === "GET") {
+    const children = await Child.find();
+
+    response.status(200).json(children);
+    console.log(children);
+
     return;
   }
 
-  response.status(200).json(childrenInfo);
-  return;
+  if (!children) {
+    response.status(404).json({ status: "Not Found" });
+    return;
+  }
+
+  response.status(405).json({ error: "Method not allowed" });
 }
