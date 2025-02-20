@@ -1,4 +1,5 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+
 
 export default createGlobalStyle`
   *,
@@ -6,9 +7,10 @@ export default createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
-
+  
   body {
-    margin: 0;
     font-family: system-ui;
+    margin: 0;
+    padding:0;
   }
 `;
