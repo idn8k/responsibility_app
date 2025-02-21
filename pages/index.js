@@ -5,9 +5,14 @@ import { useRouter } from "next/router";
 
 export default function HomePage() {
   const router = useRouter();
-  const { data: childrenData, isLoading } = useSWR("/api/children_items", {
-    fallbackData: [],
-  });
+  // const { data: childrenData, isLoading } = useSWR("/api/children_items", {
+  //   fallbackData: [],
+  // });
+
+  //-- ↓ To remove ↓ --//
+  const isLoading = false;
+  const childrenData = [];
+  //-- ↑ To remove ↑ --//
 
   if (isLoading) return <Spinner />;
 
