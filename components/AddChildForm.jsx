@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { mutate } from "swr";
+
 import Button from "./ui/Button";
 import styled from "styled-components";
-import { mutate } from "swr";
+import Link from "next/link";
 
 const StyledHeading = styled.h2`
   color: #ff3566;
@@ -83,21 +86,40 @@ const StyledBtnContainer = styled.div`
   justify-content: space-around;
 `;
 
+const StyledLinkBtn = styled(Link)`
+  background-color: #fff;
+  color: #ff3566;
+  border: 1px solid #ff3566;
+  width: 45%;
+  padding: 10px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  text-decoration: none;
+  text-align: center;
+`;
+
 export default function AddChildForm() {
+  const router = useRouter();
   const [inputData, setInputData] = useState({
     name: "",
     birth_date: "",
     imgUrl: "",
   });
-  const [isInput, setIsInput] = useState(false);
 
-  useEffect(
-    function () {
-      console.log("Update state:", isInput);
-      console.log("Update state:", inputData);
-    },
-    [isInput, inputData]
-  );
+  const [isFormComplete, setFormComplete] = useState(false);
+
+  useEffect(() => {
+    if (
+      inputData.name.length !== 0 &&
+      inputData.birth_date.length !== 0 &&
+      inputData.imgUrl.length !== 0
+    ) {
+      setFormComplete(true);
+    } else {
+      setFormComplete(false);
+    }
+  }, [inputData]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -113,16 +135,18 @@ export default function AddChildForm() {
     if (response.ok) {
       mutate();
     }
-
-    console.log("response:", response);
+    setInputData(childData);
+    router.push("/");
   }
 
   function handleChange(e) {
-    setIsInput(e.target.value.length === 0);
-    console.log(isInput);
+    const key = e.target.name;
+    const value = e.target.value;
+
+    setInputData((inputData) => ({ ...inputData, [key]: value }));
   }
 
-  // const shortendUrl = inputData?.imgUrl.slice(0, 20) + "...";
+  const shortendUrl = inputData?.imgUrl.slice(0, 20) + "...";
 
   return (
     <>
@@ -136,6 +160,7 @@ export default function AddChildForm() {
             type="text"
             id="name"
             onChange={handleChange}
+            value={inputData.name}
             placeholder={inputData.name ? inputData.name : "..."}
           />
         </StyledInputContainer>
@@ -147,31 +172,32 @@ export default function AddChildForm() {
             type="date"
             id="birth_date"
             onChange={handleChange}
-            placeholder={inputData.birth_date ? inputData.name : "01.01.2020"}
+            value={inputData.birth_date}
+            placeholder={
+              inputData.birth_date ? inputData.birth_date : "01.01.2020"
+            }
           />
         </StyledInputContainer>
         <StyledInputContainer>
           <StyledLabel htmlFor="imgUrl">Image URL</StyledLabel>
           <StyledInput
-            name="imgUrl"
             required
+            name="imgUrl"
             type="text"
             id="imgUrl"
             onChange={handleChange}
-            // placeholder={inputData.imgUrl ? shortendUrl : "..."}
-            placeholder={inputData.imgUrl}
+            value={inputData.imgUrl}
+            placeholder={inputData.imgUrl ? shortendUrl : "..."}
           />
         </StyledInputContainer>
         <StyledBtnContainer>
-          {!isInput ? (
+          {isFormComplete ? (
             <>
-              <Button add type="submit">
-                Add
-              </Button>
-              <Button>Cancel</Button>
+              <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
+              <Button type="submit">Add</Button>
             </>
           ) : (
-            <Button>Cancel</Button>
+            <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
           )}
         </StyledBtnContainer>
       </StyledForm>

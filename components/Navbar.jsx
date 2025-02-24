@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
-import { FaThList } from "react-icons/fa";
+import { FaThList, FaPlus } from "react-icons/fa";
+import Link from "next/link";
 
 const StyledNavbar = styled.nav`
   background: #ff3566;
@@ -17,9 +19,17 @@ const StyledNavbar = styled.nav`
 `;
 
 export default function Navbar() {
+  const [showPlusIcon, setIcon] = useState(false);
+  const { pathname } = useRouter();
+  useEffect(() => {
+    setIcon(pathname === "/addChildPage");
+  }, [pathname, showPlusIcon]);
+
   return (
     <StyledNavbar>
-      <FaThList color="white" size="2rem" />
+      <Link href="/addChildPage">
+        {!showPlusIcon && <FaPlus color="white" size="2rem" />}
+      </Link>
     </StyledNavbar>
   );
 }
