@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./ui/Button";
 import styled from "styled-components";
+import { mutate } from "swr";
 
 const StyledForm = styled.form`
   height: 60%;
@@ -19,27 +20,34 @@ const child = {
 export default function AddChildForm() {
   const [inputData, setInputData] = useState(child);
 
-  // const shortendUrl = child.imgUrl.slice(0, 20) + "...";
-
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(e.target);
-
     const formData = new FormData(e.target);
-    const childDate = Object.fromEntries(formData);
-    console.log(" handleSubmit ~ childDate:", childDate);
+    const childData = Object.fromEntries(formData);
+
+    const response = await fetch("/api/children_items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(childData),
+    });
+    if (response.ok) {
+      mutate;
+    }
+
+    console.log("response:", response);
   }
 
-  function handleChange(e) {
-    console.log(e);
-    setInputData({
-      ...inputData,
-      name: e.target.name,
-      birth_date: e.target.birth_date,
-      imgUrl: e.target.imgUrl,
-    });
-  }
+  // function handleChange(e) {
+  //   setInputData({
+  //     ...inputData,
+  //     name: e.target.name,
+  //     birth_date: e.target.birth_date,
+  //     imgUrl: e.target.imgUrl,
+  //   });
+  // }
+
+  const shortendUrl = child.imgUrl.slice(0, 20) + "...";
 
   return (
     <>

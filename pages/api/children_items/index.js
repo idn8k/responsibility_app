@@ -13,6 +13,19 @@ export default async function handler(request, response) {
     return;
   }
 
+  if (request.method === "POST") {
+    try {
+      const childData = request.body;
+      await Child.create(childData);
+
+      response.status(200).json({ status: "New child created!" });
+
+      return;
+    } catch (error) {
+      response.status(400).json({ error: error.message });
+    }
+  }
+
   if (!children) {
     response.status(404).json({ status: "Not Found" });
     return;

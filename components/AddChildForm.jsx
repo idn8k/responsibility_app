@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./ui/Button";
 import styled from "styled-components";
+import { mutate } from "swr";
 
 const StyledHeading = styled.h2`
   color: #ff3566;
@@ -89,23 +90,41 @@ export default function AddChildForm() {
     imgUrl: "",
   });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const childData = Object.fromEntries(formData);
 
-    console.log(childData);
-
-    setInputData({
-      name: childData.name,
-      birth_date: childData.birth_date,
-      imgUrl: childData.imgUrl,
+    const response = await fetch("/api/children_items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(childData),
     });
+    if (response.ok) {
+      mutate();
+    }
 
-    console.log(inputData);
-    e.target.reset();
+    console.log("response:", response);
   }
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+
+  //   const formData = new FormData(e.target);
+  //   const childData = Object.fromEntries(formData);
+
+  //   console.log(childData);
+
+  //   setInputData({
+  //     name: childData.name,
+  //     birth_date: childData.birth_date,
+  //     imgUrl: childData.imgUrl,
+  //   });
+
+  //   console.log(inputData);
+  //   e.target.reset();
+  // }
 
   const shortendUrl = inputData?.imgUrl.slice(0, 20) + "...";
 
