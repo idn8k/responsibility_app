@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./ui/Button";
 import styled from "styled-components";
 import { mutate } from "swr";
@@ -89,6 +89,15 @@ export default function AddChildForm() {
     birth_date: "",
     imgUrl: "",
   });
+  const [isInput, setIsInput] = useState(false);
+
+  useEffect(
+    function () {
+      console.log("Update state:", isInput);
+      console.log("Update state:", inputData);
+    },
+    [isInput, inputData]
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -108,25 +117,12 @@ export default function AddChildForm() {
     console.log("response:", response);
   }
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
+  function handleChange(e) {
+    setIsInput(e.target.value.length === 0);
+    console.log(isInput);
+  }
 
-  //   const formData = new FormData(e.target);
-  //   const childData = Object.fromEntries(formData);
-
-  //   console.log(childData);
-
-  //   setInputData({
-  //     name: childData.name,
-  //     birth_date: childData.birth_date,
-  //     imgUrl: childData.imgUrl,
-  //   });
-
-  //   console.log(inputData);
-  //   e.target.reset();
-  // }
-
-  const shortendUrl = inputData?.imgUrl.slice(0, 20) + "...";
+  // const shortendUrl = inputData?.imgUrl.slice(0, 20) + "...";
 
   return (
     <>
@@ -139,6 +135,7 @@ export default function AddChildForm() {
             required
             type="text"
             id="name"
+            onChange={handleChange}
             placeholder={inputData.name ? inputData.name : "..."}
           />
         </StyledInputContainer>
@@ -149,6 +146,7 @@ export default function AddChildForm() {
             required
             type="date"
             id="birth_date"
+            onChange={handleChange}
             placeholder={inputData.birth_date ? inputData.name : "01.01.2020"}
           />
         </StyledInputContainer>
@@ -159,14 +157,22 @@ export default function AddChildForm() {
             required
             type="text"
             id="imgUrl"
-            placeholder={inputData.imgUrl ? shortendUrl : "..."}
+            onChange={handleChange}
+            // placeholder={inputData.imgUrl ? shortendUrl : "..."}
+            placeholder={inputData.imgUrl}
           />
         </StyledInputContainer>
         <StyledBtnContainer>
-          <Button>Cancel</Button>
-          <Button add type="submit">
-            Add
-          </Button>
+          {!isInput ? (
+            <>
+              <Button add type="submit">
+                Add
+              </Button>
+              <Button>Cancel</Button>
+            </>
+          ) : (
+            <Button>Cancel</Button>
+          )}
         </StyledBtnContainer>
       </StyledForm>
     </>
