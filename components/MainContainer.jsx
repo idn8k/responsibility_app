@@ -9,7 +9,7 @@ const StyledMainContainer = styled.main`
   flex-direction: column;
   align-items: center;
   gap: 80px;
-  /* overflow-y: scroll; (for a later reference)  */
+  overflow-y: scroll;
 `;
 
 export default function MainContainer({ children }) {
