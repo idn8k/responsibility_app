@@ -9,11 +9,6 @@ export default function HomePage() {
     fallbackData: [],
   });
 
-  //-- ↓ To remove ↓ --//
-  // const isLoading = false;
-  // const childrenData = [];
-  //-- ↑ To remove ↑ --//
-
   if (isLoading) return <Spinner />;
 
   if (childrenData.length === 0) {

@@ -19,11 +19,9 @@ const StyledNavbar = styled.nav`
 `;
 
 export default function Navbar() {
-  const [showPlusIcon, setIcon] = useState(false);
   const { pathname } = useRouter();
-  useEffect(() => {
-    setIcon(pathname === "/addChildPage");
-  }, [pathname, showPlusIcon]);
+
+  const showPlusIcon = pathname === "/addChildPage";
 
   return (
     <StyledNavbar>

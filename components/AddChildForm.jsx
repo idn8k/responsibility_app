@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { mutate } from "swr";
 
 import Button from "./ui/Button";
 import styled from "styled-components";
@@ -132,10 +131,7 @@ export default function AddChildForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(childData),
     });
-    if (response.ok) {
-      mutate();
-    }
-    setInputData(childData);
+
     router.push("/");
   }
 
@@ -191,14 +187,8 @@ export default function AddChildForm() {
           />
         </StyledInputContainer>
         <StyledBtnContainer>
-          {isFormComplete ? (
-            <>
-              <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
-              <Button type="submit">Add</Button>
-            </>
-          ) : (
-            <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
-          )}
+          <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
+          {isFormComplete && <Button type="submit">Add</Button>}
         </StyledBtnContainer>
       </StyledForm>
     </>
