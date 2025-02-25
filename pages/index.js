@@ -11,8 +11,6 @@ export default function HomePage() {
 
   if (isLoading) return <Spinner />;
 
-  console.log("childrenData:", childrenData);
-
   if (childrenData.length === 0) {
     router.push("/addChildPage");
   }
