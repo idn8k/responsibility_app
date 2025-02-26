@@ -1,25 +1,14 @@
-import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 
-const StyledChildCard = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+import Image from "next/image";
 
-  width: 80%;
-  min-height: 150px;
-  padding: 10px;
-  overflow: hidden;
-
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
-`;
+import { IoIosCloseCircle } from "react-icons/io";
+import { mutate } from "swr";
 
 const ImageWrapper = styled.div`
-  width: 40%;
-  height: 100%;
+  width: 35%;
+  height: 90%;
   overflow: hidden;
   position: relative;
   border-radius: 20px;
@@ -37,14 +26,50 @@ const StyledName = styled.span`
   width: 50%;
 `;
 
+const StyledBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  right: 14px;
+  top: 14px;
+
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+  color: #ff3566;
+  height: 1.6rem;
+  width: 1.6rem;
+  padding: 0;
+`;
+
 export default function ChildCard({ child }) {
   const { name, imgUrl } = child;
+
+  async function handleDelete(id) {
+    const response = await fetch(`/api/children_item/${child._id}`, {
+      method: "DELETE",
+    });
+
+    console.log("click");
+
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+    mutate();
+  }
+
   return (
-    <StyledChildCard>
+    <>
       <ImageWrapper>
         <Image priority fill src={imgUrl} alt="child image" />
       </ImageWrapper>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
-    </StyledChildCard>
+      <StyledBtn onClick={() => handleDelete(child._id)}>
+        <IoIosCloseCircle size="2rem" />
+      </StyledBtn>
+    </>
   );
 }
