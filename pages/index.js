@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { mutate } from "swr";
 import ChildCard from "@/components/ChildCard";
 import Spinner from "@/components/ui/Spinner";
 import { useRouter } from "next/router";
@@ -29,6 +30,18 @@ export default function HomePage() {
     fallbackData: [],
   });
 
+  async function handleDelete(id) {
+    const response = await fetch(`/api/children_items/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+    mutate("/api/children_items");
+  }
+
   if (isLoading) return <Spinner />;
 
   if (childrenData.length === 0) {
@@ -48,7 +61,7 @@ export default function HomePage() {
     <>
       {childrenData?.map((child) => (
         <StyledLink href={`/${child._id}`} key={child._id}>
-          <ChildCard child={child} />
+          <ChildCard onDelete={handleDelete} child={child} />
         </StyledLink>
       ))}
     </>

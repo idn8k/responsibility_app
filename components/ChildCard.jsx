@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import { IoIosCloseCircle } from "react-icons/io";
-import { mutate } from "swr";
 
 const ImageWrapper = styled.div`
   width: 35%;
@@ -44,22 +43,8 @@ const StyledBtn = styled.button`
   padding: 0;
 `;
 
-export default function ChildCard({ child }) {
+export default function ChildCard({ child, onDelete }) {
   const { name, imgUrl } = child;
-
-  async function handleDelete(id) {
-    const response = await fetch(`/api/children_item/${child._id}`, {
-      method: "DELETE",
-    });
-
-    console.log("click");
-
-    if (!response.ok) {
-      console.log(response.status);
-      return;
-    }
-    mutate();
-  }
 
   return (
     <>
@@ -67,7 +52,13 @@ export default function ChildCard({ child }) {
         <Image priority fill src={imgUrl} alt="child image" />
       </ImageWrapper>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
-      <StyledBtn onClick={() => handleDelete(child._id)}>
+      <StyledBtn
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          onDelete(child._id);
+        }}
+      >
         <IoIosCloseCircle size="2rem" />
       </StyledBtn>
     </>

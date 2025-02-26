@@ -25,16 +25,6 @@ export default async function handler(request, response) {
     }
   }
 
-  if (request.method === "DELETE") {
-    try {
-      await Child.findByIdAndDelete(id);
-      response.status(200).json({ message: " Child deleted!" });
-      return;
-    } catch (error) {
-      response.status(400).json({ error: error.message });
-    }
-  }
-
   if (!children) {
     response.status(404).json({ status: "Not Found" });
     return;
