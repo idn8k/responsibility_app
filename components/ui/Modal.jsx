@@ -16,7 +16,7 @@ const StyledDialog = styled.dialog`
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 
   &::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 1);
   }
 
   h2 {
@@ -25,8 +25,8 @@ const StyledDialog = styled.dialog`
 
     margin: 0;
   }
-
-  /* button {
+  /* 
+  button {
     font-family: inherit;
     margin-top: 10px;
     padding: 10px;
@@ -38,8 +38,8 @@ const StyledDialog = styled.dialog`
 
     &:hover {
       background-color: #005bb5;
-    } */
-  }
+    }
+  } */
 `;
 
 const StyledBtnContainer = styled.div`
@@ -50,17 +50,18 @@ const StyledBtnContainer = styled.div`
 
 export default function Modal({ dialogRef, closeModal, onDelete, childId }) {
   function handleDelete() {
+    console.log(childId);
     onDelete(childId);
     closeModal();
   }
 
   return (
-    <dialog ref={dialogRef}>
+    <StyledDialog ref={dialogRef}>
       <h2>Delete child?</h2>
       <StyledBtnContainer>
-        <button onClick={closeModal}>cancel</button>
-        <button onClick={handleDelete}>Delete</button>
+        <Button onClick={closeModal}>cancel</Button>
+        <Button onClick={handleDelete}>Delete</Button>
       </StyledBtnContainer>
-    </dialog>
+    </StyledDialog>
   );
 }

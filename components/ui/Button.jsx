@@ -12,6 +12,6 @@ const StyledBtn = styled.button`
   font-size: 20px;
 `;
 
-export default function Button({ children }) {
-  return <StyledBtn>{children}</StyledBtn>;
+export default function Button({ children, onClick }) {
+  return <StyledBtn onClick={onClick}>{children}</StyledBtn>;
 }
