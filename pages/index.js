@@ -30,24 +30,20 @@ const StyledLink = styled(Link)`
 `;
 
 export default function HomePage() {
-  const dialogRef = useRef(null);
   const router = useRouter();
 
-  const [childId, setChildId] = useState(null);
   const { data: childrenData, isLoading } = useSWR("/api/children_items", {
     fallbackData: [],
   });
+  const [childId, setChildId] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   function openModal(id) {
     setChildId((childId) => (childId = id));
-    if (dialogRef.current) {
-      dialogRef.current.showModal();
-    }
+    setIsOpen(true);
   }
   function closeModal() {
-    if (dialogRef.current) {
-      dialogRef.current.close();
-    }
+    setIsOpen(false);
   }
 
   async function handleDelete(id) {
@@ -90,9 +86,9 @@ export default function HomePage() {
       ))}
       <Modal
         onDelete={handleDelete}
-        dialogRef={dialogRef}
         closeModal={closeModal}
         childId={childId}
+        isOpen={isOpen}
       />
     </>
   );

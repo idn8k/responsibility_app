@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 
@@ -16,7 +16,7 @@ const StyledDialog = styled.dialog`
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 
   &::backdrop {
-    background: rgba(0, 0, 0, 1);
+    background: rgba(0, 0, 0, 0.4);
   }
 
   h2 {
@@ -25,21 +25,6 @@ const StyledDialog = styled.dialog`
 
     margin: 0;
   }
-  /* 
-  button {
-    font-family: inherit;
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    background-color: #0070f3;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-
-    &:hover {
-      background-color: #005bb5;
-    }
-  } */
 `;
 
 const StyledBtnContainer = styled.div`
@@ -48,19 +33,32 @@ const StyledBtnContainer = styled.div`
   justify-content: space-around;
 `;
 
-export default function Modal({ dialogRef, closeModal, onDelete, childId }) {
+export default function Modal({ isOpen, closeModal, onDelete, childId }) {
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      dialogRef.current?.showModal();
+    } else {
+      dialogRef.current?.clode();
+    }
+  }, [isOpen]);
+
   function handleDelete() {
-    console.log(childId);
     onDelete(childId);
     closeModal();
   }
+
+  if (!isOpen) return null;
 
   return (
     <StyledDialog ref={dialogRef}>
       <h2>Delete child?</h2>
       <StyledBtnContainer>
         <Button onClick={closeModal}>cancel</Button>
-        <Button onClick={handleDelete}>Delete</Button>
+        <Button type="fill" onClick={handleDelete}>
+          Delete
+        </Button>
       </StyledBtnContainer>
     </StyledDialog>
   );

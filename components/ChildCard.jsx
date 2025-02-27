@@ -64,13 +64,3 @@ export default function ChildCard({ child, onDelete, openModal }) {
     </>
   );
 }
-
-// <StyledBtn
-//   onClick={(e) => {
-//     e.stopPropagation();
-//     e.preventDefault();
-//     onDelete(child._id);
-//   }}
-// >
-//   <IoIosCloseCircle size="2rem" />
-// </StyledBtn>;
