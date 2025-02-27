@@ -53,8 +53,16 @@ export default function Modal({ isOpen, closeModal, onDelete, childId }) {
     closeModal();
   }
 
+  function handleClose() {
+    if (!dialogRef.current) {
+      return;
+    }
+
+    dialogRef.current.close();
+  }
+
   return (
-    <StyledDialog ref={dialogRef}>
+    <StyledDialog ref={dialogRef} onClick={handleClose}>
       <div>
         <h2>Delete child?</h2>
         <StyledBtnContainer>
