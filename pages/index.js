@@ -39,7 +39,7 @@ export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
 
   function openModal(id) {
-    setChildId((childId) => (childId = id));
+    setChildId(id);
     setIsOpen(true);
   }
   function closeModal() {
@@ -77,11 +77,7 @@ export default function HomePage() {
     <>
       {childrenData?.map((child) => (
         <StyledLink href={`/${child._id}`} key={child._id}>
-          <ChildCard
-            openModal={openModal}
-            // onDelete={handleDelete}
-            child={child}
-          />
+          <ChildCard openModal={openModal} child={child} />
         </StyledLink>
       ))}
       <Modal

@@ -53,9 +53,9 @@ export default function ChildCard({ child, onDelete, openModal }) {
       </ImageWrapper>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
       <StyledBtn
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
           openModal(child._id);
         }}
       >
