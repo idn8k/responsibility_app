@@ -43,7 +43,7 @@ const StyledBtn = styled.button`
   padding: 0;
 `;
 
-export default function ChildCard({ child, onDelete }) {
+export default function ChildCard({ child, onDelete, openModal }) {
   const { name, imgUrl } = child;
 
   return (
@@ -56,7 +56,7 @@ export default function ChildCard({ child, onDelete }) {
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          onDelete(child._id);
+          openModal(child._id);
         }}
       >
         <IoIosCloseCircle size="2rem" />
@@ -64,3 +64,13 @@ export default function ChildCard({ child, onDelete }) {
     </>
   );
 }
+
+// <StyledBtn
+//   onClick={(e) => {
+//     e.stopPropagation();
+//     e.preventDefault();
+//     onDelete(child._id);
+//   }}
+// >
+//   <IoIosCloseCircle size="2rem" />
+// </StyledBtn>;

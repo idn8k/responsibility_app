@@ -1,10 +1,15 @@
 import useSWR from "swr";
 import { mutate } from "swr";
-import ChildCard from "@/components/ChildCard";
-import Spinner from "@/components/ui/Spinner";
 import { useRouter } from "next/router";
 import Link from "next/link";
+
+import { useRef, useState } from "react";
+import Modal from "@/components/ui/Modal";
+
 import styled from "styled-components";
+
+import ChildCard from "@/components/ChildCard";
+import Spinner from "@/components/ui/Spinner";
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -25,10 +30,25 @@ const StyledLink = styled(Link)`
 `;
 
 export default function HomePage() {
+  const dialogRef = useRef(null);
   const router = useRouter();
+
+  const [childId, setChildId] = useState(null);
   const { data: childrenData, isLoading } = useSWR("/api/children_items", {
     fallbackData: [],
   });
+
+  function openModal(id) {
+    setChildId((childId) => (childId = id));
+    if (dialogRef.current) {
+      dialogRef.current.showModal();
+    }
+  }
+  function closeModal() {
+    if (dialogRef.current) {
+      dialogRef.current.close();
+    }
+  }
 
   async function handleDelete(id) {
     const response = await fetch(`/api/children_items/${id}`, {
@@ -61,9 +81,19 @@ export default function HomePage() {
     <>
       {childrenData?.map((child) => (
         <StyledLink href={`/${child._id}`} key={child._id}>
-          <ChildCard onDelete={handleDelete} child={child} />
+          <ChildCard
+            openModal={openModal}
+            // onDelete={handleDelete}
+            child={child}
+          />
         </StyledLink>
       ))}
+      <Modal
+        onDelete={handleDelete}
+        dialogRef={dialogRef}
+        closeModal={closeModal}
+        childId={childId}
+      />
     </>
   );
 }
