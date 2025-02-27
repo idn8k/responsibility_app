@@ -3,13 +3,9 @@ import styled from "styled-components";
 import Button from "./Button";
 
 const StyledDialog = styled.dialog`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
   width: 60%;
   height: 200px;
-  padding: 20px;
+  padding: 30px 25px;
   border: none;
   border-radius: 20px;
   background-color: #fff;
@@ -17,20 +13,28 @@ const StyledDialog = styled.dialog`
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(0.8px);
   }
 
   h2 {
     color: #ff3566;
     font-size: 28px;
-
     margin: 0;
+  }
+  & > div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
   }
 `;
 
 const StyledBtnContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 export default function Modal({ isOpen, closeModal, onDelete, childId }) {
@@ -40,7 +44,7 @@ export default function Modal({ isOpen, closeModal, onDelete, childId }) {
     if (isOpen) {
       dialogRef.current?.showModal();
     } else {
-      dialogRef.current?.clode();
+      dialogRef.current?.close();
     }
   }, [isOpen]);
 
@@ -49,17 +53,17 @@ export default function Modal({ isOpen, closeModal, onDelete, childId }) {
     closeModal();
   }
 
-  if (!isOpen) return null;
-
   return (
     <StyledDialog ref={dialogRef}>
-      <h2>Delete child?</h2>
-      <StyledBtnContainer>
-        <Button onClick={closeModal}>cancel</Button>
-        <Button type="fill" onClick={handleDelete}>
-          Delete
-        </Button>
-      </StyledBtnContainer>
+      <div>
+        <h2>Delete child?</h2>
+        <StyledBtnContainer>
+          <Button onClick={closeModal}>cancel</Button>
+          <Button type="fill" onClick={handleDelete}>
+            Delete
+          </Button>
+        </StyledBtnContainer>
+      </div>
     </StyledDialog>
   );
 }
