@@ -19,5 +19,18 @@ export default async function handler(request, response) {
 
     return;
   }
+
+  if (request.method === "PUT") {
+    try {
+      const updateChild = request.body;
+      await Child.findByIdAndUpdate(id, updateChild);
+      return response.status(200).json({ message: "Child updated!" });
+    } catch (error) {
+      console.error(error);
+      response.status(500).json({ message: "Internal server error..." });
+    }
+    return;
+  }
+
   response.status(405).json({ error: "Method not allowed" });
 }

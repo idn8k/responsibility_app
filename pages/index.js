@@ -3,7 +3,7 @@ import { mutate } from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 
 import styled from "styled-components";
