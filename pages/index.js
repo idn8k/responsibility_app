@@ -76,7 +76,7 @@ export default function HomePage() {
   return (
     <>
       {childrenData?.map((child) => (
-        <StyledLink href={`/${child._id}`} key={child._id}>
+        <StyledLink href={`/children/${child._id}`} key={child._id}>
           <ChildCard openModal={openModal} child={child} />
         </StyledLink>
       ))}
