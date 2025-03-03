@@ -15,6 +15,8 @@ const StyledContainer = styled.div`
   height: 50vh;
 `;
 
+//!! Child slug !!//
+
 const ImageWrapper = styled.div`
   width: 150px;
   height: 150px;

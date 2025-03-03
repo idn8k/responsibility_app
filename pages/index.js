@@ -36,14 +36,14 @@ export default function HomePage() {
     fallbackData: [],
   });
   const [childId, setChildId] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   function openModal(id) {
     setChildId(id);
-    setIsOpen(true);
+    setModalOpen(true);
   }
   function closeModal() {
-    setIsOpen(false);
+    setModalOpen(false);
   }
 
   async function handleDelete(id) {
@@ -83,7 +83,7 @@ export default function HomePage() {
         onDelete={handleDelete}
         closeModal={closeModal}
         childId={childId}
-        isOpen={isOpen}
+        isOpen={isModalOpen}
       />
     </>
   );
