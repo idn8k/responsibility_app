@@ -3,7 +3,7 @@ import { mutate } from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 
 import styled from "styled-components";
@@ -52,7 +52,6 @@ export default function HomePage() {
     });
 
     if (!response.ok) {
-      console.log(response.status);
       return;
     }
     mutate("/api/children_items");
@@ -76,7 +75,7 @@ export default function HomePage() {
   return (
     <>
       {childrenData?.map((child) => (
-        <StyledLink href={`/${child._id}`} key={child._id}>
+        <StyledLink href={`/children/${child._id}`} key={child._id}>
           <ChildCard openModal={openModal} child={child} />
         </StyledLink>
       ))}

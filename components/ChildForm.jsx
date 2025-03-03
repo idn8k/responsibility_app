@@ -73,7 +73,7 @@ const StyledDateInput = styled.input.attrs({ type: "date" })`
     color: grey;
     font-style: italic;
   }
-  &::-webkit-datetime-edit {
+  &::-webkit-datetime-isedit {
     color: grey;
     font-family: system-ui;
   }
@@ -98,27 +98,30 @@ const StyledLinkBtn = styled(Link)`
   text-align: center;
 `;
 
-export default function AddChildForm() {
+export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
-    name: "",
-    birth_date: "",
-    imgUrl: "",
+    name: child?.name || "",
+    birth_date: child?.birth_date
+      ? new Date(child.birth_date).toISOString().split("T")[0]
+      : "",
+    imgUrl: child?.imgUrl || "",
   });
 
   const [isFormComplete, setFormComplete] = useState(false);
 
   useEffect(() => {
     if (
-      inputData.name.length !== 0 &&
-      inputData.birth_date.length !== 0 &&
-      inputData.imgUrl.length !== 0
+      isEdit ||
+      (inputData.name.length !== 0 &&
+        inputData.birth_date.length !== 0 &&
+        inputData.imgUrl.length !== 0)
     ) {
       setFormComplete(true);
     } else {
       setFormComplete(false);
     }
-  }, [inputData]);
+  }, [inputData, isEdit]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -142,48 +145,47 @@ export default function AddChildForm() {
     setInputData((inputData) => ({ ...inputData, [key]: value }));
   }
 
-  const shortendUrl = inputData?.imgUrl.slice(0, 20) + "...";
+  const shortendUrl = isEdit && child.imgUrl.slice(0, 30) + "...";
 
   return (
     <>
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledHeading>Add Child</StyledHeading>
+      <StyledForm
+        onSubmit={!isEdit ? handleSubmit : (event) => onEdit(event, child._id)}
+      >
+        <StyledHeading>{isEdit ? "Edit Child" : "Add Child"}</StyledHeading>
         <StyledInputContainer>
           <StyledLabel htmlFor="name">Child Name</StyledLabel>
           <StyledInput
             name="name"
-            required
+            required={!isEdit && "required"}
             type="text"
             id="name"
             onChange={handleChange}
             value={inputData.name}
-            placeholder={inputData.name ? inputData.name : "..."}
+            placeholder={isEdit ? child.name : "..."}
           />
         </StyledInputContainer>
         <StyledInputContainer>
           <StyledLabel htmlFor="birth_date">Date of Birth</StyledLabel>
           <StyledDateInput
             name="birth_date"
-            required
+            required={!isEdit && "required"}
             type="date"
             id="birth_date"
             onChange={handleChange}
             value={inputData.birth_date}
-            placeholder={
-              inputData.birth_date ? inputData.birth_date : "01.01.2020"
-            }
           />
         </StyledInputContainer>
         <StyledInputContainer>
           <StyledLabel htmlFor="imgUrl">Image URL</StyledLabel>
           <StyledInput
-            required
+            required={!isEdit && "required"}
             name="imgUrl"
             type="text"
             id="imgUrl"
             onChange={handleChange}
             value={inputData.imgUrl}
-            placeholder={inputData.imgUrl ? shortendUrl : "..."}
+            placeholder={isEdit ? shortendUrl : "..."}
           />
         </StyledInputContainer>
         <StyledBtnContainer>
