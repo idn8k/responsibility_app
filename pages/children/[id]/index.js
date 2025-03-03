@@ -68,7 +68,9 @@ export default function Child() {
       </StyledName>
       <StyledBday>
         <StyledHeading>Date of Birth</StyledHeading>
-        <StyledParagraph>{child.birth_date}</StyledParagraph>
+        <StyledParagraph>
+          {new Intl.DateTimeFormat("de-DE").format(new Date(child.birth_date))}
+        </StyledParagraph>
       </StyledBday>
       <Link href={`/children/${id}/editChild`}>
         <FaRegEdit size="2rem" color="ff3566" />

@@ -101,9 +101,11 @@ const StyledLinkBtn = styled(Link)`
 export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
-    name: "",
-    birth_date: "",
-    imgUrl: "",
+    name: child?.name || "",
+    birth_date: child?.birth_date
+      ? new Date(child.birth_date).toISOString().split("T")[0]
+      : "",
+    imgUrl: child?.imgUrl || "",
   });
 
   const [isFormComplete, setFormComplete] = useState(false);
@@ -119,7 +121,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     } else {
       setFormComplete(false);
     }
-  }, [inputData]);
+  }, [inputData, isEdit]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -172,7 +174,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
             id="birth_date"
             onChange={handleChange}
             value={inputData.birth_date}
-            placeholder={isEdit ? child.birth_date : ""}
           />
         </StyledInputContainer>
         <StyledInputContainer>
