@@ -20,7 +20,6 @@ export default async function handler(request, response) {
       response.status(500).json({ message: "Internal Server Error." });
       return;
     }
-    return;
   }
 
   if (request.method === "DELETE") {
@@ -38,7 +37,6 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "PUT") {
-    console.log("submiting a form");
     try {
       const updateChild = request.body;
       await Child.findByIdAndUpdate(id, updateChild);

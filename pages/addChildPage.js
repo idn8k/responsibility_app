@@ -1,5 +1,5 @@
-import AddChildForm from "@/components/ChildForm";
+import ChildForm from "@/components/ChildForm";
 
 export default function addChildPage() {
-  return <AddChildForm />;
+  return <ChildForm />;
 }

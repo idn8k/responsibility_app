@@ -55,8 +55,8 @@ export default function Child() {
   const { id } = router.query;
   const { data: child, isLoading } = useSWR(`/api/children_items/${id}`);
 
-  if (!child) return;
   if (isLoading) return <Spinner />;
+  if (!child) return;
 
   return (
     <StyledContainer>

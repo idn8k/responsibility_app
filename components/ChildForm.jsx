@@ -98,7 +98,7 @@ const StyledLinkBtn = styled(Link)`
   text-align: center;
 `;
 
-export default function AddChildForm({ child, isEdit, onEdit }) {
+export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
     name: "",

@@ -52,7 +52,6 @@ export default function HomePage() {
     });
 
     if (!response.ok) {
-      console.log(response.status);
       return;
     }
     mutate("/api/children_items");
