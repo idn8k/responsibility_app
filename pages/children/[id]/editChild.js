@@ -20,6 +20,7 @@ export default function EditChild() {
     });
     if (!response.ok) {
       console.error("Something went wrong.");
+      return;
     }
     router.push(`/`);
   }
