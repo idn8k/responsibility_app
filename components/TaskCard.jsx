@@ -6,7 +6,7 @@ const StyledTaskContainer = styled.li`
   justify-content: space-between;
   background: #fff;
   border: solid 1px #ff3566;
-  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.06);
 
   width: 80%;
   padding: 6px 22px;
