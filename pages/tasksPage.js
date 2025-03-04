@@ -11,9 +11,11 @@ export default function TasksPage() {
   return (
     <>
       <h2>Tasks</h2>
-      {tasksData?.map((task) => (
-        <TaskCard key={task._id} task={task} />
-      ))}
+      <ul>
+        {tasksData?.map((task) => (
+          <TaskCard key={task._id} task={task} />
+        ))}
+      </ul>
     </>
   );
 }

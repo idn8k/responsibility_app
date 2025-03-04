@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledTaskContainer = styled.div`
+const StyledTaskContainer = styled.li`
   display: flex;
   justify-content: space-between;
   background: #fff;
