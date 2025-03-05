@@ -24,8 +24,6 @@ const StyledTaskName = styled.p`
 `;
 
 const ImageWrapper = styled.div`
-  /* width: ${(props) => props.width || "auto"};
-  height: ${(props) => props.height || "auto"}; */
   height: 60px;
   width: 60px;
   position: relative;
