@@ -1,9 +1,12 @@
+import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+import CustomCheckbox from "./ui/CustomCheckbox";
 
 const StyledTaskContainer = styled.li`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background: #fff;
   border: solid 1px #ff3566;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.06);
@@ -15,16 +18,41 @@ const StyledTaskContainer = styled.li`
 
 const StyledTaskName = styled.p`
   font-size: 22px;
+  width: 60%;
   height: 24px;
   line-height: 24px;
-  text-align: center;
+`;
+
+const ImageWrapper = styled.div`
+  /* width: ${(props) => props.width || "auto"};
+  height: ${(props) => props.height || "auto"}; */
+  height: 60px;
+  width: 60px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+
+  img {
+    object-fit: cover;
+  }
 `;
 
 export default function TaskCard({ task }) {
   const { taskName } = task;
+  const childImg = task.assignee.imgUrl;
   return (
     <StyledTaskContainer>
+      <ImageWrapper>
+        <Image
+          width="60"
+          height="60"
+          src={childImg}
+          alt="Child image"
+          priority
+        />
+      </ImageWrapper>
       <StyledTaskName>{taskName}</StyledTaskName>
+      <CustomCheckbox />
     </StyledTaskContainer>
   );
 }
