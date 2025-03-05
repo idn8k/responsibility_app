@@ -238,8 +238,8 @@ export default function ChildForm({ child, isEdit, onEdit }) {
         <StyledBtnContainer>
           <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
           {isFormComplete && !error && <Button type="submit">Add</Button>}
+          <StyledSpan>*Required</StyledSpan>
         </StyledBtnContainer>
-        <StyledSpan>*Required</StyledSpan>
       </StyledForm>
     </>
   );
