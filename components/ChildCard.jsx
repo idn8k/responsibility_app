@@ -6,10 +6,10 @@ import Image from "next/image";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const ImageWrapper = styled.div`
-  width: 35%;
-  height: 90%;
-  overflow: hidden;
+  width: ${(props) => props.width || "auto"};
+  height: ${(props) => props.height || "auto"};
   position: relative;
+  overflow: hidden;
   border-radius: 20px;
 
   img {
@@ -49,7 +49,13 @@ export default function ChildCard({ child, onDelete, openModal }) {
   return (
     <>
       <ImageWrapper>
-        <Image priority fill src={imgUrl} alt="child image" />
+        <Image
+          width="120"
+          height="120"
+          src={imgUrl}
+          alt="Child image"
+          priority
+        />
       </ImageWrapper>
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
       <StyledBtn

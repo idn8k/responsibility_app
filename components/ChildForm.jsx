@@ -83,6 +83,7 @@ const StyledBtnContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
+  position: relative;
 `;
 
 const StyledLinkBtn = styled(Link)`
@@ -98,6 +99,13 @@ const StyledLinkBtn = styled(Link)`
   text-align: center;
 `;
 
+const StyledSpan = styled.span`
+  color: #ff3566;
+  position: absolute;
+  left: 10px;
+  bottom: 80px;
+`;
+
 export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
@@ -109,6 +117,8 @@ export default function ChildForm({ child, isEdit, onEdit }) {
   });
 
   const [isFormComplete, setFormComplete] = useState(false);
+  const [error, setError] = useState("");
+  const [debouncedUrl, setDebouncedUrl] = useState(""); // Holds the URL after user stops typing
 
   useEffect(() => {
     if (
@@ -122,6 +132,43 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       setFormComplete(false);
     }
   }, [inputData, isEdit]);
+
+  // Debounce effect: Waits for 500ms after the user stops typing
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (inputData.imgUrl) {
+        setDebouncedUrl(inputData.imgUrl);
+      }
+    }, 500); // Adjust delay as needed
+
+    return () => clearTimeout(handler); // Cleanup on new keystroke
+  }, [inputData.imgUrl]);
+
+  // When debouncedUrl changes, validate it
+  useEffect(() => {
+    if (!debouncedUrl) return;
+
+    async function validate() {
+      const isValid = await validateImageUrl(debouncedUrl);
+      console.log(isValid);
+      if (!isValid) {
+        setError("Invalid image URL. Please provide a valid image.");
+      } else {
+        setError("");
+      }
+    }
+
+    validate();
+  }, [debouncedUrl]);
+
+  function validateImageUrl(url) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    });
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -138,7 +185,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     router.push("/");
   }
 
-  function handleChange(e) {
+  async function handleChange(e) {
     const key = e.target.name;
     const value = e.target.value;
 
@@ -154,7 +201,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       >
         <StyledHeading>{isEdit ? "Edit Child" : "Add Child"}</StyledHeading>
         <StyledInputContainer>
-          <StyledLabel htmlFor="name">Child Name</StyledLabel>
+          <StyledLabel htmlFor="name">Child Name*</StyledLabel>
           <StyledInput
             name="name"
             required={!isEdit && "required"}
@@ -166,7 +213,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           />
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="birth_date">Date of Birth</StyledLabel>
+          <StyledLabel htmlFor="birth_date">Date of Birth*</StyledLabel>
           <StyledDateInput
             name="birth_date"
             required={!isEdit && "required"}
@@ -177,7 +224,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           />
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="imgUrl">Image URL</StyledLabel>
+          <StyledLabel htmlFor="imgUrl">Image URL*</StyledLabel>
           <StyledInput
             required={!isEdit && "required"}
             name="imgUrl"
@@ -187,10 +234,12 @@ export default function ChildForm({ child, isEdit, onEdit }) {
             value={inputData.imgUrl}
             placeholder={isEdit ? shortendUrl : "..."}
           />
+          <p>{error && "Not valid url"}</p>
         </StyledInputContainer>
         <StyledBtnContainer>
           <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
-          {isFormComplete && <Button type="submit">Add</Button>}
+          {isFormComplete && !error && <Button type="submit">Add</Button>}
+          <StyledSpan>*Required</StyledSpan>
         </StyledBtnContainer>
       </StyledForm>
     </>

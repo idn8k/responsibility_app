@@ -9,7 +9,7 @@ const StyledNavbar = styled.nav`
   background: #ff3566;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
   position: fixed;
@@ -27,6 +27,9 @@ export default function Navbar() {
     <StyledNavbar>
       <Link href="/addChildPage">
         {!showPlusIcon && <FaPlus color="white" size="2rem" />}
+      </Link>
+      <Link href="/tasksPage">
+        <FaThList color="white" size="2rem" />
       </Link>
     </StyledNavbar>
   );
