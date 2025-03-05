@@ -98,6 +98,13 @@ const StyledLinkBtn = styled(Link)`
   text-align: center;
 `;
 
+const StyledSpan = styled.span`
+  color: #ff3566;
+  position: absolute;
+  left: 50px;
+  bottom: 0;
+`;
+
 export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
@@ -193,7 +200,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       >
         <StyledHeading>{isEdit ? "Edit Child" : "Add Child"}</StyledHeading>
         <StyledInputContainer>
-          <StyledLabel htmlFor="name">Child Name</StyledLabel>
+          <StyledLabel htmlFor="name">Child Name*</StyledLabel>
           <StyledInput
             name="name"
             required={!isEdit && "required"}
@@ -205,7 +212,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           />
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="birth_date">Date of Birth</StyledLabel>
+          <StyledLabel htmlFor="birth_date">Date of Birth*</StyledLabel>
           <StyledDateInput
             name="birth_date"
             required={!isEdit && "required"}
@@ -216,7 +223,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           />
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="imgUrl">Image URL</StyledLabel>
+          <StyledLabel htmlFor="imgUrl">Image URL*</StyledLabel>
           <StyledInput
             required={!isEdit && "required"}
             name="imgUrl"
@@ -232,6 +239,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
           {isFormComplete && !error && <Button type="submit">Add</Button>}
         </StyledBtnContainer>
+        <StyledSpan>*Required</StyledSpan>
       </StyledForm>
     </>
   );
