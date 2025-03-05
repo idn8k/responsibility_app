@@ -103,7 +103,7 @@ const StyledSpan = styled.span`
   color: #ff3566;
   position: absolute;
   left: 10px;
-  bottom: 75px;
+  bottom: 80px;
 `;
 
 export default function ChildForm({ child, isEdit, onEdit }) {
@@ -139,7 +139,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       if (inputData.imgUrl) {
         setDebouncedUrl(inputData.imgUrl);
       }
-    }, 200); // Adjust delay as needed
+    }, 500); // Adjust delay as needed
 
     return () => clearTimeout(handler); // Cleanup on new keystroke
   }, [inputData.imgUrl]);
