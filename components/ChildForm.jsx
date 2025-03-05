@@ -83,6 +83,7 @@ const StyledBtnContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
+  position: relative;
 `;
 
 const StyledLinkBtn = styled(Link)`
@@ -101,8 +102,8 @@ const StyledLinkBtn = styled(Link)`
 const StyledSpan = styled.span`
   color: #ff3566;
   position: absolute;
-  left: 50px;
-  bottom: 0;
+  left: 10px;
+  bottom: 75px;
 `;
 
 export default function ChildForm({ child, isEdit, onEdit }) {
@@ -138,7 +139,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       if (inputData.imgUrl) {
         setDebouncedUrl(inputData.imgUrl);
       }
-    }, 500); // Adjust delay as needed
+    }, 200); // Adjust delay as needed
 
     return () => clearTimeout(handler); // Cleanup on new keystroke
   }, [inputData.imgUrl]);
