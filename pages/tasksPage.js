@@ -17,6 +17,7 @@ const StyledUl = styled.ul`
 
 const StyledHeading = styled.h2`
   position: fixed;
+  z-index: 99;
   background: #fff;
   top: 80px;
   width: 100%;
