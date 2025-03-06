@@ -36,7 +36,7 @@ const ImageWrapper = styled.div`
 `;
 
 export default function TaskCard({ task }) {
-  const [isCompleated, setIsCompleted] = useState();
+  const [isCompleated, setIsCompleted] = useState(false);
   const { taskName } = task;
   const childImg = task.assignee.imgUrl;
   function handleChange() {}
