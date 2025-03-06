@@ -153,24 +153,24 @@ export default function TaskForm() {
       if (inputData.imgUrl) {
         setDebouncedUrl(inputData.imgUrl);
       }
-    }, 500); // Adjust delay as needed
+    }, 200);
 
-    return () => clearTimeout(handler); // Cleanup on new keystroke
+    return () => clearTimeout(handler);
   }, [inputData.imgUrl]);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const childData = Object.fromEntries(formData);
+    const taskData = Object.fromEntries(formData);
 
-    const response = await fetch("/api/children_items", {
+    const response = await fetch("/api/tasks_items", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(childData),
+      body: JSON.stringify(taskData),
     });
 
-    router.push("/tasksPage");
+    if (response.ok) router.push("/tasksPage");
   }
 
   async function handleChange(e) {
@@ -213,7 +213,7 @@ export default function TaskForm() {
           >
             <option value="">*Select a child</option>
             {childrenData.map((child) => (
-              <option key={child._id} value={child.name}>
+              <option key={child._id} value={child._id}>
                 {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
               </option>
             ))}
@@ -221,7 +221,7 @@ export default function TaskForm() {
           <p>{error && "Not valid url"}</p>
         </StyledInputContainer>
         <StyledBtnContainer>
-          <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
+          <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>
           {isFormComplete && !error && <Button type="submit">Add</Button>}
           <StyledSpan>*Required</StyledSpan>
         </StyledBtnContainer>
