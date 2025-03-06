@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CustomCheckbox from "./ui/CustomCheckbox";
 
@@ -36,8 +36,11 @@ const ImageWrapper = styled.div`
 `;
 
 export default function TaskCard({ task }) {
+  const [isCompleated, setIsCompleted] = useState();
   const { taskName } = task;
   const childImg = task.assignee.imgUrl;
+  function handleChange() {}
+
   return (
     <StyledTaskContainer>
       <ImageWrapper>
@@ -50,7 +53,11 @@ export default function TaskCard({ task }) {
         />
       </ImageWrapper>
       <StyledTaskName>{taskName}</StyledTaskName>
-      <CustomCheckbox />
+      <CustomCheckbox
+        checked={isCompleated}
+        label="Task checkbox"
+        onChange={handleChange}
+      />
     </StyledTaskContainer>
   );
 }

@@ -37,6 +37,7 @@ const StyledCheckbox = styled.div`
 
 const LabelText = styled.span`
   font-size: 16px;
+  display: none;
 `;
 
 export default function CustomCheckbox({ label, checked, onChange }) {
