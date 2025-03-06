@@ -31,10 +31,18 @@ const StyledLink = styled(Link)`
 
 export default function HomePage() {
   const router = useRouter();
+  const { data: childrenData, isLoading: isLoadingChildren } = useSWR(
+    "/api/children_items",
+    {
+      fallbackData: [],
+    }
+  );
 
-  const { data: childrenData, isLoading } = useSWR("/api/children_items", {
-    fallbackData: [],
-  });
+  //----
+  const { data: tasksData, isLoading: isLoadingTasks } =
+    useSWR("/api/tasks_items");
+  //----
+
   const [childId, setChildId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -57,20 +65,22 @@ export default function HomePage() {
     mutate("/api/children_items");
   }
 
-  if (isLoading) return <Spinner />;
+  //----
+  async function handleDeleteTasksFromUser(childId) {
+    const response = await fetch(`/api/tasks_items/${id}`, {
+      method: "DELETE",
+    });
+  }
+  //----
+
+  if (isLoadingChildren) return <Spinner />;
 
   if (childrenData.length === 0) {
     router.push("/addChildPage");
+    if (!response.ok) {
+      return;
+    }
   }
-  //-- earlier ver is commented out for a later ref!
-
-  // return (
-  //   <>
-  //     {childrenData?.map((child) => (
-  //       <ChildCard key={child._id} child={child} />
-  //     ))}
-  //   </>
-  // );
 
   return (
     <>

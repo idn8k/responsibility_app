@@ -1,5 +1,6 @@
 import dbConnect from "@/db/connect";
 import Child from "@/db/models/Child";
+import Task from "@/db/models/Task";
 //!! API !!//
 export default async function handler(request, response) {
   await dbConnect();
@@ -28,7 +29,13 @@ export default async function handler(request, response) {
       if (!deletedChild) {
         return response.status(404).json({ error: "Child not found" });
       }
-      response.status(200).json({ message: "Child deleted successfully!" });
+
+      // Delete all tasks assigned to this child
+      await Task.deleteMany({ assignee: id });
+
+      response.status(200).json({
+        message: "Child and relateed tasks were deleted successfully!",
+      });
     } catch (error) {
       response.status(500).json({ error: error.message });
     }

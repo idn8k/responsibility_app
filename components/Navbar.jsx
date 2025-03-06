@@ -18,7 +18,7 @@ const StyledNavbar = styled.nav`
   width: 100vw;
 `;
 
-export default function Navbar({ handleModal }) {
+export default function Navbar() {
   const { pathname } = useRouter();
 
   const showPlusIcon = pathname === "/addChildPage";

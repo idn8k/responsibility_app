@@ -8,16 +8,6 @@ import { useState } from "react";
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const [modalType, setModalType] = useState("delete");
-
-  function handleModal() {
-    if (modalType === "delete") {
-      setModalType("junction");
-    } else {
-      setModalType("delete");
-    }
-  }
-
   return (
     <>
       <SWRConfig value={{ fetcher }}>
@@ -26,7 +16,7 @@ export default function App({ Component, pageProps }) {
         <MainContainer>
           <Component {...pageProps} />
         </MainContainer>
-        <Navbar handleModal={handleModal} />
+        <Navbar />
       </SWRConfig>
     </>
   );
