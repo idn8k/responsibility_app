@@ -37,7 +37,7 @@ const StyledBtnContainer = styled.div`
   justify-content: space-between;
 `;
 
-export default function Modal({ isOpen, closeModal, onDelete, childId }) {
+export default function ModalDelete({ isOpen, closeModal, onDelete, childId }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {

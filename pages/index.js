@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { useState } from "react";
-import Modal from "@/components/ui/Modal";
+import ModalDelete from "@/components/ui/ModalDelete";
 
 import styled from "styled-components";
 
@@ -38,11 +38,6 @@ export default function HomePage() {
     }
   );
 
-  //----
-  const { data: tasksData, isLoading: isLoadingTasks } =
-    useSWR("/api/tasks_items");
-  //----
-
   const [childId, setChildId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -65,14 +60,6 @@ export default function HomePage() {
     mutate("/api/children_items");
   }
 
-  //----
-  async function handleDeleteTasksFromUser(childId) {
-    const response = await fetch(`/api/tasks_items/${id}`, {
-      method: "DELETE",
-    });
-  }
-  //----
-
   if (isLoadingChildren) return <Spinner />;
 
   if (childrenData.length === 0) {
@@ -89,7 +76,7 @@ export default function HomePage() {
           <ChildCard openModal={openModal} child={child} />
         </StyledLink>
       ))}
-      <Modal
+      <ModalDelete
         onDelete={handleDelete}
         closeModal={closeModal}
         childId={childId}
