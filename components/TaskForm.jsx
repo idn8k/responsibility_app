@@ -182,7 +182,6 @@ export default function TaskForm() {
 
   if (isLoading) return <Spinner />;
 
-  //!! WIP !!//
   return (
     <StyledForm onSubmit={handleSubmit}>
       <StyledHeading>Assign a Task</StyledHeading>
@@ -227,4 +226,3 @@ export default function TaskForm() {
     </StyledForm>
   );
 }
-//!! WIP !!//

@@ -35,12 +35,13 @@ const ImageWrapper = styled.div`
   }
 `;
 
-export default function TaskCard({ task }) {
-  const [isCompleated] = useState(false);
-  const { taskName } = task;
-  const childImg = task.assignee.imgUrl;
+export default function TaskCard({ task, toggleComplete }) {
+  const { taskName, _id: taskId } = task;
+  const { imgUrl: childImg } = task.assignee;
 
-  function handleChange() {}
+  function handleToggleComplete(taskId) {
+    toggleComplete(taskId);
+  }
 
   return (
     <StyledTaskContainer>
@@ -55,9 +56,9 @@ export default function TaskCard({ task }) {
       </ImageWrapper>
       <StyledTaskName>{taskName}</StyledTaskName>
       <CustomCheckbox
-        checked={isCompleated}
+        checked={task.isCompleted}
         label="Task checkbox"
-        onChange={handleChange}
+        onChange={() => handleToggleComplete(taskId)}
       />
     </StyledTaskContainer>
   );
