@@ -34,7 +34,7 @@ export default async function handler(request, response) {
       await Task.deleteMany({ assignee: id });
 
       response.status(200).json({
-        message: "Child and relateed tasks were deleted successfully!",
+        message: "Child and related tasks were deleted successfully!",
       });
     } catch (error) {
       response.status(500).json({ error: error.message });

@@ -184,49 +184,47 @@ export default function TaskForm() {
 
   //!! WIP !!//
   return (
-    <>
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledHeading>Assign a Task</StyledHeading>
-        <StyledInputContainer>
-          <StyledLabel htmlFor="taskName">Task Name</StyledLabel>
-          <StyledInput
-            name="taskName"
-            required
-            type="text"
-            id="taskName"
-            onChange={handleChange}
-            value={inputData.name}
-            placeholder="*Write down a task..."
-          />
-        </StyledInputContainer>
+    <StyledForm onSubmit={handleSubmit}>
+      <StyledHeading>Assign a Task</StyledHeading>
+      <StyledInputContainer>
+        <StyledLabel htmlFor="taskName">Task Name</StyledLabel>
+        <StyledInput
+          name="taskName"
+          required
+          type="text"
+          id="taskName"
+          onChange={handleChange}
+          value={inputData.name}
+          placeholder="*Write down a task..."
+        />
+      </StyledInputContainer>
 
-        <StyledInputContainer>
-          <StyledLabel htmlFor="assignee">Select a child</StyledLabel>
-          <StyledSelect
-            required
-            name="assignee"
-            type="select"
-            id="assignee"
-            onChange={handleChange}
-            value={inputData.assignee}
-            placeholder="*Choose a child..."
-          >
-            <option value="">*Select a child</option>
-            {childrenData.map((child) => (
-              <option key={child._id} value={child._id}>
-                {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
-              </option>
-            ))}
-          </StyledSelect>
-          <p>{error && "Not valid url"}</p>
-        </StyledInputContainer>
-        <StyledBtnContainer>
-          <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>
-          {isFormComplete && !error && <Button type="submit">Add</Button>}
-          <StyledSpan>*Required</StyledSpan>
-        </StyledBtnContainer>
-      </StyledForm>
-    </>
+      <StyledInputContainer>
+        <StyledLabel htmlFor="assignee">Select a child</StyledLabel>
+        <StyledSelect
+          required
+          name="assignee"
+          type="select"
+          id="assignee"
+          onChange={handleChange}
+          value={inputData.assignee}
+          placeholder="*Choose a child..."
+        >
+          <option value="">*Select a child</option>
+          {childrenData.map((child) => (
+            <option key={child._id} value={child._id}>
+              {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
+            </option>
+          ))}
+        </StyledSelect>
+        <p>{error && "Not valid url"}</p>
+      </StyledInputContainer>
+      <StyledBtnContainer>
+        <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>
+        {isFormComplete && !error && <Button type="submit">Add</Button>}
+        <StyledSpan>*Required</StyledSpan>
+      </StyledBtnContainer>
+    </StyledForm>
   );
 }
 //!! WIP !!//
