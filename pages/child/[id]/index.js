@@ -5,6 +5,7 @@ import styled from "styled-components";
 import useSWR, { mutate } from "swr";
 import { FaRegEdit } from "react-icons/fa";
 import Link from "next/link";
+import TaskCard from "@/components/TaskCard";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -30,6 +31,9 @@ const ImageWrapper = styled.div`
 `;
 const StyledPageHeader = styled.div`
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   z-index: 99;
   background: #fff;
   top: 80px;
@@ -44,37 +48,57 @@ const StyledPageHeader = styled.div`
 `;
 const StyledHeader = styled.h2`
   display: inline-block;
+  margin: 0;
   background: #fff;
   text-align: center;
   font-size: 28px;
   color: #ff3566;
 `;
 
+const StyledUl = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  top: 153px;
+  padding: 0;
+  position: static;
+  top: 153px;
+`;
+
 export default function ChildPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { data: child, isLoading } = useSWR(`/api/children_items/${id}`);
+  const { data: child, isLoading: isLoadingChild } = useSWR(
+    `/api/children_items/${id}`
+  );
+  const { data: tasks, isLoading: isLoadingTasks } = useSWR(`/api/tasks_items`);
 
-  if (isLoading) return <Spinner />;
+  if (isLoadingChild || isLoadingTasks) return <Spinner />;
   if (!child) return;
+
+  const childTasks = tasks.filter((task) => task.assignee._id === id);
+
+  console.log(childTasks);
 
   return (
     <StyledContainer>
       <StyledPageHeader>
-        <ImageWrapper>
+        {/* <ImageWrapper>
           <Image priority fill src={child.imgUrl} alt="Child image" />
-        </ImageWrapper>
+        </ImageWrapper> */}
         <StyledHeader>Tasks</StyledHeader>
       </StyledPageHeader>
-      {/* <StyledUl>
-        {tasksData?.map((task) => (
+      <StyledUl>
+        {childTasks?.map((task) => (
           <TaskCard
             key={task._id}
-            toggleComplete={handleCompleteTask}
+            // toggleComplete={handleCompleteTask}
             task={task}
           />
         ))}
-      </StyledUl> */}
+      </StyledUl>
     </StyledContainer>
   );
 }
