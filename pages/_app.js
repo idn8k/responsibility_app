@@ -8,22 +8,21 @@ import { useState } from "react";
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [adminMode, setIsAdmin] = useState(true);
 
   function handleMode() {
-    setIsAdmin(!isAdmin);
+    setIsAdmin(!adminMode);
   }
 
-  console.log(isAdmin);
   return (
     <>
       <SWRConfig value={{ fetcher }}>
         <GlobalStyle />
         <Header onSetMode={handleMode} />
         <MainContainer>
-          <Component {...pageProps} />
+          <Component adminMode={adminMode} {...pageProps} />
         </MainContainer>
-        <Navbar />
+        <Navbar adminMode={adminMode} />
       </SWRConfig>
     </>
   );

@@ -29,7 +29,7 @@ const StyledLink = styled(Link)`
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
-export default function HomePage() {
+export default function HomePage({ adminMode }) {
   const router = useRouter();
   const { data: childrenData, isLoading: isLoadingChildren } = useSWR(
     "/api/children_items",
@@ -37,6 +37,8 @@ export default function HomePage() {
       fallbackData: [],
     }
   );
+
+  console.log("Admin mode:", adminMode);
 
   const [childId, setChildId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -67,6 +69,19 @@ export default function HomePage() {
     if (!response.ok) {
       return;
     }
+  }
+
+  if (!adminMode) {
+    return (
+      <>
+        <h2>Child MOde</h2>
+        {childrenData?.map((child) => (
+          <StyledLink href={`/child/${child._id}`} key={child._id}>
+            <ChildCard openModal={openModal} child={child} />
+          </StyledLink>
+        ))}
+      </>
+    );
   }
 
   return (
