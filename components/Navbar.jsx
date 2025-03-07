@@ -46,7 +46,11 @@ export default function Navbar() {
       <Link href="/tasksPage">
         <FaThList color="white" size="2rem" />
       </Link>
-      <ModalJunction closeModal={closeModal} isOpen={isModalOpen} />
+      <ModalJunction
+        setModal={setModalOpen}
+        closeModal={closeModal}
+        isOpen={isModalOpen}
+      />
     </StyledNavbar>
   );
 }

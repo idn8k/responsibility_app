@@ -48,7 +48,7 @@ const StyledLink = styled(Link)`
   text-align: center;
 `;
 
-export default function ModalJunction({ isOpen, closeModal }) {
+export default function ModalJunction({ isOpen, closeModal, setModal }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export default function ModalJunction({ isOpen, closeModal }) {
     }
 
     dialogRef.current.close();
+    setModal(false);
   }
 
   return (
