@@ -133,7 +133,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     }
   }, [inputData, isEdit]);
 
-  // Debounce effect: Waits for 500ms after the user stops typing
   useEffect(() => {
     const handler = setTimeout(() => {
       if (inputData.imgUrl) {
@@ -150,7 +149,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
 
     async function validate() {
       const isValid = await validateImageUrl(debouncedUrl);
-      console.log(isValid);
       if (!isValid) {
         setError("Invalid image URL. Please provide a valid image.");
       } else {
