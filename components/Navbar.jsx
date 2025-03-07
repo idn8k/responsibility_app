@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 import { FaThList, FaPlus } from "react-icons/fa";
+import { GoHomeFill } from "react-icons/go";
+
 import Link from "next/link";
+import ModalJunction from "./ui/ModalJunction";
 
 const StyledNavbar = styled.nav`
   background: #ff3566;
@@ -18,19 +20,37 @@ const StyledNavbar = styled.nav`
   width: 100vw;
 `;
 
-export default function Navbar() {
-  const { pathname } = useRouter();
+const StyledBtn = styled.button`
+  background: none;
+  border: none;
+`;
 
-  const showPlusIcon = pathname === "/addChildPage";
+export default function Navbar() {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  function openModal() {
+    setModalOpen(true);
+  }
+  function closeModal() {
+    setModalOpen(false);
+  }
 
   return (
     <StyledNavbar>
-      <Link href="/addChildPage">
-        {!showPlusIcon && <FaPlus color="white" size="2rem" />}
+      <StyledBtn onClick={openModal}>
+        <FaPlus color="white" size="2.5rem" />
+      </StyledBtn>
+      <Link href="/">
+        <GoHomeFill color="white" size="2.8rem" />
       </Link>
       <Link href="/tasksPage">
         <FaThList color="white" size="2rem" />
       </Link>
+      <ModalJunction
+        setModal={setModalOpen}
+        closeModal={closeModal}
+        isOpen={isModalOpen}
+      />
     </StyledNavbar>
   );
 }

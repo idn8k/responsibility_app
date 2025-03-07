@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { useState } from "react";
-import Modal from "@/components/ui/Modal";
+import ModalDelete from "@/components/ui/ModalDelete";
 
 import styled from "styled-components";
 
@@ -31,10 +31,13 @@ const StyledLink = styled(Link)`
 
 export default function HomePage() {
   const router = useRouter();
+  const { data: childrenData, isLoading: isLoadingChildren } = useSWR(
+    "/api/children_items",
+    {
+      fallbackData: [],
+    }
+  );
 
-  const { data: childrenData, isLoading } = useSWR("/api/children_items", {
-    fallbackData: [],
-  });
   const [childId, setChildId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -57,20 +60,14 @@ export default function HomePage() {
     mutate("/api/children_items");
   }
 
-  if (isLoading) return <Spinner />;
+  if (isLoadingChildren) return <Spinner />;
 
   if (childrenData.length === 0) {
     router.push("/addChildPage");
+    if (!response.ok) {
+      return;
+    }
   }
-  //-- earlier ver is commented out for a later ref!
-
-  // return (
-  //   <>
-  //     {childrenData?.map((child) => (
-  //       <ChildCard key={child._id} child={child} />
-  //     ))}
-  //   </>
-  // );
 
   return (
     <>
@@ -79,7 +76,7 @@ export default function HomePage() {
           <ChildCard openModal={openModal} child={child} />
         </StyledLink>
       ))}
-      <Modal
+      <ModalDelete
         onDelete={handleDelete}
         closeModal={closeModal}
         childId={childId}

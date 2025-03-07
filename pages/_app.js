@@ -3,6 +3,7 @@ import GlobalStyle from "../styles";
 import { SWRConfig } from "swr";
 import Navbar from "@/components/Navbar";
 import MainContainer from "@/components/MainContainer";
+import { useState } from "react";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
