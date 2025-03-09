@@ -61,9 +61,7 @@ const StyledUl = styled.ul`
   align-items: center;
   gap: 40px;
   width: 100%;
-  top: 153px;
-  padding: 0;
-  position: static;
+  padding: 100px 0;
   top: 153px;
 `;
 
