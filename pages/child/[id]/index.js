@@ -80,14 +80,12 @@ export default function ChildPage() {
 
   const childTasks = tasks.filter((task) => task.assignee._id === id);
 
-  console.log(childTasks);
-
   return (
     <StyledContainer>
       <StyledPageHeader>
-        {/* <ImageWrapper>
+        <ImageWrapper>
           <Image priority fill src={child.imgUrl} alt="Child image" />
-        </ImageWrapper> */}
+        </ImageWrapper>
         <StyledHeader>Tasks</StyledHeader>
       </StyledPageHeader>
       <StyledUl>

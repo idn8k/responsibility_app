@@ -2,12 +2,9 @@ import useSWR from "swr";
 import { mutate } from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
 import { useState } from "react";
 import ModalDelete from "@/components/ui/ModalDelete";
-
 import styled from "styled-components";
-
 import ChildCard from "@/components/ChildCard";
 import Spinner from "@/components/ui/Spinner";
 
@@ -37,8 +34,6 @@ export default function HomePage({ adminMode }) {
       fallbackData: [],
     }
   );
-
-  console.log("Admin mode:", adminMode);
 
   const [childId, setChildId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -71,24 +66,18 @@ export default function HomePage({ adminMode }) {
     }
   }
 
-  if (!adminMode) {
-    return (
-      <>
-        <h2>Child MOde</h2>
-        {childrenData?.map((child) => (
-          <StyledLink href={`/child/${child._id}`} key={child._id}>
-            <ChildCard openModal={openModal} child={child} />
-          </StyledLink>
-        ))}
-      </>
-    );
-  }
-
   return (
     <>
       {childrenData?.map((child) => (
-        <StyledLink href={`/children/${child._id}`} key={child._id}>
-          <ChildCard openModal={openModal} child={child} />
+        <StyledLink
+          href={adminMode ? `/children/${child._id}` : `/child/${child._id}`}
+          key={child._id}
+        >
+          <ChildCard
+            adminMode={adminMode}
+            openModal={openModal}
+            child={child}
+          />
         </StyledLink>
       ))}
       <ModalDelete

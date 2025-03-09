@@ -43,8 +43,10 @@ const StyledBtn = styled.button`
   padding: 0;
 `;
 
-export default function ChildCard({ child, onDelete, openModal }) {
+export default function ChildCard({ child, onDelete, openModal, adminMode }) {
   const { name, imgUrl } = child;
+
+  console.log(adminMode);
 
   return (
     <>
@@ -57,16 +59,20 @@ export default function ChildCard({ child, onDelete, openModal }) {
           priority
         />
       </ImageWrapper>
+
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
-      <StyledBtn
-        onClick={(event) => {
-          event.stopPropagation();
-          event.preventDefault();
-          openModal(child._id);
-        }}
-      >
-        <IoIosCloseCircle size="2rem" />
-      </StyledBtn>
+
+      {adminMode && (
+        <StyledBtn
+          onClick={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal(child._id);
+          }}
+        >
+          <IoIosCloseCircle size="2rem" />
+        </StyledBtn>
+      )}
     </>
   );
 }
