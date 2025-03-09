@@ -46,8 +46,6 @@ const StyledBtn = styled.button`
 export default function ChildCard({ child, onDelete, openModal, adminMode }) {
   const { name, imgUrl } = child;
 
-  console.log(adminMode);
-
   return (
     <>
       <ImageWrapper>

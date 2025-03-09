@@ -67,7 +67,7 @@ const StyledUl = styled.ul`
   top: 153px;
 `;
 
-export default function ChildPage() {
+export default function ChildPage({ handleCompleteTask }) {
   const router = useRouter();
   const { id } = router.query;
   const { data: child, isLoading: isLoadingChild } = useSWR(
@@ -92,7 +92,7 @@ export default function ChildPage() {
         {childTasks?.map((task) => (
           <TaskCard
             key={task._id}
-            // toggleComplete={handleCompleteTask}
+            toggleComplete={handleCompleteTask}
             task={task}
           />
         ))}
