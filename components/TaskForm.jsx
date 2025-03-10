@@ -8,7 +8,7 @@ import Spinner from "./ui/Spinner";
 import useSWR from "swr";
 
 const StyledHeading = styled.h2`
-  color: #ff3566;
+  color: var(--primary-color);
   font-size: 32px;
 `;
 

@@ -19,7 +19,7 @@ const ImageWrapper = styled.div`
 
 const StyledName = styled.span`
   font-size: 42px;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #ff3566;
   text-align: left;
   width: 50%;

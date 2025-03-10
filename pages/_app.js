@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import GlobalStyle from "../styles";
+import { ThemeProvider } from "styled-components";
 import useSWR, { SWRConfig } from "swr";
 import Navbar from "@/components/Navbar";
 import MainContainer from "@/components/MainContainer";
@@ -54,16 +55,18 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <SWRConfig value={{ fetcher }}>
-        <GlobalStyle />
-        <Header onSetMode={handleMode} />
-        <MainContainer>
-          <Component
-            handleCompleteTask={handleCompleteTask}
-            adminMode={adminMode}
-            {...pageProps}
-          />
-        </MainContainer>
-        <Navbar adminMode={adminMode} />
+        <ThemeProvider theme={GlobalStyle}>
+          <GlobalStyle />
+          <Header onSetMode={handleMode} />
+          <MainContainer>
+            <Component
+              handleCompleteTask={handleCompleteTask}
+              adminMode={adminMode}
+              {...pageProps}
+            />
+          </MainContainer>
+          <Navbar adminMode={adminMode} />
+        </ThemeProvider>
       </SWRConfig>
     </>
   );

@@ -46,7 +46,7 @@ const StyledBday = styled.div`
 
 const StyledName = styled.span`
   font-size: 42px;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #ff3566;
   width: 50%;
   text-align: center;
