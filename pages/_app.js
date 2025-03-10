@@ -4,12 +4,14 @@ import useSWR, { SWRConfig } from "swr";
 import Navbar from "@/components/Navbar";
 import MainContainer from "@/components/MainContainer";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
   const [adminMode, setIsAdmin] = useState(true);
-  const { data: tasksData, isLoading, mutate } = useSWR("/api/tasks_items");
+  const { data: tasksData, mutate } = useSWR("/api/tasks_items");
 
   function handleMode() {
     setIsAdmin(!adminMode);

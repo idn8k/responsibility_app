@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Image from "next/image";
@@ -43,7 +43,7 @@ const StyledBtn = styled.button`
   padding: 0;
 `;
 
-export default function ChildCard({ child, onDelete, openModal, adminMode }) {
+export default function ChildCard({ child, openModal, adminMode }) {
   const { name, imgUrl } = child;
 
   return (

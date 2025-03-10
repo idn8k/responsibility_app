@@ -82,7 +82,13 @@ export default function ChildPage({ handleCompleteTask }) {
     <StyledContainer>
       <StyledPageHeader>
         <ImageWrapper>
-          <Image priority fill src={child.imgUrl} alt="Child image" />
+          <Image
+            sizes="(max-width: 768px) 100vw, 33vw"
+            fill
+            priority
+            src={child.imgUrl}
+            alt="Child image"
+          />
         </ImageWrapper>
         <StyledHeader>Tasks</StyledHeader>
       </StyledPageHeader>
