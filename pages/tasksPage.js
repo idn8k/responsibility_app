@@ -9,10 +9,8 @@ const StyledUl = styled.ul`
   align-items: center;
   gap: 40px;
   width: 100%;
-  top: 153px;
-  padding: 0;
-  position: static;
-  top: 153px;
+  /* top: 153px; */
+  padding: 30px 0;
 `;
 
 const StyledHeading = styled.h2`
@@ -29,7 +27,7 @@ const StyledHeading = styled.h2`
   box-shadow: 0px 3px 4px -2px rgba(0, 0, 0, 0.1);
 `;
 
-export default function TasksPage() {
+export default function TasksPage({ handleCompleteTask }) {
   const { data: tasksData, isLoading } = useSWR("/api/tasks_items");
 
   if (isLoading) return <Spinner />;
@@ -40,9 +38,14 @@ export default function TasksPage() {
       <StyledHeading>Tasks</StyledHeading>
       <StyledUl>
         {tasksData?.map((task) => (
-          <TaskCard key={task._id} task={task} />
+          <TaskCard
+            key={task._id}
+            toggleComplete={handleCompleteTask}
+            task={task}
+          />
         ))}
       </StyledUl>
     </>
   );
+  x;
 }

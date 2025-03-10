@@ -63,7 +63,14 @@ export default function Child() {
   return (
     <StyledContainer>
       <ImageWrapper>
-        <Image priority fill src={child.imgUrl} alt="Child image" />
+        <Image
+          style={{ objectFit: "cover" }}
+          priority
+          sizes="(max-width: 768px) 100vw, 33vw"
+          fill
+          src={child.imgUrl}
+          alt="Child image"
+        />
       </ImageWrapper>
       <StyledName>
         {child.name.charAt(0).toUpperCase() + child.name.slice(1)}

@@ -25,7 +25,7 @@ const StyledBtn = styled.button`
   border: none;
 `;
 
-export default function Navbar() {
+export default function Navbar({ adminMode }) {
   const [isModalOpen, setModalOpen] = useState(false);
 
   function openModal() {
@@ -33,6 +33,16 @@ export default function Navbar() {
   }
   function closeModal() {
     setModalOpen(false);
+  }
+
+  if (!adminMode) {
+    return (
+      <StyledNavbar>
+        <Link href="/">
+          <GoHomeFill color="white" size="2.8rem" />
+        </Link>
+      </StyledNavbar>
+    );
   }
 
   return (

@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 const StyledMainContainer = styled.main`
   height: 100%;
-  padding: 160px 0 100px 0;
+  padding: 130px 0;
+  margin-bottom: 100px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
   align-items: center;
   gap: 80px;

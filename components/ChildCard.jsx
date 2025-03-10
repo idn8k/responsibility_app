@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Image from "next/image";
@@ -43,7 +43,7 @@ const StyledBtn = styled.button`
   padding: 0;
 `;
 
-export default function ChildCard({ child, onDelete, openModal }) {
+export default function ChildCard({ child, openModal, adminMode }) {
   const { name, imgUrl } = child;
 
   return (
@@ -57,16 +57,20 @@ export default function ChildCard({ child, onDelete, openModal }) {
           priority
         />
       </ImageWrapper>
+
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
-      <StyledBtn
-        onClick={(event) => {
-          event.stopPropagation();
-          event.preventDefault();
-          openModal(child._id);
-        }}
-      >
-        <IoIosCloseCircle size="2rem" />
-      </StyledBtn>
+
+      {adminMode && (
+        <StyledBtn
+          onClick={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal(child._id);
+          }}
+        >
+          <IoIosCloseCircle size="2rem" />
+        </StyledBtn>
+      )}
     </>
   );
 }

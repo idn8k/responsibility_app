@@ -1,6 +1,8 @@
 import dbConnect from "@/db/connect";
 import Task from "@/db/models/Task";
 
+//!! API !!//
+
 export default async function handler(request, response) {
   await dbConnect();
 
@@ -27,22 +29,21 @@ export default async function handler(request, response) {
     }
   }
 
-  //---
-  if (request.method === "DELETE") {
+  if (request.method === "PUT") {
     try {
-      const deletedTask = await Task.findByIdAndDelete(id);
-      if (!deletedTask) {
-        return response
-          .status(404)
-          .json({ error: "Tasks to delete not found" });
-      }
-      response.status(200).json({ message: "Task deleted successfully!" });
-    } catch (error) {
-      response.status(500).json({ error: error.message });
-    }
+      const updateTask = request.body;
 
-    return;
+      await Task.findByIdAndUpdate(updateTask._id, updateTask);
+
+      response.status(200).json({ status: "Task was updated" });
+      return;
+    } catch (error) {
+      response.status(400).json({ error: error.message });
+      return;
+    }
   }
-  //---
+
   response.status(405).json({ error: "Method not allowed" });
 }
+
+//!! API !!//

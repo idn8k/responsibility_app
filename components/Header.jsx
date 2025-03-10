@@ -2,12 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 import Logo from "./ui/Logo";
+import ToggleSwitch from "./ui/ToggleSwitch";
 
 const StyledHeader = styled.header`
   background: #ff3566;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
   position: fixed;
@@ -17,10 +18,10 @@ const StyledHeader = styled.header`
   width: 100%;
 `;
 
-
-export default function Header() {
+export default function Header({ onSetMode }) {
   return (
     <StyledHeader>
+      <ToggleSwitch onChange={onSetMode} />
       <Logo />
     </StyledHeader>
   );
