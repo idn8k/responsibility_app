@@ -30,12 +30,12 @@ const ImageWrapper = styled.div`
 `;
 
 const StyledParagraph = styled.h2`
-  color: #ff3566;
+  color: var(--primary-color);
   margin: 0;
 `;
 
 const StyledHeading = styled.p`
-  color: #ff3566;
+  color: var(--primary-color);
 `;
 
 const StyledBday = styled.div`
@@ -47,7 +47,7 @@ const StyledBday = styled.div`
 const StyledName = styled.span`
   font-size: 42px;
   /* font-weight: bold; */
-  color: #ff3566;
+  color: var(--primary-color);
   width: 50%;
   text-align: center;
 `;

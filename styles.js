@@ -29,6 +29,10 @@ export default createGlobalStyle`
   button{
     font-family: inherit;
     cursor: pointer;
+
+
+
+
   }
 
 `;

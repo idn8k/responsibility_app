@@ -17,7 +17,7 @@ const StyledDialog = styled.dialog`
   }
 
   h2 {
-    color: #ff3566;
+    color: var(--primary-color);
     font-size: 28px;
     margin: 0;
   }

@@ -20,7 +20,7 @@ const ImageWrapper = styled.div`
 const StyledName = styled.span`
   font-size: 42px;
   /* font-weight: bold; */
-  color: #ff3566;
+  color: var(--primary-color);
   text-align: left;
   width: 50%;
 `;
@@ -37,10 +37,18 @@ const StyledBtn = styled.button`
   background: transparent;
   border: none;
   border-radius: 100%;
-  color: #ff3566;
+  color: var(--primary-color);
   height: 1.6rem;
   width: 1.6rem;
   padding: 0;
+
+  transition: background-color 0.3s, transform 0.2s;
+
+  &:hover,
+  &:active {
+    background-color: var(--primary-color);
+    color: white;
+  }
 `;
 
 export default function ChildCard({ child, openModal, adminMode }) {

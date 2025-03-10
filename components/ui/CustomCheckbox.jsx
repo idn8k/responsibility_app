@@ -16,7 +16,7 @@ const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
 const StyledCheckbox = styled.div`
   width: 25px;
   height: 25px;
-  border: 1px solid #a02342;
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -24,8 +24,8 @@ const StyledCheckbox = styled.div`
   transition: all 0.2s ease-in-out;
 
   ${HiddenCheckbox}:checked + & {
-    background-color: #ff3566;
-    border-color: #ff3566;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
   }
 
   ${HiddenCheckbox}:checked + &::after {
