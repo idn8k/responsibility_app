@@ -5,7 +5,7 @@ import Logo from "./ui/Logo";
 import ToggleSwitch from "./ui/ToggleSwitch";
 
 const StyledHeader = styled.header`
-  background: #ff3566;
+  background: var(--primary-color);
 
   display: flex;
   justify-content: space-around;

@@ -40,12 +40,22 @@ const StyledBtnContainer = styled.div`
 const StyledLink = styled(Link)`
   width: 100%;
   background: white;
-  border: solid 1px #ff3566;
+  border: solid 1px var(--primary-color);
   padding: 15px 0;
   border-radius: 12px;
   font-size: 22px;
   text-decoration: none;
   text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+
+  &:visited {
+    color: darkslategrey;
+  }
+  &:hover {
+    transform: scale(0.98);
+    background-color: var(--primary-color);
+    color: white;
+  }
 `;
 
 export default function ModalJunction({ isOpen, closeModal, setModal }) {

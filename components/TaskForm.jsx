@@ -8,7 +8,7 @@ import Spinner from "./ui/Spinner";
 import useSWR from "swr";
 
 const StyledHeading = styled.h2`
-  color: #ff3566;
+  color: var(--primary-color);
   font-size: 32px;
 `;
 
@@ -39,13 +39,13 @@ const StyledInput = styled.input`
   padding: 10px 16px;
   font-size: 16px;
   border-style: inset;
-  border: 1px solid #ff3566;
+  border: 1px solid var(--primary-color);
   border-radius: 10px;
   outline: none;
   cursor: pointer;
 
   &:focus {
-    border-color: #ff3566;
+    border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(255, 53, 104, 0.973);
   }
 
@@ -58,13 +58,13 @@ const StyledSelect = styled.select`
   padding: 10px 16px;
   font-size: 16px;
   border-style: inset;
-  border: 1px solid #ff3566;
+  border: 1px solid var(--primary-color);
   border-radius: 10px;
   outline: none;
   cursor: pointer;
 
   &:focus {
-    border-color: #ff3566;
+    border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(255, 53, 104, 0.973);
   }
 
@@ -78,13 +78,13 @@ const StyledDateInput = styled.input.attrs({ type: "date" })`
   padding: 10px 14px;
   font-size: 16px;
   font-size: 16px;
-  border: 1px solid #ff3566;
+  border: 1px solid var(--primary-color);
   border-radius: 10px;
   outline: none;
   cursor: pointer;
 
   &:focus {
-    border-color: #ff3566;
+    border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(255, 53, 104, 0.973);
   }
 
@@ -107,8 +107,8 @@ const StyledBtnContainer = styled.div`
 
 const StyledLinkBtn = styled(Link)`
   background-color: #fff;
-  color: #ff3566;
-  border: 1px solid #ff3566;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   width: 45%;
   padding: 10px 0;
   border-radius: 10px;
@@ -116,10 +116,18 @@ const StyledLinkBtn = styled(Link)`
   font-size: 20px;
   text-decoration: none;
   text-align: center;
+
+  transition: background-color 0.3s, transform 0.2s;
+
+  &:hover,
+  &:active {
+    background-color: var(--primary-color);
+    color: white;
+  }
 `;
 
 const StyledSpan = styled.span`
-  color: #ff3566;
+  color: var(--primary-color);
   position: absolute;
   left: 10px;
   bottom: 80px;

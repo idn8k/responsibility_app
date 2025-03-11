@@ -8,7 +8,7 @@ const StyledTaskContainer = styled.li`
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  border: solid 1px #ff3566;
+  border: solid 1px var(--primary-color);
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.06);
 
   width: 80%;

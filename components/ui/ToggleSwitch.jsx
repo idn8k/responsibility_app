@@ -49,7 +49,7 @@ const Slider = styled.span`
     width: 2.6em;
     left: 0.4em;
     bottom: 0.4em;
-    background-color: #ff3566;
+    background-color: var(--primary-color);
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;
