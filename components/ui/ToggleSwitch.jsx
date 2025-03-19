@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const Input = styled.input`
   height: 0;
@@ -12,16 +12,16 @@ const Label = styled.label`
   position: relative;
   display: inline-block;
   font-size: ${(props) => {
-    if (props.size === "xs") return "6px";
-    if (props.size === "sm") return "8px";
-    if (props.size === "lg") return "12px";
+    if (props.size === 'xs') return '6px';
+    if (props.size === 'sm') return '8px';
+    if (props.size === 'lg') return '12px';
 
-    return "10px";
+    return '10px';
   }};
   width: 6em;
   height: 3.4em;
 
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
   ${Input} {
     opacity: 0;
@@ -44,7 +44,7 @@ const Slider = styled.span`
 
   &::before {
     position: absolute;
-    content: "";
+    content: '';
     height: 2.6em;
     width: 2.6em;
     left: 0.4em;

@@ -1,6 +1,6 @@
-import Link from "next/link";
-import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
+import Link from 'next/link';
+import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
 const StyledDialog = styled.dialog`
   width: 80%;
@@ -46,7 +46,9 @@ const StyledLink = styled(Link)`
   font-size: 22px;
   text-decoration: none;
   text-align: center;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:visited {
     color: darkslategrey;

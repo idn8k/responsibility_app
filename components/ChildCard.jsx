@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
-import Image from "next/image";
+import Image from 'next/image';
 
-import { IoIosCloseCircle } from "react-icons/io";
+import { IoIosCloseCircle } from 'react-icons/io';
 
 const ImageWrapper = styled.div`
-  width: ${(props) => props.width || "auto"};
-  height: ${(props) => props.height || "auto"};
+  width: ${(props) => props.width || 'auto'};
+  height: ${(props) => props.height || 'auto'};
   position: relative;
   overflow: hidden;
   border-radius: 20px;
@@ -42,7 +42,9 @@ const StyledBtn = styled.button`
   width: 1.6rem;
   padding: 0;
 
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:hover,
   &:active {

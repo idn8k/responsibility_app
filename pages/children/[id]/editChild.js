@@ -1,7 +1,7 @@
-import ChildForm from "@/components/ChildForm";
-import Spinner from "@/components/ui/Spinner";
-import { useRouter } from "next/router";
-import useSWR, { mutate } from "swr";
+import ChildForm from '@/components/ChildForm';
+import Spinner from '@/components/ui/Spinner';
+import { useRouter } from 'next/router';
+import useSWR, { mutate } from 'swr';
 
 export default function EditChild() {
   const router = useRouter();
@@ -14,12 +14,12 @@ export default function EditChild() {
     const childData = Object.fromEntries(formData);
 
     const response = await fetch(`/api/children_items/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(childData),
     });
     if (!response.ok) {
-      console.error("Something went wrong.");
+      console.error('Something went wrong.');
       return;
     }
     router.push(`/`);

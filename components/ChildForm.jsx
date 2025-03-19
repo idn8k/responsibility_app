@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
-import Button from "./ui/Button";
-import styled from "styled-components";
-import Link from "next/link";
+import Button from './ui/Button';
+import styled from 'styled-components';
+import Link from 'next/link';
 
 const StyledHeading = styled.h2`
   color: var(--primary-color);
@@ -54,7 +54,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledDateInput = styled.input.attrs({ type: "date" })`
+const StyledDateInput = styled.input.attrs({ type: 'date' })`
   width: 100%;
   padding: 10px 14px;
   font-size: 16px;
@@ -98,7 +98,9 @@ const StyledLinkBtn = styled(Link)`
   text-decoration: none;
   text-align: center;
 
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:hover,
   &:active {
@@ -117,16 +119,16 @@ const StyledSpan = styled.span`
 export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
-    name: child?.name || "",
+    name: child?.name || '',
     birth_date: child?.birth_date
-      ? new Date(child.birth_date).toISOString().split("T")[0]
-      : "",
-    imgUrl: child?.imgUrl || "",
+      ? new Date(child.birth_date).toISOString().split('T')[0]
+      : '',
+    imgUrl: child?.imgUrl || '',
   });
 
   const [isFormComplete, setFormComplete] = useState(false);
-  const [error, setError] = useState("");
-  const [debouncedUrl, setDebouncedUrl] = useState(""); // Holds the URL after user stops typing
+  const [error, setError] = useState('');
+  const [debouncedUrl, setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
 
   useEffect(() => {
     if (
@@ -158,9 +160,9 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     async function validate() {
       const isValid = await validateImageUrl(debouncedUrl);
       if (!isValid) {
-        setError("Invalid image URL. Please provide a valid image.");
+        setError('Invalid image URL. Please provide a valid image.');
       } else {
-        setError("");
+        setError('');
       }
     }
 
@@ -182,13 +184,13 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     const formData = new FormData(e.target);
     const childData = Object.fromEntries(formData);
 
-    const response = await fetch("/api/children_items", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/api/children_items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(childData),
     });
 
-    router.push("/");
+    router.push('/');
   }
 
   async function handleChange(e) {
@@ -198,31 +200,31 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     setInputData((inputData) => ({ ...inputData, [key]: value }));
   }
 
-  const shortendUrl = isEdit && child.imgUrl.slice(0, 30) + "...";
+  const shortendUrl = isEdit && child.imgUrl.slice(0, 30) + '...';
 
   return (
     <>
       <StyledForm
         onSubmit={!isEdit ? handleSubmit : (event) => onEdit(event, child._id)}
       >
-        <StyledHeading>{isEdit ? "Edit Child" : "Add Child"}</StyledHeading>
+        <StyledHeading>{isEdit ? 'Edit Child' : 'Add Child'}</StyledHeading>
         <StyledInputContainer>
           <StyledLabel htmlFor="name">Child Name*</StyledLabel>
           <StyledInput
             name="name"
-            required={!isEdit && "required"}
+            required={!isEdit && 'required'}
             type="text"
             id="name"
             onChange={handleChange}
             value={inputData.name}
-            placeholder={isEdit ? child.name : "..."}
+            placeholder={isEdit ? child.name : '...'}
           />
         </StyledInputContainer>
         <StyledInputContainer>
           <StyledLabel htmlFor="birth_date">Date of Birth*</StyledLabel>
           <StyledDateInput
             name="birth_date"
-            required={!isEdit && "required"}
+            required={!isEdit && 'required'}
             type="date"
             id="birth_date"
             onChange={handleChange}
@@ -232,15 +234,15 @@ export default function ChildForm({ child, isEdit, onEdit }) {
         <StyledInputContainer>
           <StyledLabel htmlFor="imgUrl">Image URL*</StyledLabel>
           <StyledInput
-            required={!isEdit && "required"}
+            required={!isEdit && 'required'}
             name="imgUrl"
             type="text"
             id="imgUrl"
             onChange={handleChange}
             value={inputData.imgUrl}
-            placeholder={isEdit ? shortendUrl : "..."}
+            placeholder={isEdit ? shortendUrl : '...'}
           />
-          <p>{error && "Not valid url"}</p>
+          <p>{error && 'Not valid url'}</p>
         </StyledInputContainer>
         <StyledBtnContainer>
           <StyledLinkBtn href="/">Cancel</StyledLinkBtn>

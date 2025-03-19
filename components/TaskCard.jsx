@@ -1,7 +1,7 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import styled from "styled-components";
-import CustomCheckbox from "./ui/CustomCheckbox";
+import Image from 'next/image';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import CustomCheckbox from './ui/CustomCheckbox';
 
 const StyledTaskContainer = styled.li`
   display: flex;

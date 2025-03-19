@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
-import Button from "./Button";
+import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import Button from './Button';
 
 const StyledDialog = styled.dialog`
   width: 60%;

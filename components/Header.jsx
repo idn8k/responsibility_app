@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Logo from "./ui/Logo";
-import ToggleSwitch from "./ui/ToggleSwitch";
+import Logo from './ui/Logo';
+import ToggleSwitch from './ui/ToggleSwitch';
 
 const StyledHeader = styled.header`
   background: var(--primary-color);

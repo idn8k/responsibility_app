@@ -1,10 +1,10 @@
-import Spinner from "@/components/ui/Spinner";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import styled from "styled-components";
-import useSWR, { mutate } from "swr";
-import { FaRegEdit } from "react-icons/fa";
-import Link from "next/link";
+import Spinner from '@/components/ui/Spinner';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import useSWR, { mutate } from 'swr';
+import { FaRegEdit } from 'react-icons/fa';
+import Link from 'next/link';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -64,7 +64,7 @@ export default function Child() {
     <StyledContainer>
       <ImageWrapper>
         <Image
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: 'cover' }}
           priority
           sizes="(max-width: 768px) 100vw, 33vw"
           fill
@@ -78,7 +78,7 @@ export default function Child() {
       <StyledBday>
         <StyledHeading>Date of Birth</StyledHeading>
         <StyledParagraph>
-          {new Intl.DateTimeFormat("de-DE").format(new Date(child.birth_date))}
+          {new Intl.DateTimeFormat('de-DE').format(new Date(child.birth_date))}
         </StyledParagraph>
       </StyledBday>
       <Link href={`/children/${id}/editChild`}>

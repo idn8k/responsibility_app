@@ -1,7 +1,7 @@
-import TaskCard from "@/components/TaskCard";
-import Spinner from "@/components/ui/Spinner";
-import styled from "styled-components";
-import useSWR from "swr";
+import TaskCard from '@/components/TaskCard';
+import Spinner from '@/components/ui/Spinner';
+import styled from 'styled-components';
+import useSWR from 'swr';
 
 const StyledUl = styled.ul`
   display: flex;
@@ -27,7 +27,7 @@ const StyledHeading = styled.h2`
 `;
 
 export default function TasksPage({ handleCompleteTask }) {
-  const { data: tasksData, isLoading } = useSWR("/api/tasks_items");
+  const { data: tasksData, isLoading } = useSWR('/api/tasks_items');
 
   if (isLoading) return <Spinner />;
   if (tasksData.length === 0) return <h2>No tasks yet...</h2>;

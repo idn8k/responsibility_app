@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledBtn = styled.button`
   height: 250px;
@@ -10,7 +10,9 @@ const StyledBtn = styled.button`
   color: #fff;
   font-size: 38px;
 
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:hover,
   &:active {
