@@ -28,12 +28,9 @@ const StyledLink = styled(Link)`
 
 export default function HomePage({ adminMode }) {
   const router = useRouter();
-  const { data: childrenData, isLoading: isLoadingChildren } = useSWR(
-    '/api/children_items',
-    {
-      fallbackData: [],
-    }
-  );
+  const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/children_items', {
+    fallbackData: [],
+  });
 
   const [childId, setChildId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -73,11 +70,7 @@ export default function HomePage({ adminMode }) {
           href={adminMode ? `/children/${child._id}` : `/child/${child._id}`}
           key={child._id}
         >
-          <ChildCard
-            adminMode={adminMode}
-            openModal={openModal}
-            child={child}
-          />
+          <ChildCard adminMode={adminMode} openModal={openModal} child={child} />
         </StyledLink>
       ))}
       <ModalDelete
