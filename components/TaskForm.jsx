@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
-import Button from "./ui/Button";
-import styled from "styled-components";
-import Link from "next/link";
-import Spinner from "./ui/Spinner";
-import useSWR from "swr";
+import Button from './ui/Button';
+import styled from 'styled-components';
+import Link from 'next/link';
+import Spinner from './ui/Spinner';
+import useSWR from 'swr';
 
 const StyledHeading = styled.h2`
   color: var(--primary-color);
@@ -73,7 +73,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const StyledDateInput = styled.input.attrs({ type: "date" })`
+const StyledDateInput = styled.input.attrs({ type: 'date' })`
   width: 100%;
   padding: 10px 14px;
   font-size: 16px;
@@ -117,7 +117,9 @@ const StyledLinkBtn = styled(Link)`
   text-decoration: none;
   text-align: center;
 
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:hover,
   &:active {
@@ -136,15 +138,15 @@ const StyledSpan = styled.span`
 export default function TaskForm() {
   const router = useRouter();
   const [inputData, setInputData] = useState({
-    taskName: "",
+    taskName: '',
     isCompleted: false,
-    assignee: "",
+    assignee: '',
   });
-  const { data: childrenData, isLoading } = useSWR("/api/children_items");
+  const { data: childrenData, isLoading } = useSWR('/api/children_items');
 
   const [isFormComplete, setFormComplete] = useState(false);
-  const [error, setError] = useState("");
-  const [debouncedUrl, setDebouncedUrl] = useState(""); // Holds the URL after user stops typing
+  const [error, setError] = useState('');
+  const [debouncedUrl, setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
 
   //- Form completed effect:
   useEffect(() => {
@@ -172,13 +174,13 @@ export default function TaskForm() {
     const formData = new FormData(e.target);
     const taskData = Object.fromEntries(formData);
 
-    const response = await fetch("/api/tasks_items", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/api/tasks_items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(taskData),
     });
 
-    if (response.ok) router.push("/tasksPage");
+    if (response.ok) router.push('/tasksPage');
   }
 
   async function handleChange(e) {
@@ -224,7 +226,7 @@ export default function TaskForm() {
             </option>
           ))}
         </StyledSelect>
-        <p>{error && "Not valid url"}</p>
+        <p>{error && 'Not valid url'}</p>
       </StyledInputContainer>
       <StyledBtnContainer>
         <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>

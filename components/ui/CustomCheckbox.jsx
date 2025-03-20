@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const CheckboxContainer = styled.label`
   display: flex;
@@ -6,7 +6,7 @@ const CheckboxContainer = styled.label`
   cursor: pointer;
 `;
 
-const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
+const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   position: absolute;
   opacity: 0;
   width: 0;
@@ -29,7 +29,7 @@ const StyledCheckbox = styled.div`
   }
 
   ${HiddenCheckbox}:checked + &::after {
-    content: "✔";
+    content: '✔';
     color: white;
     font-size: 20px;
   }

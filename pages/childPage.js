@@ -1,7 +1,7 @@
-import TaskCard from "@/components/TaskCard";
-import Spinner from "@/components/ui/Spinner";
-import styled from "styled-components";
-import useSWR from "swr";
+import TaskCard from '@/components/TaskCard';
+import Spinner from '@/components/ui/Spinner';
+import styled from 'styled-components';
+import useSWR from 'swr';
 
 const StyledUl = styled.ul`
   display: flex;

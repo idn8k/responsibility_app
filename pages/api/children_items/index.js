@@ -1,10 +1,10 @@
-import dbConnect from "@/db/connect";
-import Child from "@/db/models/Child";
+import dbConnect from '@/db/connect';
+import Child from '@/db/models/Child';
 
 export default async function handler(request, response) {
   await dbConnect();
 
-  if (request.method === "GET") {
+  if (request.method === 'GET') {
     const children = await Child.find();
 
     response.status(200).json(children);
@@ -12,12 +12,12 @@ export default async function handler(request, response) {
     return;
   }
 
-  if (request.method === "POST") {
+  if (request.method === 'POST') {
     try {
       const childData = request.body;
       await Child.create(childData);
 
-      response.status(200).json({ status: "New child created!" });
+      response.status(200).json({ status: 'New child created!' });
 
       return;
     } catch (error) {
@@ -26,9 +26,9 @@ export default async function handler(request, response) {
   }
 
   if (!children) {
-    response.status(404).json({ status: "Not Found" });
+    response.status(404).json({ status: 'Not Found' });
     return;
   }
 
-  response.status(405).json({ error: "Method not allowed" });
+  response.status(405).json({ error: 'Method not allowed' });
 }

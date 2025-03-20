@@ -6,15 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "jest --watchAll",
     "lint": "next lint",
-    "test": "jest --watchAll"
+    "format": "prettier --write ."
   },
   "dependencies": {
-    "eslint": "8.44.0",
     "eslint-config-next": "13.4.8",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.1",
-    "next": "13.4.8",
+    "next": "^15.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^5.4.0",
@@ -26,9 +26,14 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-jest": "^27.2.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
     "jest": "^29.6.0",
-    "jest-environment-jsdom": "^29.6.0"
+    "jest-environment-jsdom": "^29.6.0",
+    "prettier": "^3.5.3"
   },
   "description": "Next.js (incl. Styled Components and Jest)",
   "nf": {

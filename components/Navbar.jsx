@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
-import { GoHomeFill } from "react-icons/go";
+import { GoHomeFill } from 'react-icons/go';
 
-import Link from "next/link";
-import ModalJunction from "./ui/ModalJunction";
-import { FaSquare, FaThList, FaPlusSquare } from "react-icons/fa";
-import { useRouter } from "next/router";
+import Link from 'next/link';
+import ModalJunction from './ui/ModalJunction';
+import { FaSquare, FaThList, FaPlusSquare } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 const StyledNavbar = styled.nav`
   background: var(--primary-color);
@@ -31,7 +31,7 @@ const StyledLink = styled(Link)`
   border: none;
   margin: 0;
   padding: 0;
-  color: ${(props) => (props.active ? "white" : "var(--primary-color-light)")};
+  color: ${(props) => (props.active ? 'white' : 'var(--primary-color-light)')};
 `;
 
 const StyledBtn = styled.button`
@@ -75,17 +75,17 @@ export default function Navbar({ adminMode }) {
       <StyledBtn onClick={openModal}>
         <FaPlusSquare
           color={
-            pathname === "/addChildPage" || pathname === "/addTaskPage"
-              ? "white"
-              : "var(--primary-color-light)"
+            pathname === '/addChildPage' || pathname === '/addTaskPage'
+              ? 'white'
+              : 'var(--primary-color-light)'
           }
           size="2.2rem"
         />
       </StyledBtn>
-      <StyledLink active={pathname === "/"} href="/">
+      <StyledLink active={pathname === '/'} href="/">
         <FaSquare size="2.2rem" />
       </StyledLink>
-      <StyledLink active={pathname === "/tasksPage"} href="/tasksPage">
+      <StyledLink active={pathname === '/tasksPage'} href="/tasksPage">
         <FaThList size="2rem" />
       </StyledLink>
       <ModalJunction

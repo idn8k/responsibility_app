@@ -1,17 +1,19 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledBtn = styled.button`
   background-color: ${(props) =>
-    props.fill ? "var(--primary-color)" : "#fff"};
-  color: ${(props) => (props.fill ? "#fff" : "var(--primary-color)")};
+    props.fill ? 'var(--primary-color)' : '#fff'};
+  color: ${(props) => (props.fill ? '#fff' : 'var(--primary-color)')};
   border: 1px solid var(--primary-color);
   width: 45%;
   padding: 10px 0;
   border-radius: 10px;
   cursor: pointer;
   font-size: 20px;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:hover,
   &:active {
