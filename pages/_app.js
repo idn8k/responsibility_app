@@ -11,12 +11,7 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [adminMode, setIsAdmin] = useState(true);
   const { data: tasksData, mutate } = useSWR('/api/tasks_items');
-
-  function handleMode() {
-    setIsAdmin(!adminMode);
-  }
 
   async function handleCompleteTask(taskId) {
     const taskToUpdate = tasksData.find((task) => task._id === taskId);
@@ -57,15 +52,11 @@ export default function App({ Component, pageProps }) {
       <SWRConfig value={{ fetcher }}>
         <ThemeProvider theme={GlobalStyle}>
           <GlobalStyle />
-          <Header onSetMode={handleMode} />
+          <Header />
           <MainContainer>
-            <Component
-              handleCompleteTask={handleCompleteTask}
-              adminMode={adminMode}
-              {...pageProps}
-            />
+            <Component handleCompleteTask={handleCompleteTask} {...pageProps} />
           </MainContainer>
-          <Navbar adminMode={adminMode} />
+          <Navbar />
         </ThemeProvider>
       </SWRConfig>
     </>

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Logo from './ui/Logo';
-import ToggleSwitch from './ui/ToggleSwitch';
 
 const StyledHeader = styled.header`
   background: var(--primary-color);
@@ -18,10 +17,9 @@ const StyledHeader = styled.header`
   width: 100%;
 `;
 
-export default function Header({ onSetMode }) {
+export default function Header() {
   return (
     <StyledHeader>
-      <ToggleSwitch onChange={onSetMode} />
       <Logo />
     </StyledHeader>
   );
