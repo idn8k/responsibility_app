@@ -47,7 +47,7 @@ const StyledBtn = styled.button`
   text-align: center;
 `;
 
-export default function Navbar({ adminMode }) {
+export default function Navbar() {
   const [isModalOpen, setModalOpen] = useState(false);
   const { pathname } = useRouter();
 
@@ -58,16 +58,6 @@ export default function Navbar({ adminMode }) {
   }
   function closeModal() {
     setModalOpen(false);
-  }
-
-  if (!adminMode) {
-    return (
-      <StyledNavbar>
-        <Link href="/">
-          <GoHomeFill color="white" size="2.8rem" />
-        </Link>
-      </StyledNavbar>
-    );
   }
 
   return (
@@ -88,11 +78,7 @@ export default function Navbar({ adminMode }) {
       <StyledLink active={pathname === '/tasksPage'} href="/tasksPage">
         <FaThList size="2rem" />
       </StyledLink>
-      <ModalJunction
-        setModal={setModalOpen}
-        closeModal={closeModal}
-        isOpen={isModalOpen}
-      />
+      <ModalJunction setModal={setModalOpen} closeModal={closeModal} isOpen={isModalOpen} />
     </StyledNavbar>
   );
 }

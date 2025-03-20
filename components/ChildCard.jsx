@@ -53,34 +53,26 @@ const StyledBtn = styled.button`
   }
 `;
 
-export default function ChildCard({ child, openModal, adminMode }) {
+export default function ChildCard({ child, openModal }) {
   const { name, imgUrl } = child;
 
   return (
     <>
       <ImageWrapper>
-        <Image
-          width="120"
-          height="120"
-          src={imgUrl}
-          alt="Child image"
-          priority
-        />
+        <Image width="120" height="120" src={imgUrl} alt="Child image" priority />
       </ImageWrapper>
 
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
 
-      {adminMode && (
-        <StyledBtn
-          onClick={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal(child._id);
-          }}
-        >
-          <IoIosCloseCircle size="2rem" />
-        </StyledBtn>
-      )}
+      <StyledBtn
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          openModal(child._id);
+        }}
+      >
+        <IoIosCloseCircle size="2rem" />
+      </StyledBtn>
     </>
   );
 }

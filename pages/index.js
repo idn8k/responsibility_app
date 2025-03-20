@@ -26,7 +26,7 @@ const StyledLink = styled(Link)`
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
-export default function HomePage({ adminMode }) {
+export default function HomePage() {
   const router = useRouter();
   const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/children_items', {
     fallbackData: [],
@@ -66,11 +66,8 @@ export default function HomePage({ adminMode }) {
   return (
     <>
       {childrenData?.map((child) => (
-        <StyledLink
-          href={adminMode ? `/children/${child._id}` : `/child/${child._id}`}
-          key={child._id}
-        >
-          <ChildCard adminMode={adminMode} openModal={openModal} child={child} />
+        <StyledLink href={`/children/${child._id}`} key={child._id}>
+          <ChildCard openModal={openModal} child={child} />
         </StyledLink>
       ))}
       <ModalDelete
