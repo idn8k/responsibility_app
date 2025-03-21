@@ -17,7 +17,6 @@ export default createGlobalStyle`
   *::before,
   *::after {
     box-sizing: border-box;
-
   }
 
   body {
@@ -29,10 +28,6 @@ export default createGlobalStyle`
   button{
     font-family: inherit;
     cursor: pointer;
-
-
-
-
   }
 
 `;

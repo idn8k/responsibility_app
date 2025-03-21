@@ -4,7 +4,11 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import useSWR, { mutate } from 'swr';
 import { FaRegEdit } from 'react-icons/fa';
+import { AiOutlineDelete } from 'react-icons/ai';
+import ModalDelete from '@/components/ui/ModalDelete';
+
 import Link from 'next/link';
+import { useState } from 'react';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -14,8 +18,6 @@ const StyledContainer = styled.div`
   width: 90%;
   height: 50vh;
 `;
-
-//!! Child slug !!//
 
 const ImageWrapper = styled.div`
   width: 150px;
@@ -52,10 +54,34 @@ const StyledName = styled.span`
   text-align: center;
 `;
 
+// - SLUG -//
+
 export default function Child() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [childId, setChildId] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
   const { data: child, isLoading } = useSWR(`/api/children_items/${id}`);
+
+  function openModal(id) {
+    setChildId(id);
+    setModalOpen(true);
+  }
+  function closeModal() {
+    setModalOpen(false);
+  }
+
+  async function handleDelete(id) {
+    const response = await fetch(`/api/children_items/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      return;
+    }
+    router.push('/');
+  }
 
   if (isLoading) return <Spinner />;
   if (!child) return;
@@ -72,9 +98,7 @@ export default function Child() {
           alt="Child image"
         />
       </ImageWrapper>
-      <StyledName>
-        {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
-      </StyledName>
+      <StyledName>{child.name.charAt(0).toUpperCase() + child.name.slice(1)}</StyledName>
       <StyledBday>
         <StyledHeading>Date of Birth</StyledHeading>
         <StyledParagraph>
@@ -84,6 +108,22 @@ export default function Child() {
       <Link href={`/children/${id}/editChild`}>
         <FaRegEdit size="2rem" color="ff3566" />
       </Link>
+      <button
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          openModal(child._id);
+        }}
+      >
+        <AiOutlineDelete size="2rem" color="ff3566" />
+      </button>
+
+      <ModalDelete
+        onDelete={handleDelete}
+        closeModal={closeModal}
+        childId={childId}
+        isOpen={isModalOpen}
+      />
     </StyledContainer>
   );
 }

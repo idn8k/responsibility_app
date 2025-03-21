@@ -32,27 +32,27 @@ export default function HomePage() {
     fallbackData: [],
   });
 
-  const [childId, setChildId] = useState(null);
-  const [isModalOpen, setModalOpen] = useState(false);
+  // const [childId, setChildId] = useState(null);
+  // const [isModalOpen, setModalOpen] = useState(false);
 
-  function openModal(id) {
-    setChildId(id);
-    setModalOpen(true);
-  }
-  function closeModal() {
-    setModalOpen(false);
-  }
+  // function openModal(id) {
+  //   setChildId(id);
+  //   setModalOpen(true);
+  // }
+  // function closeModal() {
+  //   setModalOpen(false);
+  // }
 
-  async function handleDelete(id) {
-    const response = await fetch(`/api/children_items/${id}`, {
-      method: 'DELETE',
-    });
+  // async function handleDelete(id) {
+  //   const response = await fetch(`/api/children_items/${id}`, {
+  //     method: 'DELETE',
+  //   });
 
-    if (!response.ok) {
-      return;
-    }
-    mutate('/api/children_items');
-  }
+  //   if (!response.ok) {
+  //     return;
+  //   }
+  //   mutate('/api/children_items');
+  // }
 
   if (isLoadingChildren) return <Spinner />;
 
@@ -67,15 +67,15 @@ export default function HomePage() {
     <>
       {childrenData?.map((child) => (
         <StyledLink href={`/children/${child._id}`} key={child._id}>
-          <ChildCard openModal={openModal} child={child} />
+          <ChildCard child={child} />
         </StyledLink>
       ))}
-      <ModalDelete
+      {/* <ModalDelete
         onDelete={handleDelete}
         closeModal={closeModal}
         childId={childId}
         isOpen={isModalOpen}
-      />
+      /> */}
     </>
   );
 }
