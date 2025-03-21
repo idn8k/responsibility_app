@@ -51,8 +51,6 @@ export default function Navbar() {
   const [isModalOpen, setModalOpen] = useState(false);
   const { pathname } = useRouter();
 
-  console.log(pathname);
-
   function openModal() {
     setModalOpen(true);
   }
