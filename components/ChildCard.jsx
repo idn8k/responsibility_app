@@ -64,7 +64,7 @@ export default function ChildCard({ child, openModal }) {
 
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
 
-      <StyledBtn
+      {/* <StyledBtn
         onClick={(event) => {
           event.stopPropagation();
           event.preventDefault();
@@ -72,7 +72,7 @@ export default function ChildCard({ child, openModal }) {
         }}
       >
         <IoIosCloseCircle size="2rem" />
-      </StyledBtn>
+      </StyledBtn> */}
     </>
   );
 }

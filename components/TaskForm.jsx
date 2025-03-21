@@ -230,7 +230,8 @@ export default function TaskForm() {
       </StyledInputContainer>
       <StyledBtnContainer>
         <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>
-        {isFormComplete && !error && <Button type="submit">Add</Button>}
+        <Button type="submit">Add</Button>
+        {/* {isFormComplete && !error && <Button type="submit">Add</Button>} */}
         <StyledSpan>*Required</StyledSpan>
       </StyledBtnContainer>
     </StyledForm>
