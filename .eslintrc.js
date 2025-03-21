@@ -27,5 +27,7 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     quotes: ['error', 'single', { avoidEscape: true }],
+    'no-unused-vars': 'warn',
+    'no-console': 'warn',
   },
 };
