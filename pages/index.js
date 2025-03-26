@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import ChildCard from '@/components/ChildCard';
 import Spinner from '@/components/ui/Spinner';
 
+import { useSession, signIn, signOut } from 'next-auth/react';
+
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
@@ -27,6 +29,8 @@ const StyledLink = styled(Link)`
 `;
 
 export default function HomePage() {
+  const { data: session } = useSession();
+
   const router = useRouter();
   const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/children_items', {
     fallbackData: [],
@@ -38,8 +42,19 @@ export default function HomePage() {
     router.push('/addChildPage');
   }
 
+  // if (session) {
+  //   return (
+  //     <div>
+  //       <p>Signed in as {session.user.email}</p>
+  //       <button onClick={() => signOut()}>Sign out</button>
+  //     </div>
+  //   );
+  // }
+
   return (
     <>
+      {/* <p>Not signed in</p>
+      <button onClick={() => signIn()}>SignIn</button> */}
       {childrenData?.map((child) => (
         <StyledLink href={`/children/${child._id}`} key={child._id}>
           <ChildCard child={child} />

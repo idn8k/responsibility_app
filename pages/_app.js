@@ -4,11 +4,12 @@ import { ThemeProvider } from 'styled-components';
 import useSWR, { SWRConfig } from 'swr';
 import Navbar from '@/components/Navbar';
 import MainContainer from '@/components/MainContainer';
-import { useRouter } from 'next/router';
+
+import { SessionProvider } from 'next-auth/react';
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const { data: tasksData, mutate } = useSWR('/api/tasks_items');
 
   async function handleCompleteTask(taskId) {
@@ -50,11 +51,13 @@ export default function App({ Component, pageProps }) {
       <SWRConfig value={{ fetcher }}>
         <ThemeProvider theme={GlobalStyle}>
           <GlobalStyle />
-          <Header />
-          <MainContainer>
-            <Component handleCompleteTask={handleCompleteTask} {...pageProps} />
-          </MainContainer>
-          <Navbar />
+          <SessionProvider session={session}>
+            <Header />
+            <MainContainer>
+              <Component handleCompleteTask={handleCompleteTask} {...pageProps} />
+            </MainContainer>
+            <Navbar />
+          </SessionProvider>
         </ThemeProvider>
       </SWRConfig>
     </>
