@@ -32,35 +32,10 @@ export default function HomePage() {
     fallbackData: [],
   });
 
-  // const [childId, setChildId] = useState(null);
-  // const [isModalOpen, setModalOpen] = useState(false);
-
-  // function openModal(id) {
-  //   setChildId(id);
-  //   setModalOpen(true);
-  // }
-  // function closeModal() {
-  //   setModalOpen(false);
-  // }
-
-  // async function handleDelete(id) {
-  //   const response = await fetch(`/api/children_items/${id}`, {
-  //     method: 'DELETE',
-  //   });
-
-  //   if (!response.ok) {
-  //     return;
-  //   }
-  //   mutate('/api/children_items');
-  // }
-
   if (isLoadingChildren) return <Spinner />;
 
   if (childrenData.length === 0) {
     router.push('/addChildPage');
-    if (!response.ok) {
-      return;
-    }
   }
 
   return (

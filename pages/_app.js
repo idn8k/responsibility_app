@@ -4,13 +4,11 @@ import { ThemeProvider } from 'styled-components';
 import useSWR, { SWRConfig } from 'swr';
 import Navbar from '@/components/Navbar';
 import MainContainer from '@/components/MainContainer';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter();
   const { data: tasksData, mutate } = useSWR('/api/tasks_items');
 
   async function handleCompleteTask(taskId) {

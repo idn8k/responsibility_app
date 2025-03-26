@@ -120,9 +120,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
   const router = useRouter();
   const [inputData, setInputData] = useState({
     name: child?.name || '',
-    birth_date: child?.birth_date
-      ? new Date(child.birth_date).toISOString().split('T')[0]
-      : '',
+    birth_date: child?.birth_date ? new Date(child.birth_date).toISOString().split('T')[0] : '',
     imgUrl: child?.imgUrl || '',
   });
 
@@ -184,7 +182,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     const formData = new FormData(e.target);
     const childData = Object.fromEntries(formData);
 
-    const response = await fetch('/api/children_items', {
+    await fetch('/api/children_items', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(childData),
@@ -204,9 +202,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
 
   return (
     <>
-      <StyledForm
-        onSubmit={!isEdit ? handleSubmit : (event) => onEdit(event, child._id)}
-      >
+      <StyledForm onSubmit={!isEdit ? handleSubmit : (event) => onEdit(event, child._id)}>
         <StyledHeading>{isEdit ? 'Edit Child' : 'Add Child'}</StyledHeading>
         <StyledInputContainer>
           <StyledLabel htmlFor="name">Child Name*</StyledLabel>

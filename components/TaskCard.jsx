@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import CustomCheckbox from './ui/CustomCheckbox';
 
@@ -46,13 +46,7 @@ export default function TaskCard({ task, toggleComplete }) {
   return (
     <StyledTaskContainer>
       <ImageWrapper>
-        <Image
-          width="60"
-          height="60"
-          src={childImg}
-          alt="Child image"
-          priority
-        />
+        <Image width="60" height="60" src={childImg} alt="Child image" priority />
       </ImageWrapper>
       <StyledTaskName>{taskName}</StyledTaskName>
       <CustomCheckbox

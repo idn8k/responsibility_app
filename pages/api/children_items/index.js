@@ -25,10 +25,10 @@ export default async function handler(request, response) {
     }
   }
 
-  if (!children) {
-    response.status(404).json({ status: 'Not Found' });
-    return;
-  }
+  // if (!children) {
+  //   response.status(404).json({ status: 'Not Found' });
+  //   return;
+  // }
 
   response.status(405).json({ error: 'Method not allowed' });
 }
