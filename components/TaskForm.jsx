@@ -73,31 +73,6 @@ const StyledSelect = styled.select`
   }
 `;
 
-const StyledDateInput = styled.input.attrs({ type: 'date' })`
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 16px;
-  font-size: 16px;
-  border: 1px solid var(--primary-color);
-  border-radius: 10px;
-  outline: none;
-  cursor: pointer;
-
-  &:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(255, 53, 104, 0.973);
-  }
-
-  &::placeholder {
-    color: grey;
-    font-style: italic;
-  }
-  &::-webkit-datetime-isedit {
-    color: grey;
-    font-family: system-ui;
-  }
-`;
-
 const StyledBtnContainer = styled.div`
   width: 100%;
   display: flex;
@@ -145,8 +120,8 @@ export default function TaskForm() {
   const { data: childrenData, isLoading } = useSWR('/api/children_items');
 
   const [isFormComplete, setFormComplete] = useState(false);
-  const [error, setError] = useState('');
-  const [debouncedUrl, setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
+  const [error] = useState('');
+  const [setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
 
   //- Form completed effect:
   useEffect(() => {

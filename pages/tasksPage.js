@@ -37,14 +37,9 @@ export default function TasksPage({ handleCompleteTask }) {
       <StyledHeading>Tasks</StyledHeading>
       <StyledUl>
         {tasksData?.map((task) => (
-          <TaskCard
-            key={task._id}
-            toggleComplete={handleCompleteTask}
-            task={task}
-          />
+          <TaskCard key={task._id} toggleComplete={handleCompleteTask} task={task} />
         ))}
       </StyledUl>
     </>
   );
-  x;
 }

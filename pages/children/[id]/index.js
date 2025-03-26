@@ -2,7 +2,7 @@ import Spinner from '@/components/ui/Spinner';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import { FaRegEdit } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
 import ModalDelete from '@/components/ui/ModalDelete';

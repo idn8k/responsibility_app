@@ -23,7 +23,6 @@ const StyledBtn = styled.button`
 `;
 
 export default function Button({ children, onClick, type }) {
-  console.log(type);
   return (
     <StyledBtn fill={type} onClick={onClick}>
       {children}

@@ -1,7 +1,7 @@
 import ChildForm from '@/components/ChildForm';
 import Spinner from '@/components/ui/Spinner';
 import { useRouter } from 'next/router';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 
 export default function EditChild() {
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function EditChild() {
       console.error('Something went wrong.');
       return;
     }
-    router.push(`/`);
+    router.push('/');
   }
 
   if (isLoading) return <Spinner />;

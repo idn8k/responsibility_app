@@ -2,9 +2,7 @@ import Spinner from '@/components/ui/Spinner';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import useSWR, { mutate } from 'swr';
-import { FaRegEdit } from 'react-icons/fa';
-import Link from 'next/link';
+import useSWR from 'swr';
 import TaskCard from '@/components/TaskCard';
 
 const StyledContainer = styled.div`
@@ -16,7 +14,7 @@ const StyledContainer = styled.div`
   height: 50vh;
 `;
 
-//!! Child slug !!//
+//-!! Child slug !!-//
 
 const ImageWrapper = styled.div`
   width: 60px;
@@ -68,10 +66,8 @@ const StyledUl = styled.ul`
 export default function ChildPage({ handleCompleteTask }) {
   const router = useRouter();
   const { id } = router.query;
-  const { data: child, isLoading: isLoadingChild } = useSWR(
-    `/api/children_items/${id}`
-  );
-  const { data: tasks, isLoading: isLoadingTasks } = useSWR(`/api/tasks_items`);
+  const { data: child, isLoading: isLoadingChild } = useSWR(`/api/children_items/${id}`);
+  const { data: tasks, isLoading: isLoadingTasks } = useSWR('/api/tasks_items');
 
   if (isLoadingChild || isLoadingTasks) return <Spinner />;
   if (!child) return;
@@ -94,11 +90,7 @@ export default function ChildPage({ handleCompleteTask }) {
       </StyledPageHeader>
       <StyledUl>
         {childTasks?.map((task) => (
-          <TaskCard
-            key={task._id}
-            toggleComplete={handleCompleteTask}
-            task={task}
-          />
+          <TaskCard key={task._id} toggleComplete={handleCompleteTask} task={task} />
         ))}
       </StyledUl>
     </StyledContainer>

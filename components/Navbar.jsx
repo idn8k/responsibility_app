@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { GoHomeFill } from 'react-icons/go';
-
 import Link from 'next/link';
 import ModalJunction from './ui/ModalJunction';
 import { FaSquare, FaThList, FaPlusSquare } from 'react-icons/fa';
@@ -50,8 +48,6 @@ const StyledBtn = styled.button`
 export default function Navbar() {
   const [isModalOpen, setModalOpen] = useState(false);
   const { pathname } = useRouter();
-
-  console.log(pathname);
 
   function openModal() {
     setModalOpen(true);

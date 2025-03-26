@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Image from 'next/image';
-
-import { IoIosCloseCircle } from 'react-icons/io';
 
 const ImageWrapper = styled.div`
   width: ${(props) => props.width || 'auto'};
