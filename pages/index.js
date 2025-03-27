@@ -1,9 +1,6 @@
 import useSWR from 'swr';
-import { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useState } from 'react';
-import ModalDelete from '@/components/ui/ModalDelete';
 import styled from 'styled-components';
 import ChildCard from '@/components/ChildCard';
 import Spinner from '@/components/ui/Spinner';
@@ -30,6 +27,7 @@ const StyledLink = styled(Link)`
 
 export default function HomePage() {
   const { data: session } = useSession();
+  console.log(' HomePage ~ session:', session);
 
   const router = useRouter();
   const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/children_items', {
@@ -42,30 +40,14 @@ export default function HomePage() {
     router.push('/addChildPage');
   }
 
-  // if (session) {
-  //   return (
-  //     <div>
-  //       <p>Signed in as {session.user.email}</p>
-  //       <button onClick={() => signOut()}>Sign out</button>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
-      {/* <p>Not signed in</p>
-      <button onClick={() => signIn()}>SignIn</button> */}
+      {!session && <button onClick={() => signIn()}>SignIn</button>}
       {childrenData?.map((child) => (
         <StyledLink href={`/children/${child._id}`} key={child._id}>
           <ChildCard child={child} />
         </StyledLink>
       ))}
-      {/* <ModalDelete
-        onDelete={handleDelete}
-        closeModal={closeModal}
-        childId={childId}
-        isOpen={isModalOpen}
-      /> */}
     </>
   );
 }
