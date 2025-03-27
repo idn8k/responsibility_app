@@ -27,7 +27,6 @@ const StyledLink = styled(Link)`
 
 export default function HomePage() {
   const { data: session } = useSession();
-  console.log(' HomePage ~ session:', session);
 
   const router = useRouter();
   const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/children_items', {
