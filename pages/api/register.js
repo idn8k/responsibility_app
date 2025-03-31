@@ -2,7 +2,7 @@ import { hash } from 'bcrypt';
 import clientPromise from '@/lib/mongodb';
 
 export default async function handler(req, res) {
-  if (requestAnimationFrame.method === 'POST') return res.status(405).end();
+  if (req.method !== 'POST') return res.status(405).end();
 
   const { email, password, name } = req.body;
   const client = await clientPromise;
