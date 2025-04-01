@@ -54,11 +54,11 @@ function RegisterForm() {
           />
         </div>
         <div>
-          <label htmlFor="name">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             required
-            type="text"
-            id="name"
+            type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
