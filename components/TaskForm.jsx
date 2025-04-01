@@ -119,7 +119,7 @@ export default function TaskForm() {
   });
   const { data: childrenData, isLoading } = useSWR('/api/children_items');
 
-  const [isFormComplete, setFormComplete] = useState(false);
+  const [setFormComplete] = useState(false);
   const [error] = useState('');
   const [setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
 
@@ -141,7 +141,7 @@ export default function TaskForm() {
     }, 200);
 
     return () => clearTimeout(handler);
-  }, [inputData.imgUrl]);
+  }, [inputData.imgUrl, setDebouncedUrl]);
 
   async function handleSubmit(e) {
     e.preventDefault();

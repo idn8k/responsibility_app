@@ -94,7 +94,7 @@ export const authOptions = {
     },
     async session({ session, token, user }) {
       if (session?.user?.email) {
-        session.user.email = session.user.email;
+        session.user.email = session.user.email.toLowerCase();
       }
       return session;
     },
