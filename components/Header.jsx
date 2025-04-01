@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Logo from './ui/Logo';
+import { signOut } from 'next-auth/react';
 
 const StyledHeader = styled.header`
   background: var(--primary-color);
@@ -20,6 +21,7 @@ const StyledHeader = styled.header`
 export default function Header() {
   return (
     <StyledHeader>
+      <button onClick={() => signOut()}>Logout</button>
       <Logo />
     </StyledHeader>
   );
