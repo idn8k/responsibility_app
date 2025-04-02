@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Logo from './ui/Logo';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 const StyledHeader = styled.header`
   background: var(--primary-color);
@@ -23,6 +24,7 @@ export default function Header() {
     <StyledHeader>
       <button onClick={() => signOut()}>Logout</button>
       <Logo />
+      <Link href={'/registerPage'}>Register</Link>
     </StyledHeader>
   );
 }
