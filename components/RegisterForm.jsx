@@ -48,7 +48,7 @@ function RegisterForm() {
           <input
             required
             type="email"
-            id="name"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
