@@ -119,7 +119,7 @@ export default function TaskForm() {
   });
   const { data: childrenData, isLoading } = useSWR('/api/children_items');
 
-  const [setFormComplete] = useState(false);
+  const [formComplete, setFormComplete] = useState(false);
   const [error] = useState('');
   const [setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
 
