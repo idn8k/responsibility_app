@@ -32,8 +32,6 @@ export default function HomePage() {
     fallbackData: [],
   });
 
-  console.log(session);
-
   if (isLoadingChildren) return <Spinner />;
 
   if (childrenData.length === 0) {
