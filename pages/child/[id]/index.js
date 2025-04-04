@@ -3,7 +3,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import useSWR from 'swr';
-import TaskCard from '@/components/TaskCard';
+import { FaRegEdit } from 'react-icons/fa';
+import { AiOutlineDelete } from 'react-icons/ai';
+import ModalDelete from '@/components/ui/ModalDelete';
+
+import Link from 'next/link';
+import { useState } from 'react';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -14,85 +19,111 @@ const StyledContainer = styled.div`
   height: 50vh;
 `;
 
-//-!! Child slug !!-//
-
 const ImageWrapper = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   position: relative;
-  border-radius: 15px;
+  border-radius: 20px;
 
   img {
     object-fit: cover;
   }
 `;
-const StyledPageHeader = styled.div`
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  z-index: 99;
-  background: #fff;
-  top: 80px;
-  height: 100px;
-  width: 100%;
-  text-align: center;
-  padding: 20px 0;
-  margin: 0;
-  font-size: 28px;
+
+const StyledParagraph = styled.h2`
   color: var(--primary-color);
-  box-shadow: 0px 3px 4px -2px rgba(0, 0, 0, 0.1);
-`;
-const StyledHeader = styled.h2`
-  display: inline-block;
   margin: 0;
-  background: #fff;
-  text-align: center;
-  font-size: 28px;
+`;
+
+const StyledHeading = styled.p`
   color: var(--primary-color);
 `;
 
-const StyledUl = styled.ul`
+const StyledBday = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
-  width: 100%;
-  padding: 100px 0;
-  top: 153px;
 `;
 
-export default function ChildPage({ handleCompleteTask }) {
+const StyledName = styled.span`
+  font-size: 42px;
+  /* font-weight: bold; */
+  color: var(--primary-color);
+  width: 50%;
+  text-align: center;
+`;
+
+// - SLUG -//
+
+export default function Child() {
   const router = useRouter();
   const { id } = router.query;
-  const { data: child, isLoading: isLoadingChild } = useSWR(`/api/children_items/${id}`);
-  const { data: tasks, isLoading: isLoadingTasks } = useSWR('/api/tasks_items');
 
-  if (isLoadingChild || isLoadingTasks) return <Spinner />;
+  const [childId, setChildId] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { data: child, isLoading } = useSWR(`/api/child_items/${id}`);
+
+  function openModal(id) {
+    setChildId(id);
+    setModalOpen(true);
+  }
+  function closeModal() {
+    setModalOpen(false);
+  }
+
+  async function handleDelete(id) {
+    const response = await fetch(`/api/child_items/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      return;
+    }
+    router.push('/');
+  }
+
+  if (isLoading) return <Spinner />;
   if (!child) return;
-
-  const childTasks = tasks.filter((task) => task.assignee._id === id);
 
   return (
     <StyledContainer>
-      <StyledPageHeader>
-        <ImageWrapper>
-          <Image
-            sizes="(max-width: 768px) 100vw, 33vw"
-            fill
-            priority
-            src={child.imgUrl}
-            alt="Child image"
-          />
-        </ImageWrapper>
-        <StyledHeader>Tasks</StyledHeader>
-      </StyledPageHeader>
-      <StyledUl>
-        {childTasks?.map((task) => (
-          <TaskCard key={task._id} toggleComplete={handleCompleteTask} task={task} />
-        ))}
-      </StyledUl>
+      <ImageWrapper>
+        <Image
+          style={{ objectFit: 'cover' }}
+          priority
+          sizes="(max-width: 768px) 100vw, 33vw"
+          fill
+          src={child.imgUrl}
+          alt="Child image"
+        />
+      </ImageWrapper>
+      <StyledName>{child.name.charAt(0).toUpperCase() + child.name.slice(1)}</StyledName>
+      <StyledBday>
+        <StyledHeading>Date of Birth</StyledHeading>
+        <StyledParagraph>
+          {new Intl.DateTimeFormat('de-DE').format(new Date(child.birth_date))}
+        </StyledParagraph>
+      </StyledBday>
+      <Link href={`/child/${id}/editChild`}>
+        <FaRegEdit size="2rem" color="ff3566" />
+      </Link>
+      <button
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          openModal(child._id);
+        }}
+      >
+        <AiOutlineDelete size="2rem" color="ff3566" />
+      </button>
+
+      <ModalDelete
+        onDelete={handleDelete}
+        closeModal={closeModal}
+        childId={childId}
+        isOpen={isModalOpen}
+      />
     </StyledContainer>
   );
 }

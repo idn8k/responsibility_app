@@ -117,7 +117,7 @@ export default function TaskForm() {
     isCompleted: false,
     assignee: '',
   });
-  const { data: childrenData, isLoading } = useSWR('/api/children_items');
+  const { data: childrenData, isLoading } = useSWR('/api/child_items');
 
   const [formComplete, setFormComplete] = useState(false);
   const [error] = useState('');
