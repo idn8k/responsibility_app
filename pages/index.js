@@ -28,11 +28,9 @@ const StyledLink = styled(Link)`
 export default function HomePage() {
   const { data: session } = useSession();
   const router = useRouter();
-  const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/children_items', {
+  const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/child_items', {
     fallbackData: [],
   });
-
-  console.log(session);
 
   if (isLoadingChildren) return <Spinner />;
 
@@ -44,7 +42,7 @@ export default function HomePage() {
   return (
     <>
       {childrenData?.map((child) => (
-        <StyledLink href={`/children/${child._id}`} key={child._id}>
+        <StyledLink href={`/child/${child._id}`} key={child._id}>
           <ChildCard child={child} />
         </StyledLink>
       ))}

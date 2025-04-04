@@ -71,7 +71,7 @@ export default function Navbar() {
       <StyledLink active={pathname === '/'} href="/">
         <FaSquare size="2.2rem" />
       </StyledLink>
-      <StyledLink active={pathname === '/tasksPage'} href="/tasksPage">
+      <StyledLink active={pathname === '/allTasksPage'} href="/allTasksPage">
         <FaThList size="2rem" />
       </StyledLink>
       <ModalJunction setModal={setModalOpen} closeModal={closeModal} isOpen={isModalOpen} />

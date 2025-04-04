@@ -34,6 +34,7 @@ export default function LoginForm() {
       >
         Sign In with Google
       </button>
+
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Your Email</label>

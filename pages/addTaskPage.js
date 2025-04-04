@@ -1,5 +1,5 @@
 import TaskForm from '@/components/TaskForm';
 
-export default function AddTaskPage() {
+export default function addTaskPage() {
   return <TaskForm />;
 }

@@ -182,7 +182,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     const formData = new FormData(e.target);
     const childData = Object.fromEntries(formData);
 
-    await fetch('/api/children_items', {
+    await fetch('/api/child_items', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(childData),
