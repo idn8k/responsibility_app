@@ -7,6 +7,16 @@ import Spinner from '@/components/ui/Spinner';
 
 import { useSession } from 'next-auth/react';
 
+const StyledUl = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin: 100px 0 100px 0;
+  width: 100%;
+  padding: 0 0 100px 0;
+`;
+
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
@@ -39,14 +49,13 @@ export default function HomePage() {
   }
 
   if (!session) router.push('/loginPage');
-  console.log(session);
   return (
-    <>
+    <StyledUl>
       {childrenData?.map((child) => (
         <StyledLink href={`/child/${child._id}`} key={child._id}>
           <ChildCard child={child} />
         </StyledLink>
       ))}
-    </>
+    </StyledUl>
   );
 }

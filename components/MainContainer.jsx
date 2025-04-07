@@ -2,14 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledMainContainer = styled.main`
-  height: 100%;
-  padding: 130px 0;
-  margin-bottom: 100px;
+  height: 100vh;
   display: flex;
-  justify-content: space-around;
   flex-direction: column;
   align-items: center;
   gap: 80px;
+  padding: 100px 0;
 `;
 
 export default function MainContainer({ children }) {

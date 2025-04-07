@@ -155,7 +155,7 @@ export default function TaskForm() {
       body: JSON.stringify(taskData),
     });
 
-    if (response.ok) router.push('/tasksPage');
+    if (response.ok) router.push('/');
   }
 
   async function handleChange(e) {

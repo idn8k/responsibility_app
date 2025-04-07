@@ -35,9 +35,11 @@ const ImageWrapper = styled.div`
   }
 `;
 
-export default function TaskCard({ task, toggleComplete }) {
+export default function TaskCard({ task, toggleComplete, pathname }) {
   const { taskName, _id: taskId } = task;
   const { imgUrl: childImg } = task.assignee;
+  console.log('pathname:', pathname);
+  console.log(pathname === '/child/[id]');
 
   function handleToggleComplete(taskId) {
     toggleComplete(taskId);
@@ -45,9 +47,12 @@ export default function TaskCard({ task, toggleComplete }) {
 
   return (
     <StyledTaskContainer>
-      <ImageWrapper>
-        <Image width="60" height="60" src={childImg} alt="Child image" priority />
-      </ImageWrapper>
+      {pathname !== '/child/[id]' && (
+        <ImageWrapper>
+          <Image width="60" height="60" src={childImg} alt="Child image" priority />
+        </ImageWrapper>
+      )}
+
       <StyledTaskName>{taskName}</StyledTaskName>
       <CustomCheckbox
         checked={task.isCompleted}

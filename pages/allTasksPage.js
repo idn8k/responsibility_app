@@ -1,5 +1,6 @@
 import TaskCard from '@/components/TaskCard';
 import Spinner from '@/components/ui/Spinner';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import useSWR from 'swr';
 
@@ -8,8 +9,9 @@ const StyledUl = styled.ul`
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  margin: 100px 0 100px 0;
   width: 100%;
-  padding: 30px 0;
+  padding: 0 0 100px 0;
 `;
 
 const StyledHeading = styled.h2`
@@ -27,9 +29,13 @@ const StyledHeading = styled.h2`
 `;
 export default function AllTasksPage({ handleCompleteTask }) {
   const { data: tasksData, isLoading } = useSWR('/api/tasks_items');
+  const router = useRouter();
+  const pathName = router.pathname;
 
   if (isLoading) return <Spinner />;
   if (tasksData.length === 0) return <h2>No tasks yet...</h2>;
+
+  console.log(pathName);
 
   return (
     <>

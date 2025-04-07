@@ -24,28 +24,37 @@ import TaskCard from '@/components/TaskCard';
 // `;
 
 const StyledContainer = styled.div`
+  position: relative;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 
   position: fixed;
   top: 80px;
 
-  width: 90%;
-  height: 200px;
-  background-color: lightgray;
+  width: 100%;
+  height: 120px;
+  padding: 0 40px;
+  background-color: #fff;
 
   z-index: 100;
 `;
 
-const StyledHeading = styled.h2`
+const StyledChildName = styled.h2`
+  z-index: 99;
+  font-size: 36px;
+  color: var(--primary-color);
+  text-align: center;
+`;
+
+const StyledHeading = styled.h3`
   position: fixed;
   z-index: 99;
   background: #fff;
-  top: 280px;
+  top: 200px;
   width: 100%;
   text-align: center;
-  padding: 20px 0;
+  padding: 10px 0;
   margin: 0;
   font-size: 28px;
   color: var(--primary-color);
@@ -53,8 +62,8 @@ const StyledHeading = styled.h2`
 `;
 
 const ImageWrapper = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
   position: relative;
   border-radius: 20px;
@@ -65,16 +74,19 @@ const ImageWrapper = styled.div`
 `;
 
 const StyledName = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   font-size: 42px;
-  /* font-weight: bold; */
   color: var(--primary-color);
-  width: 50%;
-  text-align: center;
 `;
 
 const StyledButton = styled.button`
   border: none;
   background: none;
+  height: 80px;
+  width: 80px;
 `;
 
 const StyledUl = styled.ul`
@@ -82,15 +94,16 @@ const StyledUl = styled.ul`
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  margin: 300px 0 100px 0;
   width: 100%;
-  padding: 100px 0;
-  top: 153px;
+  padding: 0 0 100px 0;
 `;
 
 // - SLUG -//
 
 export default function Child({ handleCompleteTask }) {
   const router = useRouter();
+  const pathname = router.pathname;
   const { id } = router.query;
 
   const [childId, setChildId] = useState(null);
@@ -121,6 +134,7 @@ export default function Child({ handleCompleteTask }) {
   if (!child) return;
 
   const childTasks = tasks.filter((task) => task.assignee._id === id);
+  console.log(pathname);
 
   return (
     <>
@@ -135,8 +149,10 @@ export default function Child({ handleCompleteTask }) {
             alt="Child image"
           />
         </ImageWrapper>
+        {/* <StyledChildName>{child.name}</StyledChildName> */}
+        <StyledName>{child.name.charAt(0).toUpperCase() + child.name.slice(1)}</StyledName>
 
-        <Link href={`/child/${id}/editChild`}>
+        {/* <Link href={`/child/${id}/editChild`}>
           <FaRegEdit size="2rem" color="ff3566" />
         </Link>
         <StyledButton
@@ -147,7 +163,7 @@ export default function Child({ handleCompleteTask }) {
           }}
         >
           <AiOutlineDelete size="2rem" color="ff3566" />
-        </StyledButton>
+        </StyledButton> */}
         <StyledButton>
           <ImMenu size="2rem" color="ff3566" />
         </StyledButton>
@@ -155,7 +171,12 @@ export default function Child({ handleCompleteTask }) {
       <StyledHeading>Tasks</StyledHeading>
       <StyledUl>
         {childTasks?.map((task) => (
-          <TaskCard key={task._id} toggleComplete={handleCompleteTask} task={task} />
+          <TaskCard
+            key={task._id}
+            pathname={pathname}
+            toggleComplete={handleCompleteTask}
+            task={task}
+          />
         ))}
       </StyledUl>
 
