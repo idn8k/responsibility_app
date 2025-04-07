@@ -39,6 +39,7 @@ export default function HomePage() {
   }
 
   if (!session) router.push('/loginPage');
+  console.log(session);
   return (
     <>
       {childrenData?.map((child) => (
