@@ -35,8 +35,6 @@ export default function AllTasksPage({ handleCompleteTask }) {
   if (isLoading) return <Spinner />;
   if (tasksData.length === 0) return <h2>No tasks yet...</h2>;
 
-  console.log(pathName);
-
   return (
     <>
       <StyledHeading>Tasks</StyledHeading>

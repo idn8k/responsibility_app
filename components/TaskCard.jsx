@@ -38,8 +38,6 @@ const ImageWrapper = styled.div`
 export default function TaskCard({ task, toggleComplete, pathname }) {
   const { taskName, _id: taskId } = task;
   const { imgUrl: childImg } = task.assignee;
-  console.log('pathname:', pathname);
-  console.log(pathname === '/child/[id]');
 
   function handleToggleComplete(taskId) {
     toggleComplete(taskId);

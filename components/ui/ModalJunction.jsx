@@ -3,17 +3,18 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const StyledDialog = styled.dialog`
-  width: 80%;
+  width: 100%;
   height: 200px;
   padding: 30px 25px;
   border: none;
-  border-radius: 20px;
   background-color: #fff;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 
+  position: absolute;
+
   &::backdrop {
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(0.5px);
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(0.7px);
   }
 
   h2 {

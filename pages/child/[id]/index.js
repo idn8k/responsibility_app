@@ -5,13 +5,14 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import { FaRegEdit } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { ImMenu } from 'react-icons/im';
 
 import ModalDelete from '@/components/ui/ModalDelete';
 
 import Link from 'next/link';
 import { useState } from 'react';
 import TaskCard from '@/components/TaskCard';
+import MenuButton from '@/components/ui/MenuButton';
+import ChildOperation from '@/components/ui/ChildOperation';
 
 // const StyledContainer = styled.div`
 //   display: flex;
@@ -40,13 +41,6 @@ const StyledContainer = styled.div`
   z-index: 100;
 `;
 
-const StyledChildName = styled.h2`
-  z-index: 99;
-  font-size: 36px;
-  color: var(--primary-color);
-  text-align: center;
-`;
-
 const StyledHeading = styled.h3`
   position: fixed;
   z-index: 99;
@@ -73,6 +67,18 @@ const ImageWrapper = styled.div`
   }
 `;
 
+const RelativeContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+  background-color: green;
+  height: 100px;
+  width: 100px;
+`;
+
+const StyledDialog = styled.dialog`
+  background-color: yellow;
+`;
+
 const StyledName = styled.span`
   position: absolute;
   left: 50%;
@@ -80,13 +86,7 @@ const StyledName = styled.span`
   transform: translate(-50%, -50%);
   font-size: 42px;
   color: var(--primary-color);
-`;
-
-const StyledButton = styled.button`
-  border: none;
-  background: none;
-  height: 80px;
-  width: 80px;
+  background-color:;
 `;
 
 const StyledUl = styled.ul`
@@ -99,7 +99,7 @@ const StyledUl = styled.ul`
   padding: 0 0 100px 0;
 `;
 
-// - SLUG -//
+// - CHILD SLUG -//
 
 export default function Child({ handleCompleteTask }) {
   const router = useRouter();
@@ -134,7 +134,6 @@ export default function Child({ handleCompleteTask }) {
   if (!child) return;
 
   const childTasks = tasks.filter((task) => task.assignee._id === id);
-  console.log(pathname);
 
   return (
     <>
@@ -152,21 +151,7 @@ export default function Child({ handleCompleteTask }) {
         {/* <StyledChildName>{child.name}</StyledChildName> */}
         <StyledName>{child.name.charAt(0).toUpperCase() + child.name.slice(1)}</StyledName>
 
-        {/* <Link href={`/child/${id}/editChild`}>
-          <FaRegEdit size="2rem" color="ff3566" />
-        </Link>
-        <StyledButton
-          onClick={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal(child._id);
-          }}
-        >
-          <AiOutlineDelete size="2rem" color="ff3566" />
-        </StyledButton> */}
-        <StyledButton>
-          <ImMenu size="2rem" color="ff3566" />
-        </StyledButton>
+        <ChildOperation />
       </StyledContainer>
       <StyledHeading>Tasks</StyledHeading>
       <StyledUl>
@@ -188,4 +173,20 @@ export default function Child({ handleCompleteTask }) {
       />
     </>
   );
+}
+
+{
+  /* <Link href={`/child/${id}/editChild`}>
+          <FaRegEdit size="2rem" color="ff3566" />
+        </Link>
+        <StyledButton
+          onClick={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal(child._id);
+          }}
+        >
+          <AiOutlineDelete size="2rem" color="ff3566" />
+
+        </StyledButton> */
 }
