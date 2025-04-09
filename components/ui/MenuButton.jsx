@@ -11,16 +11,9 @@ const StyledButton = styled.button`
   padding: 0;
 `;
 
-function MenuButton({ modalOpen }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  function handleOpen() {
-    setMenuOpen(!menuOpen);
-    modalOpen((state) => (state = !state));
-  }
-
+function MenuButton({ menuOpen, toggleChildOps }) {
   return (
-    <StyledButton onClick={handleOpen}>
+    <StyledButton onClick={toggleChildOps}>
       {menuOpen ? (
         <FaWindowClose size="1.5rem" color="ff3566" />
       ) : (

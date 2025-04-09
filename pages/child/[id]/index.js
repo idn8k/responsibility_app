@@ -3,26 +3,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import useSWR from 'swr';
-import { FaRegEdit } from 'react-icons/fa';
-import { AiOutlineDelete } from 'react-icons/ai';
 
 import ModalDelete from '@/components/ui/ModalDelete';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import TaskCard from '@/components/TaskCard';
-import MenuButton from '@/components/ui/MenuButton';
 import ChildOperation from '@/components/ui/ChildOperation';
-
-// const StyledContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-around;
-//   align-items: center;
-//   width: 90%;
-//   height: 100vh;
-//   background-color: grey;
-// `;
 
 const StyledContainer = styled.div`
   position: relative;
@@ -67,18 +53,6 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const RelativeContainer = styled.div`
-  position: relative;
-  overflow: hidden;
-  background-color: green;
-  height: 100px;
-  width: 100px;
-`;
-
-const StyledDialog = styled.dialog`
-  background-color: yellow;
-`;
-
 const StyledName = styled.span`
   position: absolute;
   left: 50%;
@@ -109,14 +83,15 @@ export default function Child({ handleCompleteTask }) {
   const [childId, setChildId] = useState(null);
   const { data: tasks, isLoading: isLoadingTasks } = useSWR('/api/tasks_items');
   const { data: child, isLoading: isLoadingChild } = useSWR(`/api/child_items/${id}`);
-  const [isModalOpen, setModalOpen] = useState(false);
 
-  function openModal(id) {
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  function openDeleteModalFunction(id) {
     setChildId(id);
-    setModalOpen(true);
+    setDeleteModalOpen(true);
   }
   function closeModal() {
-    setModalOpen(false);
+    setDeleteModalOpen(false);
   }
 
   async function handleDelete(id) {
@@ -148,10 +123,12 @@ export default function Child({ handleCompleteTask }) {
             alt="Child image"
           />
         </ImageWrapper>
-        {/* <StyledChildName>{child.name}</StyledChildName> */}
         <StyledName>{child.name.charAt(0).toUpperCase() + child.name.slice(1)}</StyledName>
 
-        <ChildOperation />
+        <ChildOperation
+          openDeleteModalFunction={openDeleteModalFunction}
+          isDeleteModalOpen={isDeleteModalOpen}
+        />
       </StyledContainer>
       <StyledHeading>Tasks</StyledHeading>
       <StyledUl>
@@ -169,24 +146,8 @@ export default function Child({ handleCompleteTask }) {
         onDelete={handleDelete}
         closeModal={closeModal}
         childId={childId}
-        isOpen={isModalOpen}
+        isOpen={isDeleteModalOpen}
       />
     </>
   );
-}
-
-{
-  /* <Link href={`/child/${id}/editChild`}>
-          <FaRegEdit size="2rem" color="ff3566" />
-        </Link>
-        <StyledButton
-          onClick={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal(child._id);
-          }}
-        >
-          <AiOutlineDelete size="2rem" color="ff3566" />
-
-        </StyledButton> */
 }

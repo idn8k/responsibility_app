@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import MenuButton from './MenuButton';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
 import { FaRegEdit } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
 
@@ -45,21 +44,20 @@ const StyledLink = styled(Link)`
   padding-left: 7px;
 `;
 
-function ChildOperation() {
+function ChildOperation({ openDeleteModalFunction }) {
   const dialogRef = useRef(null);
   const router = useRouter();
   const { id } = router.query;
-  console.log(' ChildOperation ~ childId:', id);
-
-  const [isOpen, setOpen] = useState(false);
+  const [childOpsOpen, setChildOpsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (childOpsOpen) {
       dialogRef.current?.showModal();
     } else {
       dialogRef.current?.close();
     }
-  }, [isOpen]);
+  }, [childOpsOpen]);
 
   function handleClose() {
     if (!dialogRef.current) {
@@ -67,11 +65,19 @@ function ChildOperation() {
     }
 
     dialogRef.current.close();
-    setOpen(false);
+    setChildOpsOpen(false);
+    setMenuOpen(false);
   }
+
+  function toggleChildOps(event) {
+    event.stopPropagation();
+    setMenuOpen((menuOpen) => !menuOpen);
+    setChildOpsOpen((childOpsOpen) => !childOpsOpen);
+  }
+
   return (
     <RelativeContainer>
-      <MenuButton modalOpen={setOpen} />
+      <MenuButton menuOpen={menuOpen} toggleChildOps={toggleChildOps} />
       <StyledDialog onClick={handleClose} ref={dialogRef}>
         <StyledLink href={`/child/${id}/editChild`}>
           <FaRegEdit size="1.8rem" color="ff3566" />
@@ -80,7 +86,7 @@ function ChildOperation() {
           onClick={(event) => {
             event.stopPropagation();
             event.preventDefault();
-            openModal(child._id);
+            openDeleteModalFunction(child._id);
           }}
         >
           <AiOutlineDelete size="2rem" color="ff3566" />
@@ -91,19 +97,3 @@ function ChildOperation() {
 }
 
 export default ChildOperation;
-
-{
-  /* <Link href={`/child/${id}/editChild`}>
-          <FaRegEdit size="2rem" color="ff3566" />
-        </Link>
-        <StyledButton
-          onClick={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal(child._id);
-          }}
-        >
-          <AiOutlineDelete size="2rem" color="ff3566" />
-
-        </StyledButton> */
-}
