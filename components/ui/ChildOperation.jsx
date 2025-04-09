@@ -22,6 +22,11 @@ const StyledDialog = styled.dialog`
 
   border: none;
   border-radius: 20px 0 20px 20px;
+
+  /* &::backdrop {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(0.7px);
+  } */
 `;
 
 const StyledButton = styled.button`
@@ -86,7 +91,7 @@ function ChildOperation({ openDeleteModalFunction }) {
           onClick={(event) => {
             event.stopPropagation();
             event.preventDefault();
-            openDeleteModalFunction(child._id);
+            openDeleteModalFunction(id);
           }}
         >
           <AiOutlineDelete size="2rem" color="ff3566" />

@@ -60,7 +60,6 @@ const StyledName = styled.span`
   transform: translate(-50%, -50%);
   font-size: 42px;
   color: var(--primary-color);
-  background-color:;
 `;
 
 const StyledUl = styled.ul`
@@ -145,7 +144,7 @@ export default function Child({ handleCompleteTask }) {
       <ModalDelete
         onDelete={handleDelete}
         closeModal={closeModal}
-        childId={childId}
+        child={child}
         isOpen={isDeleteModalOpen}
       />
     </>
