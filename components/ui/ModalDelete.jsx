@@ -37,8 +37,10 @@ const StyledBtnContainer = styled.div`
   justify-content: space-between;
 `;
 
-export default function ModalDelete({ isOpen, closeModal, onDelete, childId }) {
+export default function ModalDelete({ isOpen, closeModal, onDelete, child }) {
   const dialogRef = useRef(null);
+  const { _id: childId } = child;
+  const childName = child.name.charAt(0).toUpperCase() + child.name.slice(1);
 
   useEffect(() => {
     if (isOpen) {
@@ -64,7 +66,7 @@ export default function ModalDelete({ isOpen, closeModal, onDelete, childId }) {
   return (
     <StyledDialog ref={dialogRef} onClick={handleClose}>
       <div>
-        <h2>Delete child?</h2>
+        <h2>Delete {childName}?</h2>
         <StyledBtnContainer>
           <Button onClick={closeModal}>cancel</Button>
           <Button type="fill" onClick={handleDelete}>
