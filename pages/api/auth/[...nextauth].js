@@ -8,13 +8,13 @@ import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import { compare } from 'bcrypt'; // For password comparison!
 import clientPromise from '@/lib/mongodb';
 
-console.log('*********************************************************');
-console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID);
-console.log('Google Client Secret:', process.env.GOOGLE_CLIENT_SECRET);
-console.log('*********************************************************');
-console.log('process.env.NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET);
-console.log('process.env.MONGODB_URI:', process.env.MONGODB_URI);
-console.log('*********************************************************');
+// console.log('*********************************************************');
+// console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID);
+// console.log('Google Client Secret:', process.env.GOOGLE_CLIENT_SECRET);
+// console.log('*********************************************************');
+// console.log('process.env.NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET);
+// console.log('process.env.MONGODB_URI:', process.env.MONGODB_URI);
+// console.log('*********************************************************');
 
 export const authOptions = {
   providers: [
@@ -27,26 +27,20 @@ export const authOptions = {
       name: 'Credentials',
       async authorize(credentials) {
         try {
-          console.log('Credentials Provider - Authorize started');
           const client = await clientPromise;
           const db = client.db();
-          console.log('Credentials Provider - DB connected');
 
           const email = credentials.email.toLowerCase();
-          console.log('Credentials Provider - Email:', email);
           const user = await db.collection('users').findOne({ email });
 
           if (!user) {
-            console.log('Credentials Provider - No user found');
             throw new Error('No user found with this email');
           }
 
           const isValid = await compare(credentials.password, user.password);
           if (!isValid) {
-            console.log('Credentials Provider - Incorrect password');
             throw new Error('Incorrect password');
           }
-          console.log('Credentials Provider - password correct');
           return {
             id: user._id.toString(),
             email: user.email,
@@ -68,7 +62,6 @@ export const authOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
-        console.log('SignIn callback started:', user, account, profile);
         if (account?.provider === 'google') {
           user.email = user.email.toLowerCase();
 
@@ -106,7 +99,6 @@ export const authOptions = {
             // to create a new user and account as usual.
           }
         }
-        console.log('SignIn callback completed', user);
         return true;
       } catch (error) {
         console.error('SignIn callback error:', error);

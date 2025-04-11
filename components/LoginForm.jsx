@@ -24,40 +24,28 @@ export default function LoginForm() {
     }
   }
   return (
-    <>
-      <h2>Login Form</h2>
-      {/* TODO: add google icon */}
-      <button
-        onClick={() =>
-          signIn('google', { callbackUrl: '/', prompt: 'select_account', redirect: true })
-        }
-      >
-        Sign In with Google
-      </button>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Your Email</label>
-          <input
-            type="email"
-            id="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            value={userPassword}
-            onChange={(e) => setUserPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="email">Your Email</label>
+        <input
+          type="email"
+          id="email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="email">Your Password</label>
+        <input
+          type="password"
+          id="password"
+          value={userPassword}
+          onChange={(e) => setUserPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+    </form>
   );
 }
