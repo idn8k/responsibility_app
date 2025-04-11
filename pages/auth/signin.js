@@ -3,6 +3,8 @@ import LoginForm from '@/components/LoginForm';
 import { useState } from 'react';
 import styled from 'styled-components';
 
+import { FaGoogle } from 'react-icons/fa';
+
 const StyledHeading = styled.h2`
   color: var(--primary-color);
 `;
@@ -18,12 +20,18 @@ const StyledLoginContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
-  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 300px;
   padding: 10px 20px;
+  height: 50px;
   border: none;
   border-radius: 10px;
   color: #fff;
   background-color: var(--primary-color);
+  box-shadow: 2px 1px 5px -1px rgba(0, 0, 0, 0.2);
 `;
 
 const CredentialsContainer = styled.div`
@@ -59,7 +67,7 @@ export default function SignIn({ providers }) {
                 signIn(provider.id, { callbackUrl: '/', prompt: 'select_account', redirect: true })
               }
             >
-              Sign in with {provider.name}
+              Sign in with <FaGoogle size="1.2rem" />
             </StyledButton>
           );
         }
