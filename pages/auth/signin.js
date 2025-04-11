@@ -1,6 +1,35 @@
 import { getProviders, signIn } from 'next-auth/react';
 import LoginForm from '@/components/LoginForm';
 import { useState } from 'react';
+import styled from 'styled-components';
+
+const StyledHeading = styled.h2`
+  color: var(--primary-color);
+`;
+
+const StyledLoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  height: 100%;
+`;
+
+const StyledButton = styled.button`
+  width: 200px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  background-color: var(--primary-color);
+`;
+
+const CredentialsContainer = styled.div`
+  background-color: var(--primary-color);
+  border-radius: 10px;
+`;
 
 export default function SignIn({ providers }) {
   const [showCredentialsSignIn, setShowCredentialsSignIn] = useState(false);
@@ -10,30 +39,32 @@ export default function SignIn({ providers }) {
   }
 
   return (
-    <div>
-      <h1>Sign In</h1>
+    <StyledLoginContainer>
+      <StyledHeading>Sign In</StyledHeading>
       {Object.values(providers).map((provider) => {
         if (provider.id === 'credentials') {
           return (
-            <button key={provider.name} onClick={handleCredentialsSignIn}>
-              Sign in with your Email
-            </button>
+            <CredentialsContainer>
+              <StyledButton key={provider.name} onClick={handleCredentialsSignIn}>
+                Sign in with your Email
+              </StyledButton>
+              {showCredentialsSignIn && <LoginForm />}
+            </CredentialsContainer>
           );
         } else {
           return (
-            <button
+            <StyledButton
               key={provider.name}
               onClick={() =>
                 signIn(provider.id, { callbackUrl: '/', prompt: 'select_account', redirect: true })
               }
             >
               Sign in with {provider.name}
-            </button>
+            </StyledButton>
           );
         }
       })}
-      {showCredentialsSignIn && <LoginForm />}
-    </div>
+    </StyledLoginContainer>
   );
 }
 
