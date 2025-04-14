@@ -24,7 +24,6 @@ export default function Header() {
     <StyledHeader>
       <button onClick={() => signOut()}>Logout</button>
       <Logo />
-      <Link href={'/registerPage'}>Register</Link>
     </StyledHeader>
   );
 }

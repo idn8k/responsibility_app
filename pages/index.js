@@ -48,7 +48,7 @@ export default function HomePage() {
     router.push('/addChildPage');
   }
 
-  if (!session) router.push('/loginPage');
+  if (!session) router.push('/auth/signin');
   return (
     <StyledUl>
       {childrenData?.map((child) => (

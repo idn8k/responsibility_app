@@ -1,11 +1,38 @@
-import Header from '@/components/Header';
+import useSWR, { SWRConfig } from 'swr';
+import { SessionProvider, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
 import GlobalStyle from '../styles';
 import { ThemeProvider } from 'styled-components';
-import useSWR, { SWRConfig } from 'swr';
+
+import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import MainContainer from '@/components/MainContainer';
+import Spinner from '@/components/ui/Spinner';
 
-import { SessionProvider } from 'next-auth/react';
+function Auth({ children }) {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const isAuth = status === 'authenticated';
+
+  const isSignInPage = router.pathname === '/auth/signin';
+  const isRegisterPage = router.pathname === '/registerPage';
+
+  useEffect(() => {
+    if (status === 'loading') return;
+
+    if (!isAuth && !isSignInPage && !isRegisterPage) {
+      router.push(`/auth/signin?callbackUrl=${router.asPath}`);
+    }
+  }, [isAuth, router, status]);
+
+  if (isAuth || isSignInPage || isRegisterPage) {
+    return children;
+  }
+
+  return null;
+}
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
@@ -53,9 +80,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
           <GlobalStyle />
           <SessionProvider session={session}>
             <Header />
-            <MainContainer>
-              <Component handleCompleteTask={handleCompleteTask} {...pageProps} />
-            </MainContainer>
+            <Auth>
+              <MainContainer>
+                <Component handleCompleteTask={handleCompleteTask} {...pageProps} />
+              </MainContainer>
+            </Auth>
             <Navbar />
           </SessionProvider>
         </ThemeProvider>
