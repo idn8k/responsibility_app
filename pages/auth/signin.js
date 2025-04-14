@@ -52,10 +52,8 @@ export default function SignIn({ providers }) {
       {Object.values(providers).map((provider) => {
         if (provider.id === 'credentials') {
           return (
-            <CredentialsContainer>
-              <StyledButton key={provider.name} onClick={handleCredentialsSignIn}>
-                Sign in with your Email
-              </StyledButton>
+            <CredentialsContainer key={provider.name}>
+              <StyledButton onClick={handleCredentialsSignIn}>Sign in with your Email</StyledButton>
               {showCredentialsSignIn && <LoginForm />}
             </CredentialsContainer>
           );
