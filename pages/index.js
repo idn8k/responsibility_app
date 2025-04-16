@@ -17,6 +17,13 @@ const StyledUl = styled.ul`
   padding: 0 0 100px 0;
 `;
 
+const StyledLi = styled.li`
+  list-style-type: none;
+  width: 80%;
+  margin: 0;
+  padding: 0;
+`;
+
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
@@ -24,7 +31,7 @@ const StyledLink = styled(Link)`
 
   position: relative;
 
-  width: 80%;
+  width: 100%;
   min-height: 150px;
   padding: 10px;
   overflow: hidden;
@@ -52,9 +59,11 @@ export default function HomePage() {
   return (
     <StyledUl>
       {childrenData?.map((child) => (
-        <StyledLink href={`/child/${child._id}`} key={child._id}>
-          <ChildCard child={child} />
-        </StyledLink>
+        <StyledLi key={child._id}>
+          <StyledLink href={`/child/${child._id}`}>
+            <ChildCard child={child} />
+          </StyledLink>
+        </StyledLi>
       ))}
     </StyledUl>
   );

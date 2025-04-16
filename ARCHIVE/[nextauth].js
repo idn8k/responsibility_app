@@ -1,11 +1,19 @@
-// pages/api/auth/[...nextauth].js
+// console.log('Executing /api/auth/[...nextauth].js');
 
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import { compare } from 'bcrypt'; // For password comparison!
+import { compare } from 'bcrypt';
 import clientPromise from '@/lib/mongodb';
+
+// console.log('*********************************************************');
+// console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID);
+// console.log('Google Client Secret:', process.env.GOOGLE_CLIENT_SECRET);
+// console.log('*********************************************************');
+// console.log('process.env.NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET);
+// console.log('process.env.MONGODB_URI:', process.env.MONGODB_URI);
+// console.log('*********************************************************');
 
 export const authOptions = {
   providers: [
@@ -32,7 +40,6 @@ export const authOptions = {
           if (!isValid) {
             throw new Error('Incorrect password');
           }
-
           return {
             id: user._id.toString(),
             email: user.email,
@@ -65,40 +72,31 @@ export const authOptions = {
             providerAccountId: account.providerAccountId,
           });
 
-          let userId;
+          if (!existingAccount) {
+            const existingUser = await db.collection('users').findOne({ email: user.email });
 
-          if (existingAccount) {
-            userId = existingAccount.userId;
-          } else {
-            let existingUser = await db.collection('users').findOne({ email: user.email });
-
-            if (!existingUser) {
-              // Create a new user if one doesn't exist for the Google account
-              const newUser = {
-                email: user.email,
-              };
-              const insertResult = await db.collection('users').insertOne(newUser);
-              existingUser = { _id: insertResult.insertedId, ...newUser };
+            if (existingUser) {
+              await db.collection('accounts').insertOne({
+                userId: existingUser._id,
+                type: account.type,
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                access_token: account.access_token,
+                expires_at: account.expires_at,
+                token_type: account.token_type,
+                scope: account.scope,
+                id_token: account.id_token,
+              });
+              existingAccount = { userId: existingUser._id };
             }
-
-            userId = existingUser._id;
-
-            await db.collection('accounts').insertOne({
-              userId: existingUser._id,
-              type: account.type,
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
-              access_token: account.access_token,
-              expires_at: account.expires_at,
-              token_type: account.token_type,
-              scope: account.scope,
-              id_token: account.id_token,
-            });
           }
 
-          user.id = userId.toString();
-
-          return true;
+          if (existingAccount) {
+            user.id = existingAccount.userId.toString();
+          } else {
+            // If no existing account or user was found, allow NextAuth.js
+            // to create a new user and account as usual.
+          }
         }
         return true;
       } catch (error) {
@@ -107,24 +105,19 @@ export const authOptions = {
       }
     },
 
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, account, profile }) {
       try {
-        // Persist the userId to the token when a user signs in.
-        if (user) {
-          token.id = user.id;
+        if (profile?.email) {
+          token.email = profile.email.toLowerCase();
         }
-
         return token;
       } catch (error) {
         console.error('JWT callback error:', error);
         return token;
       }
     },
-
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       try {
-        // Send properties to the client, like an ID.
-        session.user.id = token.id;
         if (session?.user?.email) {
           session.user.email = session.user.email.toLowerCase();
         }
