@@ -1,19 +1,9 @@
-// console.log('Executing /api/auth/[...nextauth].js');
-
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import { compare } from 'bcrypt';
 import clientPromise from '@/lib/mongodb';
-
-// console.log('*********************************************************');
-// console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID);
-// console.log('Google Client Secret:', process.env.GOOGLE_CLIENT_SECRET);
-// console.log('*********************************************************');
-// console.log('process.env.NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET);
-// console.log('process.env.MONGODB_URI:', process.env.MONGODB_URI);
-// console.log('*********************************************************');
 
 export const authOptions = {
   providers: [
