@@ -1,14 +1,24 @@
 import dbConnect from '@/db/connect';
 import Task from '@/db/models/Task';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
 
 //!! API !!//
 
 export default async function handler(request, response) {
   await dbConnect();
 
+  const session = await getServerSession(request, response, authOptions);
+  console.log('********************');
+  console.log('SESSION:', session);
+  console.log('********************');
+
   if (request.method === 'GET') {
     try {
-      const tasks = await Task.find().populate('assignee');
+      const childId = session.user.id;
+      console.log(' handler ~ childId:', childId);
+      const tasks = await Task.find({ 'assignee.user': childId }).populate('assignee');
+      console.log(' handler ~ tasks:', tasks);
 
       response.status(200).json(tasks);
       return;
