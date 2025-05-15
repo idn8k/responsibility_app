@@ -1,5 +1,6 @@
 import dbConnect from '@/db/connect';
 import Task from '@/db/models/Task';
+import Child from '@/db/models/Child';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 
@@ -9,20 +10,27 @@ export default async function handler(request, response) {
   await dbConnect();
 
   const session = await getServerSession(request, response, authOptions);
-  console.log('********************');
-  console.log('SESSION:', session);
-  console.log('********************');
 
   if (request.method === 'GET') {
+    const userId = session.user.id;
+
     try {
-      const childId = session.user.id;
-      console.log(' handler ~ childId:', childId);
-      const tasks = await Task.find({ 'assignee.user': childId }).populate('assignee');
+      const childrenOfUser = await Child.find({ user: userId }).select('_id');
+      const childIds = childrenOfUser.map((child) => child._id);
+
+      if (childIds.length === 0) {
+        response.status(200).json([]);
+        return;
+      }
+
+      const tasks = await Task.find({ assignee: { $in: childIds } }).populate('assignee');
+
       console.log(' handler ~ tasks:', tasks);
 
       response.status(200).json(tasks);
       return;
     } catch (error) {
+      console.error('Error fetching tasks:', error);
       response.status(400).json({ error: error.message });
     }
   }

@@ -80,10 +80,10 @@ export default function Child({ handleCompleteTask }) {
   const { id } = router.query;
 
   const [childId, setChildId] = useState(null);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const { data: tasks, isLoading: isLoadingTasks } = useSWR('/api/tasks_items');
   const { data: child, isLoading: isLoadingChild } = useSWR(`/api/child_items/${id}`);
-
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   function openDeleteModalFunction(id) {
     setChildId(id);
