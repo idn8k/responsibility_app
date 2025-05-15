@@ -1,11 +1,25 @@
 import dbConnect from '@/db/connect';
 import Child from '@/db/models/Child';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
 
 export default async function handler(request, response) {
   await dbConnect();
 
+  const session = await getServerSession(request, response, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      },
+    };
+  }
+
   if (request.method === 'GET') {
-    const children = await Child.find();
+    const userId = session.user.id;
+    const children = await Child.find({ user: userId });
 
     response.status(200).json(children);
 
@@ -15,7 +29,9 @@ export default async function handler(request, response) {
   if (request.method === 'POST') {
     try {
       const childData = request.body;
-      await Child.create(childData);
+      const childDataWithUserId = { ...childData, user: session.user.id };
+
+      await Child.create(childDataWithUserId);
 
       response.status(200).json({ status: 'New child created!' });
 
