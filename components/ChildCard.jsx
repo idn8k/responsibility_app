@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import Image from 'next/image';
+import Badge from './ui/Badge';
 
 const ImageWrapper = styled.div`
   width: ${(props) => props.width || 'auto'};
@@ -30,7 +30,7 @@ export default function ChildCard({ child }) {
       <ImageWrapper>
         <Image width="120" height="120" src={imgUrl} alt="Child image" priority />
       </ImageWrapper>
-
+      <Badge />
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
     </>
   );

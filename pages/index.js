@@ -45,17 +45,24 @@ const StyledLink = styled(Link)`
 export default function HomePage() {
   const { data: session } = useSession();
   const router = useRouter();
+  if (!session) router.push('/auth/signin');
+
   const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/child_items', {
     fallbackData: [],
   });
 
-  if (isLoadingChildren) return <Spinner />;
+  const { data: TasksData, isLoading: isLoadingTasks } = useSWR('/api/tasks_items', {
+    fallbackData: [],
+  });
+
+  if (isLoadingChildren || isLoadingTasks) return <Spinner />;
 
   if (childrenData.length === 0) {
     router.push('/addChildPage');
   }
 
-  if (!session) router.push('/auth/signin');
+  console.log(TasksData);
+
   return (
     <StyledUl>
       {childrenData?.map((child) => (

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Logo from './ui/Logo';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Badge from './ui/Badge';
 
 const StyledHeader = styled.header`
   background: var(--primary-color);
