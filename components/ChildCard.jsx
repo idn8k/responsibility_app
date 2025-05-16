@@ -22,15 +22,16 @@ const StyledName = styled.span`
   width: 50%;
 `;
 
-export default function ChildCard({ child }) {
+export default function ChildCard({ child, tasks }) {
   const { name, imgUrl } = child;
+  const incompleteTasks = tasks.some((tasks) => tasks.isCompleted === false);
 
   return (
     <>
       <ImageWrapper>
         <Image width="120" height="120" src={imgUrl} alt="Child image" priority />
       </ImageWrapper>
-      <Badge />
+      <Badge incompleteTasks={incompleteTasks} />
       <StyledName>{name.charAt(0).toUpperCase() + name.slice(1)}</StyledName>
     </>
   );

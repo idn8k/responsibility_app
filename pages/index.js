@@ -51,7 +51,7 @@ export default function HomePage() {
     fallbackData: [],
   });
 
-  const { data: TasksData, isLoading: isLoadingTasks } = useSWR('/api/tasks_items', {
+  const { data: tasksData, isLoading: isLoadingTasks } = useSWR('/api/tasks_items', {
     fallbackData: [],
   });
 
@@ -61,14 +61,15 @@ export default function HomePage() {
     router.push('/addChildPage');
   }
 
-  console.log(TasksData);
-
   return (
     <StyledUl>
       {childrenData?.map((child) => (
         <StyledLi key={child._id}>
           <StyledLink href={`/child/${child._id}`}>
-            <ChildCard child={child} />
+            <ChildCard
+              child={child}
+              tasks={tasksData.filter((task) => task.assignee._id === child._id)}
+            />
           </StyledLink>
         </StyledLi>
       ))}

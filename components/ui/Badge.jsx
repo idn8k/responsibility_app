@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
@@ -13,12 +12,6 @@ const StyledDiv = styled.div`
   left: 0;
 `;
 
-export default function Badge() {
-
-  const [isActive, setIsActive] = useState(false);
-
-  function showBadge() {
-    setIsActive((isActive) => !isActive);
-  }
-  return <>{isActive && <StyledDiv />}</>;
+export default function Badge({ incompleteTasks }) {
+  return <>{incompleteTasks && <StyledDiv />}</>;
 }
