@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import Button from './ui/Button';
 import styled from 'styled-components';
 import Link from 'next/link';
+
+import Button from './ui/Button';
 
 const StyledHeading = styled.h2`
   color: var(--primary-color);

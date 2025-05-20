@@ -11,12 +11,13 @@ export default function ImageUploadForm() {
 
   const handleUpload = async (event) => {
     event.preventDefault();
-
+    //FIX: to resolve selectedFile not converting to json
+    console.log(typeof selectedFile.file);
+    console.log(JSON.stringify(selectedFile));
     if (!selectedFile) {
       setUploadStatus('Please select a file.');
       return;
     }
-
     const formData = new FormData();
     formData.append('image', selectedFile);
 
@@ -47,19 +48,23 @@ export default function ImageUploadForm() {
   return (
     <div>
       <h2>Upload Image</h2>
-      <form onSubmit={handleUpload}></form>r
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button type="submit" disabled={!selectedFile}>
-        Upload
-      </button>
-      {uploadStatus && <p>{uploadStatus}</p>}
-      {uploadedImageUrl && (
-        <div>
-          <p>Upload image:</p>
-          <img src={uploadedImageUrl} alt="Uploaded image" style={{ maxWidth: '300px' }} />
-          <p>Image URL: {uploadedImageUrl}</p>
-        </div>
-      )}
+      <form
+        style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}
+        onSubmit={handleUpload}
+      >
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <button type="submit" disabled={!selectedFile}>
+          Upload
+        </button>
+        {uploadStatus && <p>{uploadStatus}</p>}
+        {uploadedImageUrl && (
+          <div>
+            <p>Upload image:</p>
+            <img src={uploadedImageUrl} alt="Uploaded image" style={{ maxWidth: '300px' }} />
+            <p>Image URL: {uploadedImageUrl}</p>
+          </div>
+        )}
+      </form>
     </div>
   );
 }
