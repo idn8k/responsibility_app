@@ -1,4 +1,4 @@
-import IncomingForm from 'formidable/Formidable';
+import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import cloudinary from '@/lib/cloudinary';
 import dbConnect from '@/db/connect';
@@ -13,9 +13,6 @@ export const config = {
 
 export default async function handler(req, res) {
   await dbConnect();
-  console.log('****************');
-  console.log('Req:', req);
-  console.log('****************');
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -29,7 +26,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Error parsing form data.' });
     }
 
-    const imageFile = files.image; // ('image' matches append key in FormData)
+    const imageFile = files.image && files.image[0]; // ('image' matches append key in FormData)
 
     if (!imageFile) {
       return res.status(400).json({ error: 'No image file uploaded.' });
@@ -38,7 +35,7 @@ export default async function handler(req, res) {
     //- Uploading image to Cloudinary
     try {
       const result = await cloudinary.uploader.upload(imageFile.filepath, {
-        folder: 'folder', //TODO: upload folder
+        folder: 'children-profile-images',
       });
 
       const imageUrl = result.secure_url; // Get the secure URL from Cloudinary
@@ -53,7 +50,7 @@ export default async function handler(req, res) {
 
         await newImage.save();
 
-        res.status(200).json({
+        return res.status(200).json({
           message: 'Image uploaded successfully',
           imageUrl: imageUrl,
           mongoId: newImage._id,
@@ -62,7 +59,9 @@ export default async function handler(req, res) {
         console.error('MongoDB save error:', mongoError);
 
         // Deleting image from Cloudinary if MongoDB save fails:
-        await cloudinary.uploader.destroy(result.public_id);
+        if (result && result.public_id) {
+          await cloudinary.uploader.destroy(result.public_id);
+        }
 
         return res.status(500).json({ error: 'Failed saving image to database.' });
       }
@@ -71,9 +70,13 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to upload image to Cloudinary.' });
     } finally {
       // Cleaning up temporary file created by formidable:
-      fs.unlink(imageFile.filepath, (err) => {
-        if (err) console.error('Error removing temp file:', err);
-      });
+      if (imageFile && typeof imageFile.filepath === 'string') {
+        fs.unlink(imageFile.filepath, (err) => {
+          if (err) console.error('Error removing temp file:', err);
+        });
+      } else {
+        console.warn('Temporary file path not available for cleanup.');
+      }
     }
   });
 }

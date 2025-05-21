@@ -11,9 +11,7 @@ export default function ImageUploadForm() {
 
   const handleUpload = async (event) => {
     event.preventDefault();
-    //FIX: to resolve selectedFile not converting to json
-    console.log(typeof selectedFile.file);
-    console.log(JSON.stringify(selectedFile));
+
     if (!selectedFile) {
       setUploadStatus('Please select a file.');
       return;
@@ -57,13 +55,6 @@ export default function ImageUploadForm() {
           Upload
         </button>
         {uploadStatus && <p>{uploadStatus}</p>}
-        {uploadedImageUrl && (
-          <div>
-            <p>Upload image:</p>
-            <img src={uploadedImageUrl} alt="Uploaded image" style={{ maxWidth: '300px' }} />
-            <p>Image URL: {uploadedImageUrl}</p>
-          </div>
-        )}
       </form>
     </div>
   );
