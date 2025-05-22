@@ -9,7 +9,7 @@ export default function ImageUploadForm() {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpload = async (event) => {
+  const handleImageUpload = async (event) => {
     event.preventDefault();
 
     if (!selectedFile) {
@@ -48,7 +48,7 @@ export default function ImageUploadForm() {
       <h2>Upload Image</h2>
       <form
         style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}
-        onSubmit={handleUpload}
+        onSubmit={handleImageUpload}
       >
         <input type="file" accept="image/*" onChange={handleFileChange} />
         <button type="submit" disabled={!selectedFile}>

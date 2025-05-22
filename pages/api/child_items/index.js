@@ -34,7 +34,6 @@ export default async function handler(request, response) {
       await Child.create(childDataWithUserId);
 
       response.status(200).json({ status: 'New child created!' });
-
       return;
     } catch (error) {
       response.status(400).json({ error: error.message });

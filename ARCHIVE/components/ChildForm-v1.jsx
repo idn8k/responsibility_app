@@ -124,96 +124,84 @@ export default function ChildForm({ child, isEdit, onEdit }) {
   const [inputData, setInputData] = useState({
     name: child?.name || '',
     birth_date: child?.birth_date ? new Date(child.birth_date).toISOString().split('T')[0] : '',
+    imgUrl: child?.imgUrl || '',
   });
 
-  const [selectedFile, setSelectedFile] = useState(null);
   const [isFormComplete, setFormComplete] = useState(false);
   const [error, setError] = useState('');
-  const [uploadStatus, setUploadStatus] = useState('');
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [debouncedUrl, setDebouncedUrl] = useState(''); // Holds the URL after user stops typing
 
   useEffect(() => {
     if (
       isEdit ||
-      (inputData.name.length !== 0 && inputData.birth_date.length !== 0 && selectedFile)
+      (inputData.name.length !== 0 &&
+        inputData.birth_date.length !== 0 &&
+        inputData.imgUrl.length !== 0)
     ) {
       setFormComplete(true);
     } else {
       setFormComplete(false);
     }
-  }, [inputData, selectedFile, isEdit]);
+  }, [inputData, isEdit]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (inputData.imgUrl) {
+        setDebouncedUrl(inputData.imgUrl);
+      }
+    }, 500); // Adjust delay as needed
+
+    return () => clearTimeout(handler); // Cleanup on new keystroke
+  }, [inputData.imgUrl]);
+
+  // When debouncedUrl changes, validate it
+  useEffect(() => {
+    if (!debouncedUrl) return;
+
+    async function validate() {
+      const isValid = await validateImageUrl(debouncedUrl);
+      if (!isValid) {
+        setError('Invalid image URL. Please provide a valid image.');
+      } else {
+        setError('');
+      }
+    }
+
+    validate();
+  }, [debouncedUrl]);
+
+  function validateImageUrl(url) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    });
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    setIsSubmitting(true);
-    setError('');
-    setUploadStatus('');
+    const formData = new FormData(e.target);
+    const childData = Object.fromEntries(formData);
 
-    if (!inputData.name || !inputData.birth_date) {
-      setError('Please fill in all required information.');
-      setIsSubmitting(false);
-      return;
-    }
+    await fetch('/api/child_items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(childData),
+    });
 
-    let imgUrl = child?.imgUrl || '';
-
-    if ((!isEdit && selectedFile) || (isEdit && selectedFile)) {
-      if (!selectedFile) {
-        setError('Please select an image file.');
-        setIsSubmitting(false);
-        return;
-      }
-    }
-
-    const ImgFormData = new FormData(e.target);
-    ImgFormData.append('image', selectedFile);
-
-    // const childData = Object.fromEntries(formData);
-
-    try {
-      setUploadStatus('Uploading image...');
-      const imageUploadResponse = await fetch('/api/upload-image', {
-        method: 'POST',
-        body: ImgFormData,
-      });
-
-      const imageData = await imageUploadResponse.json();
-
-      if (!imageUploadResponse.ok) {
-        const uploadErrorMsg = imageData.error || 'Unknown image upload error.';
-        console.error('Image upload failed:', uploadErrorMsg);
-        setUploadStatus(`Image upload failed: ${uploadErrorMsg}`);
-        setError('Image upload failed. Please try again.');
-        setIsSubmitting(false);
-        return;
-      }
-
-      imgUrl = imageData.imgUrl; // to get the image url from Cloudinary
-      setUploadStatus('Image uploaded successfully!');
-      setSelectedFile(null);
-    } catch (uploadError) {
-      console.error('Error during image upload fetch:', uploadError);
-      setUploadStatus('An error occurred during image upload.');
-      setError('An error occurred during image upload.');
-      setIsSubmitting(false);
-      return;
-    }
-  }
-  //FIX:  continue from here ↓
-  const childDataToSubmit = {
-    name: inputData.name,
-    birth_date: inputData.birth_date,
-    imgUrl: imgUrl,
-  };
-  //FIX ↑ ↑ ↑ ↑
-
-  function handleFileChange(event) {
-    setSelectedFile(event.target.files[0]);
+    router.push('/');
   }
 
-  const shortUrl = isEdit && child.imgUrl.slice(0, 30) + '...';
+  async function handleChange(e) {
+    const key = e.target.name;
+    const value = e.target.value;
+
+    setInputData((inputData) => ({ ...inputData, [key]: value }));
+  }
+
+  const shortendUrl = isEdit && child.imgUrl.slice(0, 30) + '...';
 
   return (
     <>
@@ -243,19 +231,16 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           />
         </StyledInputContainer>
         <StyledInputContainer>
-          <StyledLabel htmlFor="imgUrl">Image*</StyledLabel>
-
-          {/* <StyledInput
+          <StyledLabel htmlFor="imgUrl">Image URL*</StyledLabel>
+          <StyledInput
             required={!isEdit && 'required'}
             name="imgUrl"
             type="text"
             id="imgUrl"
             onChange={handleChange}
             value={inputData.imgUrl}
-            placeholder={isEdit ? shortUrl : '...'}
-          /> */}
-          <StyledInput type="file" accept="image/*" onChange={handleFileChange} />
-          {/* FIX error message ↓ */}
+            placeholder={isEdit ? shortendUrl : '...'}
+          />
           <p>{error && 'Not valid url'}</p>
         </StyledInputContainer>
         <StyledBtnContainer>
