@@ -25,8 +25,6 @@ export default async function handler(request, response) {
 
       const tasks = await Task.find({ assignee: { $in: childIds } }).populate('assignee');
 
-      console.log(' handler ~ tasks:', tasks);
-
       response.status(200).json(tasks);
       return;
     } catch (error) {
