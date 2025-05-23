@@ -156,7 +156,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       setIsSubmitting(false);
       return;
     }
-
     let imgUrl = child?.imgUrl || '';
 
     if ((!isEdit && selectedFile) || (isEdit && selectedFile)) {
@@ -169,8 +168,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
 
     const ImgFormData = new FormData(e.target);
     ImgFormData.append('image', selectedFile);
-
-    // const childData = Object.fromEntries(formData);
 
     try {
       setUploadStatus('Uploading image...');
@@ -190,7 +187,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
         return;
       }
 
-      imgUrl = imageData.imgUrl; // to get the image url from Cloudinary
+      imgUrl = imageData.imageUrl; // to get the image url from Cloudinary
       setUploadStatus('Image uploaded successfully!');
       setSelectedFile(null);
     } catch (uploadError) {
@@ -200,30 +197,63 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       setIsSubmitting(false);
       return;
     }
-  }
-  //FIX:  continue from here ↓
-  const childDataToSubmit = {
-    name: inputData.name,
-    birth_date: inputData.birth_date,
-    imgUrl: imgUrl,
-  };
-  //FIX ↑ ↑ ↑ ↑
+    const childDataToSubmit = {
+      name: inputData.name,
+      birth_date: inputData.birth_date,
+      imgUrl: imgUrl,
+    };
 
-  function handleFileChange(event) {
-    setSelectedFile(event.target.files[0]);
+    try {
+      const apiEndpoint = isEdit ? `/api/child_items/${child._id}` : '/api/child_items';
+      const method = isEdit ? 'PUT' : 'POST';
+      const response = await fetch(apiEndpoint, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(childDataToSubmit),
+      });
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const apiErrorMsg = responseData.error || 'Unknown API error';
+        console.error('Child API data failed:', apiErrorMsg);
+        setError('Failed to save child data:', apiErrorMsg);
+      } else {
+        //success!
+        console.log('Child data saved successfully!:', responseData);
+        router.push('/');
+      }
+    } catch (apiError) {
+      console.error('Error during child data fetch:', apiError);
+      setError('An error occurred while saving child data.');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
-  const shortUrl = isEdit && child.imgUrl.slice(0, 30) + '...';
+  function handleChange(e) {
+    const key = e.target.name;
+    const value = e.target.value;
+    setInputData((prevInputData) => ({ ...prevInputData, [key]: value }));
+  }
+
+  function handleFileChange(e) {
+    setSelectedFile(e.target.files[0]);
+    setUploadStatus('');
+  }
+
+  const shortUrl = isEdit && child.imgUrl.slice(0, 20) + '...';
 
   return (
     <>
-      <StyledForm onSubmit={!isEdit ? handleSubmit : (event) => onEdit(event, child._id)}>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledHeading>{isEdit ? 'Edit Child' : 'Add Child'}</StyledHeading>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {uploadStatus && <p style={{ color: 'blue' }}>{uploadStatus}</p>}
         <StyledInputContainer>
           <StyledLabel htmlFor="name">Child Name*</StyledLabel>
           <StyledInput
             name="name"
-            required={!isEdit && 'required'}
+            required={!isEdit}
             type="text"
             id="name"
             onChange={handleChange}
@@ -235,7 +265,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           <StyledLabel htmlFor="birth_date">Date of Birth*</StyledLabel>
           <StyledDateInput
             name="birth_date"
-            required={!isEdit && 'required'}
+            required={!isEdit}
             type="date"
             id="birth_date"
             onChange={handleChange}
@@ -244,28 +274,30 @@ export default function ChildForm({ child, isEdit, onEdit }) {
         </StyledInputContainer>
         <StyledInputContainer>
           <StyledLabel htmlFor="imgUrl">Image*</StyledLabel>
-
-          {/* <StyledInput
-            required={!isEdit && 'required'}
-            name="imgUrl"
-            type="text"
-            id="imgUrl"
-            onChange={handleChange}
-            value={inputData.imgUrl}
-            placeholder={isEdit ? shortUrl : '...'}
-          /> */}
           <StyledInput type="file" accept="image/*" onChange={handleFileChange} />
-          {/* FIX error message ↓ */}
-          <p>{error && 'Not valid url'}</p>
+          {isEdit && child?.imgUrl && !selectedFile && (
+            <p>
+              Current image: <a href={child.imgUrl} target="_blank" rel="noopener noreferrer" />
+              {shortUrl}
+            </p>
+          )}
         </StyledInputContainer>
         <StyledBtnContainer>
           <StyledLinkBtn href="/">Cancel</StyledLinkBtn>
-          {isFormComplete && !error && <Button type="submit">Add</Button>}
+          {isFormComplete && !error && (
+            <Button isDisabled={isSubmitting || !isFormComplete} type="submit">
+              {isSubmitting
+                ? isEdit
+                  ? 'Saving...'
+                  : 'Adding...'
+                : isEdit
+                  ? 'Save Changes'
+                  : 'Add Child'}
+            </Button>
+          )}
           <StyledSpan>*Required</StyledSpan>
         </StyledBtnContainer>
       </StyledForm>
     </>
   );
 }
-
-// ofer
