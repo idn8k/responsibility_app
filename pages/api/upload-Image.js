@@ -2,7 +2,10 @@ import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import cloudinary from '@/lib/cloudinary';
 import dbConnect from '@/db/connect';
-import Image from '@/db/models/Image';
+// import Image from '@/db/models/Image';
+import Child from '@/db/models/Child';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
 
 // Disable Next.js body parser to use formidable
 export const config = {
@@ -13,6 +16,12 @@ export const config = {
 
 export default async function handler(req, res) {
   await dbConnect();
+
+  const session = await getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -26,44 +35,75 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Error parsing form data.' });
     }
 
-    const imageFile = files.image && files.image[0]; // ('image' matches append key in FormData)
+    const childId = fields.childId && fields.childId[0];
 
-    if (!imageFile) {
-      return res.status(400).json({ error: 'No image file uploaded.' });
+    if (!childId) {
+      console.error('Child ID is missing in the form data for image upload.');
+      return res.status(400).json({ error: 'Child ID is required for image upload.' });
     }
 
-    //- Uploading image to Cloudinary
+    const imageFile = files.image && files.image[0]; // ('image' matches append key in FormData)
+
+    if (!imageFile || typeof imageFile.filepath !== 'string') {
+      console.error('No valid image file found or filepath is missing.');
+      return res.status(400).json({ error: 'No valid image file uploaded.' });
+    }
+
+    let cloudinaryResult = null;
+
+    //- Uploading image to Cloudinary:
     try {
-      const result = await cloudinary.uploader.upload(imageFile.filepath, {
+      cloudinaryResult = await cloudinary.uploader.upload(imageFile.filepath, {
         folder: 'children-profile-images',
       });
 
-      const imageUrl = result.secure_url; // Get the secure URL from Cloudinary
+      const imgUrl = cloudinaryResult.secure_url; // Get the secure URL from Cloudinary
+      const publicId = cloudinaryResult.public_id;
+
+      //- Find and Update the Child document with the image URL and publicId:
 
       // Saving image URL and other metadata to Mongo using Mongoose
       try {
-        const newImage = new Image({
-          imageUrl: imageUrl,
-          publicId: result.public_id, // Store Cloudinary's public_id for future management
-          uploadedAt: new Date(),
-        });
+        const childToUpdate = await Child.findById(childId);
 
-        await newImage.save();
+        if (!childToUpdate) {
+          //Child not found -- delete the uploaded image from Cloudinary.
+          if (cloudinaryResult && cloudinaryResult.public_id) {
+            await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+          }
+          return res.status(404).json({ error: 'Child not found for image update.' });
+        }
+
+        //- Verify the child belongs to the logged-in user before updating:
+
+        if (childToUpdate.user.toString() !== session.user.id) {
+          if (cloudinaryResult && cloudinaryResult.public_id) {
+            await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+          }
+          return res.status(403).json({ error: 'Unauthorized to update this child.' });
+        }
+
+        //- Upload the Child doc with img data:
+
+        childToUpdate.imgUrl = imgUrl;
+        childToUpdate.publicId = publicId;
+        await childToUpdate.save();
+
+        //- Respond with the image URL and publicId after successful update:
 
         return res.status(200).json({
-          message: 'Image uploaded successfully',
-          imageUrl: imageUrl,
-          mongoId: newImage._id,
+          message: 'Image uploaded and child updated successfully',
+          imgUrl: imgUrl,
+          publicId: publicId,
         });
       } catch (mongoError) {
         console.error('MongoDB save error:', mongoError);
 
-        // Deleting image from Cloudinary if MongoDB save fails:
-        if (result && result.public_id) {
-          await cloudinary.uploader.destroy(result.public_id);
+        //- Deleting image from Cloudinary if MongoDB save fails:
+        if (cloudinaryResult && cloudinaryResult.public_id) {
+          await cloudinary.uploader.destroy(cloudinaryResult.public_id);
         }
-
-        return res.status(500).json({ error: 'Failed saving image to database.' });
+        return res.status(500).json({ error: 'Failed updating child with image data.' });
       }
     } catch (cloudinaryError) {
       console.error('Cloudinary upload error:', cloudinaryError);

@@ -18,6 +18,11 @@ const ImageSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
   },
+  child: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Child',
+    required: true,
+  },
 });
 
 // Prevent Mongoose from recreating the model in development:
