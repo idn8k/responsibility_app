@@ -6,6 +6,8 @@ import ChildCard from '@/components/ChildCard';
 import Spinner from '@/components/ui/Spinner';
 
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import Button from '@/components/ui/Button';
 
 const StyledUl = styled.ul`
   display: flex;
@@ -22,6 +24,15 @@ const StyledLi = styled.li`
   width: 80%;
   margin: 0;
   padding: 0;
+`;
+
+const StyledContainer = styled.div`
+  margin: 200px;
+  width: 50%;
+`;
+
+const StyledParagraph = styled.p`
+  color: var(--primary-color);
 `;
 
 const StyledLink = styled(Link)`
@@ -43,36 +54,70 @@ const StyledLink = styled(Link)`
 `;
 
 export default function HomePage() {
-  const { data: session } = useSession();
+  const { data: sessionData, status } = useSession();
   const router = useRouter();
-  if (!session) router.push('/auth/signin');
 
-  const { data: childrenData, isLoading: isLoadingChildren } = useSWR('/api/child_items', {
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
+
+  const {
+    data: childrenData,
+    isLoading: isLoadingChildren,
+    error: childrenError,
+  } = useSWR('/api/child_items', {
     fallbackData: [],
   });
 
-  const { data: tasksData, isLoading: isLoadingTasks } = useSWR('/api/tasks_items', {
+  const {
+    data: tasksData,
+    isLoading: isLoadingTasks,
+    error: tasksError,
+  } = useSWR('/api/tasks_items', {
     fallbackData: [],
   });
 
-  if (isLoadingChildren || isLoadingTasks) return <Spinner />;
+  useEffect(() => {
+    if (status !== 'unauthenticated') return;
 
-  if (childrenData.length === 0) {
-    router.push('/addChildPage');
+    if (!isLoadingChildren && childrenData && childrenData.length === 0) {
+      router.push('addChildPage');
+    }
+  }, [childrenData, isLoadingChildren, status, router]);
+
+  if (status === 'loading' || isLoadingChildren || isLoadingTasks) {
+    return <Spinner />;
   }
 
+  if (childrenError || tasksError) {
+    return <div>Error loading data. Please try again later.</div>;
+  }
+
+  const childrenToRender = childrenData || [];
+  const tasksToRender = tasksData || [];
+
   return (
-    <StyledUl>
-      {childrenData?.map((child) => (
-        <StyledLi key={child._id}>
-          <StyledLink href={`/child/${child._id}`}>
-            <ChildCard
-              child={child}
-              tasks={tasksData.filter((task) => task.assignee._id === child._id)}
-            />
-          </StyledLink>
-        </StyledLi>
-      ))}
-    </StyledUl>
+    <>
+      {!childrenToRender.length && (
+        <StyledContainer>
+          <Button onClick={() => router.push('/addChildPage')}>Add your first child</Button>
+        </StyledContainer>
+      )}
+      <StyledUl>
+        {childrenToRender?.map((child) => (
+          <StyledLi key={child._id}>
+            <StyledLink href={`/child/${child._id}`}>
+              <ChildCard
+                child={child}
+                tasks={tasksToRender.filter((task) => task.assignee._id === child._id)}
+              />
+            </StyledLink>
+          </StyledLi>
+        ))}
+      </StyledUl>
+    </>
   );
 }

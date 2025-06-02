@@ -268,7 +268,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       }
 
       // --- Final Step: Redirect ---
-      //FIX: not redirecting after child creation
 
       console.log('Process complete, redirecting.');
       router.push('/');
