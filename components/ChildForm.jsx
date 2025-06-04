@@ -159,7 +159,7 @@ export default function ChildForm({ child, isEdit, onEdit }) {
     let childId = child?._id; // Use existing child ID for edits
 
     // --- Step 1: Create/Update Child Data (Initial Save) ---
-    // For POST (new child), we send basic data. For PUT (edit), we send updated basic data.
+
     const childCoreData = {
       name: inputData.name,
       birth_date: inputData.birth_date,
@@ -182,56 +182,48 @@ export default function ChildForm({ child, isEdit, onEdit }) {
         console.error('Initial child save failed:', apiErrorMsg);
         setError(`Failed to save child data: ${apiErrorMsg}`);
         setIsSubmitting(false);
-        return; // Stop if initial save fails
+        return;
       }
 
       // If adding a new child, get the newly created ID
       if (!isEdit) {
         if (childDataResponseBody.child && childDataResponseBody.child._id) {
           childId = childDataResponseBody.child._id;
-          console.log('New child created with ID:', childId);
         } else {
-          // Handle unexpected response structure if ID is missing
           console.error('Unexpected response after child creation: Missing child ID');
           setError('Failed to get child ID after creation.');
           setIsSubmitting(false);
-          return; // Stop if child ID is missing
+          return;
         }
       } else {
-        // If editing and a *new* file is selected, consider deleting the old image
-        // This would be a separate API call to delete the old image on Cloudinary
-        // You'll need an endpoint like /api/delete-image that handles publicId
         if (selectedFile && child?.publicId) {
           console.log('Deleting old image with publicId:', child.publicId);
           try {
-            const deleteResponse = await fetch('/api/delete-image', {
+            const deleteResponse = await fetch('/api/images/delete-image', {
               method: 'DELETE',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ publicId: child.publicId }),
             });
             if (!deleteResponse.ok) {
               console.error('Failed to delete old image:', await deleteResponse.text());
-              // Decide if this should stop the whole process or just log a warning
             } else {
               console.log('Old image deleted successfully.');
             }
           } catch (deleteError) {
             console.error('Error during old image deletion fetch:', deleteError);
-            // Decide how to handle fetch error for deletion
           }
         }
       }
 
       // --- Step 2: Upload Image (if a file is selected) ---
-      // This step only happens if a new file is chosen
       if (selectedFile) {
         const imageFormData = new FormData();
         imageFormData.append('image', selectedFile);
-        imageFormData.append('childId', childId); // IMPORTANT: Append the childId obtained from Step 1 or edit prop
+        imageFormData.append('childId', childId);
 
         try {
           setUploadStatus('Uploading image...');
-          const imageUploadResponse = await fetch('/api/upload-image', {
+          const imageUploadResponse = await fetch('/api/images/upload-image', {
             method: 'POST',
             body: imageFormData,
           });
@@ -242,29 +234,25 @@ export default function ChildForm({ child, isEdit, onEdit }) {
             const uploadErrorMsg = imageUploadResponseBody.error || 'Unknown image upload error';
             console.error('Image upload failed:', uploadErrorMsg);
             setUploadStatus(`Image upload failed: ${uploadErrorMsg}`);
-            // Error handling after child creation - you might want to inform the user
-            // or even delete the newly created child document if the image is mandatory.
+
             setError('Image upload failed. Please try again.');
-            // Don't redirect automatically if image upload fails, let user see the error.
+
             setIsSubmitting(false);
-            return; // Stop if image upload fails
+            return;
           }
 
-          // Image upload successful. The /api/upload-image route
-          // should have updated the child document with the new image details.
           console.log('Image uploaded and child document updated.');
           setUploadStatus('Image upload successful!');
-          setSelectedFile(null); // Clear selected file on success
+          setSelectedFile(null);
         } catch (uploadError) {
           console.error('Error during image upload fetch:', uploadError);
           setUploadStatus('An error occurred during image upload.');
           setError('An error occurred during image upload.');
           setIsSubmitting(false);
-          return; // Stop on fetch error
+          return;
         }
       } else {
-        // If no new file was selected, the process is complete after Step 1 (create/update child core data)
-        setUploadStatus('Child data saved.'); // Provide feedback if no image uploaded
+        setUploadStatus('Child data saved.');
       }
 
       // --- Final Step: Redirect ---
@@ -272,11 +260,10 @@ export default function ChildForm({ child, isEdit, onEdit }) {
       console.log('Process complete, redirecting.');
       router.push('/');
     } catch (error) {
-      // Catch any unexpected errors that weren't caught above
       console.error('An unexpected error occurred during form submission:', error);
       setError('An unexpected error occurred.');
     } finally {
-      setIsSubmitting(false); // Always unset submitting state
+      setIsSubmitting(false);
     }
   }
 

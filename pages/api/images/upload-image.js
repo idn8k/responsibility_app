@@ -2,10 +2,9 @@ import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import cloudinary from '@/lib/cloudinary';
 import dbConnect from '@/db/connect';
-// import Image from '@/db/models/Image';
 import Child from '@/db/models/Child';
 import { getServerSession } from 'next-auth';
-import { authOptions } from './auth/[...nextauth]';
+import { authOptions } from '../auth/[...nextauth]';
 
 // Disable Next.js body parser to use formidable
 export const config = {
@@ -29,20 +28,19 @@ export default async function handler(req, res) {
 
   const form = new IncomingForm();
 
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      console.error('Error parsing form:', err);
+  form.parse(req, async (error, fields, files) => {
+    if (error) {
+      console.error('Error parsing form:', error);
       return res.status(500).json({ error: 'Error parsing form data.' });
     }
 
     const childId = fields.childId && fields.childId[0];
+    const imageFile = files.image && files.image[0];
 
     if (!childId) {
       console.error('Child ID is missing in the form data for image upload.');
       return res.status(400).json({ error: 'Child ID is required for image upload.' });
     }
-
-    const imageFile = files.image && files.image[0]; // ('image' matches append key in FormData)
 
     if (!imageFile || typeof imageFile.filepath !== 'string') {
       console.error('No valid image file found or filepath is missing.');
@@ -57,17 +55,15 @@ export default async function handler(req, res) {
         folder: 'children-profile-images',
       });
 
-      const imgUrl = cloudinaryResult.secure_url; // Get the secure URL from Cloudinary
+      const imgUrl = cloudinaryResult.secure_url;
       const publicId = cloudinaryResult.public_id;
 
       //- Find and Update the Child document with the image URL and publicId:
 
-      // Saving image URL and other metadata to Mongo using Mongoose
       try {
         const childToUpdate = await Child.findById(childId);
 
         if (!childToUpdate) {
-          //Child not found -- delete the uploaded image from Cloudinary.
           if (cloudinaryResult && cloudinaryResult.public_id) {
             await cloudinary.uploader.destroy(cloudinaryResult.public_id);
           }
@@ -80,6 +76,9 @@ export default async function handler(req, res) {
           if (cloudinaryResult && cloudinaryResult.public_id) {
             await cloudinary.uploader.destroy(cloudinaryResult.public_id);
           }
+          console.error(
+            `Unauthorized attempt to update child ${childId} by user ${session.user.id}. Child owner: ${childToUpdate.user}`
+          );
           return res.status(403).json({ error: 'Unauthorized to update this child.' });
         }
 
