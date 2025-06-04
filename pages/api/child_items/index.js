@@ -37,7 +37,7 @@ export default async function handler(request, response) {
 
       return response.status(201).json({ status: 'New child created!', child: newChild });
     } catch (error) {
-      crossOriginIsolated.error('Error creating a new child:', error);
+      console.error('Error creating a new child:', error);
       response.status(400).json({ error: error.message });
     }
   }
