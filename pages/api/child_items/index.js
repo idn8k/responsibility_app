@@ -21,22 +21,23 @@ export default async function handler(request, response) {
     const userId = session.user.id;
     const children = await Child.find({ user: userId });
 
-    response.status(200).json(children);
-
-    return;
+    return response.status(200).json(children);
   }
 
   if (request.method === 'POST') {
     try {
-      const childData = request.body;
-      const childDataWithUserId = { ...childData, user: session.user.id };
+      const { name, birth_date } = request.body;
 
-      await Child.create(childDataWithUserId);
+      if (!name || !birth_date) {
+        response.status(400).json({ error: 'Name and birth date are required.' });
+      }
+      const childDataWithUserId = { name, birth_date, user: session.user.id };
 
-      response.status(200).json({ status: 'New child created!' });
+      const newChild = await Child.create(childDataWithUserId);
 
-      return;
+      return response.status(201).json({ status: 'New child created!', child: newChild });
     } catch (error) {
+      console.error('Error creating a new child:', error);
       response.status(400).json({ error: error.message });
     }
   }

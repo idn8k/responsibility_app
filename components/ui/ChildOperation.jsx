@@ -89,7 +89,7 @@ function ChildOperation({ openDeleteModalFunction }) {
     };
   }, [menuOpen]);
 
-  function toggleChildOps(event) {
+  function toggleChildOps() {
     setMenuOpen((menuOpen) => !menuOpen);
   }
 

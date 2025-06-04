@@ -5,7 +5,10 @@ const { Schema } = mongoose;
 const childSchema = new Schema({
   name: { type: String, required: true },
   birth_date: { type: String, required: true },
-  imgUrl: { type: String, required: true },
+  imgUrl: { type: String },
+  publicId: {
+    type: String,
+  },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
