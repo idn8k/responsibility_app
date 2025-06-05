@@ -8,15 +8,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Allow all domains
+        hostname: '**',
       },
     ],
-    dangerouslyAllowSVG: true, // Allows SVG images
-    // Add other custom settings for image handling if needed
+    dangerouslyAllowSVG: true,
   },
   reactStrictMode: true,
   webpack(config) {
-    // Add support for importing SVGs as React components
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
