@@ -1,6 +1,5 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import styled from 'styled-components';
 import ChildCard from '@/components/ChildCard';
 import Spinner from '@/components/ui/Spinner';
@@ -8,49 +7,19 @@ import Spinner from '@/components/ui/Spinner';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import Button from '@/components/ui/Button';
+import SecondaryHeader from '@/components/SecondaryHeading';
+import SectionContainer from '@/components/SectionContainer';
 
 const StyledUl = styled.ul`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  margin: 100px 0 100px 0;
-  width: 100%;
-  padding: 0 0 100px 0;
-`;
-
-const StyledLi = styled.li`
-  list-style-type: none;
-  width: 80%;
-  margin: 0;
-  padding: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 `;
 
 const StyledContainer = styled.div`
   margin: 200px;
   width: 50%;
-`;
-
-const StyledParagraph = styled.p`
-  color: var(--primary-color);
-`;
-
-const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  position: relative;
-
-  width: 100%;
-  min-height: 150px;
-  padding: 10px;
-  overflow: hidden;
-  text-decoration: none;
-
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
 export default function HomePage() {
@@ -106,18 +75,30 @@ export default function HomePage() {
           <Button onClick={() => router.push('/addChildPage')}>Add your first child</Button>
         </StyledContainer>
       )}
-      <StyledUl>
-        {childrenToRender?.map((child) => (
-          <StyledLi key={child._id}>
-            <StyledLink href={`/child/${child._id}`}>
-              <ChildCard
-                child={child}
-                tasks={tasksToRender.filter((task) => task.assignee._id === child._id)}
-              />
-            </StyledLink>
-          </StyledLi>
-        ))}
-      </StyledUl>
+      <SectionContainer>
+        <SecondaryHeader>Children</SecondaryHeader>
+        <StyledUl>
+          {childrenToRender?.map((child) => (
+            <ChildCard
+              key={child._id}
+              child={child}
+              tasks={tasksToRender.filter((task) => task.assignee._id === child._id)}
+            />
+          ))}
+        </StyledUl>
+      </SectionContainer>
+      <SectionContainer>
+        <SecondaryHeader>Children</SecondaryHeader>
+        <StyledUl>
+          {childrenToRender?.map((child) => (
+            <ChildCard
+              key={child._id}
+              child={child}
+              tasks={tasksToRender.filter((task) => task.assignee._id === child._id)}
+            />
+          ))}
+        </StyledUl>
+      </SectionContainer>
     </>
   );
 }

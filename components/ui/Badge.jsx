@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
 
   position: absolute;
   top: 5px;
-  left: 0;
+  right: 5px;
 `;
 
 export default function Badge({ incompleteTasks }) {

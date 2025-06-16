@@ -11,10 +11,10 @@ const StyledHeader = styled.header`
   justify-content: space-around;
   align-items: center;
 
-  position: relative;
+  position: fixed;
   top: 0;
   z-index: 1;
-  height: 100px;
+  height: 80px;
   width: 100%;
 `;
 
