@@ -14,7 +14,7 @@ const StyledUl = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: 20px;
 `;
 
 const StyledContainer = styled.div`

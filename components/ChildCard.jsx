@@ -22,6 +22,7 @@ const StyledLi = styled.li`
   height: 11rem;
   border-radius: 20px;
   overflow: hidden;
+
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 

@@ -5,7 +5,7 @@ const StyledDiv = styled.div`
   width: 30px;
   border-radius: 100%;
   background-color: #3bd6f9;
-  z-index: 999;
+  z-index: 1;
 
   position: absolute;
   top: 5px;

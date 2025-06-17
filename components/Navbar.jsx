@@ -18,6 +18,7 @@ const StyledNavbar = styled.nav`
   bottom: 0;
   height: 80px;
   width: 100vw;
+  z-index: 999;
 `;
 
 const StyledLink = styled(Link)`
