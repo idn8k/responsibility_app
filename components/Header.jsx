@@ -6,6 +6,7 @@ import { signOut } from 'next-auth/react';
 
 const StyledHeader = styled.header`
   background: white;
+
   box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-around;
@@ -13,7 +14,7 @@ const StyledHeader = styled.header`
 
   position: fixed;
   top: 0;
-  z-index: 99;
+  z-index: 990;
   height: 80px;
   width: 100%;
 `;

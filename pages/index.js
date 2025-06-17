@@ -88,7 +88,19 @@ export default function HomePage() {
         </StyledUl>
       </SectionContainer>
       <SectionContainer>
-        <SecondaryHeader>Children</SecondaryHeader>
+        <SecondaryHeader>Tasks</SecondaryHeader>
+        <StyledUl>
+          {childrenToRender?.map((child) => (
+            <ChildCard
+              key={child._id}
+              child={child}
+              tasks={tasksToRender.filter((task) => task.assignee._id === child._id)}
+            />
+          ))}
+        </StyledUl>
+      </SectionContainer>
+      <SectionContainer>
+        <SecondaryHeader>Meals</SecondaryHeader>
         <StyledUl>
           {childrenToRender?.map((child) => (
             <ChildCard
