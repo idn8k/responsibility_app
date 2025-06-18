@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Spinner from './ui/Spinner';
 import useSWR from 'swr';
+import SectionContainer from './SectionContainer';
 
 const StyledHeading = styled.h2`
   color: var(--primary-color);
@@ -78,6 +79,7 @@ const StyledBtnContainer = styled.div`
   display: flex;
   justify-content: space-around;
   position: relative;
+  margin-top: 80px;
 `;
 
 const StyledLinkBtn = styled(Link)`
@@ -168,47 +170,49 @@ export default function TaskForm() {
   if (isLoading) return <Spinner />;
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <StyledHeading>Assign a Task</StyledHeading>
-      <StyledInputContainer>
-        <StyledLabel htmlFor="taskName">Task Name</StyledLabel>
-        <StyledInput
-          name="taskName"
-          required
-          type="text"
-          id="taskName"
-          onChange={handleChange}
-          value={inputData.name}
-          placeholder="*Write down a task..."
-        />
-      </StyledInputContainer>
+    <SectionContainer>
+      <StyledForm onSubmit={handleSubmit}>
+        <StyledHeading>Assign a Task</StyledHeading>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="taskName">Task Name</StyledLabel>
+          <StyledInput
+            name="taskName"
+            required
+            type="text"
+            id="taskName"
+            onChange={handleChange}
+            value={inputData.name}
+            placeholder="*Write down a task..."
+          />
+        </StyledInputContainer>
 
-      <StyledInputContainer>
-        <StyledLabel htmlFor="assignee">Select a child</StyledLabel>
-        <StyledSelect
-          required
-          name="assignee"
-          type="select"
-          id="assignee"
-          onChange={handleChange}
-          value={inputData.assignee}
-          placeholder="*Choose a child..."
-        >
-          <option value="">*Select a child</option>
-          {childrenData.map((child) => (
-            <option key={child._id} value={child._id}>
-              {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
-            </option>
-          ))}
-        </StyledSelect>
-        <p>{error && 'Not valid url'}</p>
-      </StyledInputContainer>
-      <StyledBtnContainer>
-        <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>
-        <Button type="submit">Add</Button>
-        {/* {isFormComplete && !error && <Button type="submit">Add</Button>} */}
-        <StyledSpan>*Required</StyledSpan>
-      </StyledBtnContainer>
-    </StyledForm>
+        <StyledInputContainer>
+          <StyledLabel htmlFor="assignee">Select a child</StyledLabel>
+          <StyledSelect
+            required
+            name="assignee"
+            type="select"
+            id="assignee"
+            onChange={handleChange}
+            value={inputData.assignee}
+            placeholder="*Choose a child..."
+          >
+            <option value="">*Select a child</option>
+            {childrenData.map((child) => (
+              <option key={child._id} value={child._id}>
+                {child.name.charAt(0).toUpperCase() + child.name.slice(1)}
+              </option>
+            ))}
+          </StyledSelect>
+          <p>{error && 'Not valid url'}</p>
+        </StyledInputContainer>
+        <StyledBtnContainer>
+          <StyledLinkBtn href="/tasksPage">Cancel</StyledLinkBtn>
+          <Button type="submit">Add</Button>
+          {/* {isFormComplete && !error && <Button type="submit">Add</Button>} */}
+          <StyledSpan>*Required</StyledSpan>
+        </StyledBtnContainer>
+      </StyledForm>
+    </SectionContainer>
   );
 }

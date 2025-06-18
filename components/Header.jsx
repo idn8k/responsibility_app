@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react';
 const StyledHeader = styled.header`
   background: white;
 
-  box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-around;
   align-items: center;

@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import ChildCard from '@/components/ChildCard';
 import Spinner from '@/components/ui/Spinner';
-
 import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+// Import the hooks we need for the parent component
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Button from '@/components/ui/Button';
 import SecondaryHeader from '@/components/SecondaryHeading';
 import SectionContainer from '@/components/SectionContainer';
@@ -22,10 +22,14 @@ const StyledContainer = styled.div`
   width: 50%;
 `;
 
+// Define the sticky trigger point here
+const STICKY_THRESHOLD = 80;
+
 export default function HomePage() {
   const { data: sessionData, status } = useSession();
   const router = useRouter();
 
+  // --- All your existing data fetching and auth logic remains unchanged ---
   useEffect(() => {
     if (status === 'loading') return;
     if (status === 'unauthenticated') {
@@ -51,11 +55,52 @@ export default function HomePage() {
 
   useEffect(() => {
     if (status !== 'unauthenticated') return;
-
     if (!isLoadingChildren && childrenData && childrenData.length === 0) {
       router.push('addChildPage');
     }
   }, [childrenData, isLoadingChildren, status, router]);
+
+  // --- NEW LOGIC TO MANAGE ALL STICKY HEADERS ---
+
+  // Hold the title of current active header.
+  const [activeHeaderTitle, setActiveHeaderTitle] = useState(null);
+  // Refs for each section container:
+  const childrenSectionRef = useRef(null);
+  const tasksSectionRef = useRef(null);
+  const mealsSectionRef = useRef(null);
+
+  const handleScroll = useCallback(() => {
+    const sectionRefs = {
+      Children: childrenSectionRef.current,
+      Tasks: tasksSectionRef.current,
+      Meals: mealsSectionRef.current,
+    };
+
+    let newActiveTitle = null;
+
+    // Find last section that has scrolled past the top.
+    for (const title in sectionRefs) {
+      const sectionEl = sectionRefs[title];
+      if (sectionEl) {
+        const rect = sectionEl.getBoundingClientRect();
+        if (rect.top <= STICKY_THRESHOLD) {
+          newActiveTitle = title;
+        }
+      }
+    }
+
+    if (newActiveTitle !== activeHeaderTitle) {
+      setActiveHeaderTitle(newActiveTitle);
+    }
+  }, [activeHeaderTitle]);
+
+  // 4. A single effect to add/remove the scroll listener.
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   if (status === 'loading' || isLoadingChildren || isLoadingTasks) {
     return <Spinner />;
@@ -75,8 +120,9 @@ export default function HomePage() {
           <Button onClick={() => router.push('/addChildPage')}>Add your first child</Button>
         </StyledContainer>
       )}
-      <SectionContainer>
-        <SecondaryHeader>Children</SecondaryHeader>
+
+      <SectionContainer ref={childrenSectionRef}>
+        <SecondaryHeader isSticky={activeHeaderTitle === 'Children'}>Children</SecondaryHeader>
         <StyledUl>
           {childrenToRender?.map((child) => (
             <ChildCard
@@ -87,8 +133,9 @@ export default function HomePage() {
           ))}
         </StyledUl>
       </SectionContainer>
-      <SectionContainer>
-        <SecondaryHeader>Tasks</SecondaryHeader>
+
+      <SectionContainer ref={tasksSectionRef}>
+        <SecondaryHeader isSticky={activeHeaderTitle === 'Tasks'}>Tasks</SecondaryHeader>
         <StyledUl>
           {childrenToRender?.map((child) => (
             <ChildCard
@@ -99,8 +146,9 @@ export default function HomePage() {
           ))}
         </StyledUl>
       </SectionContainer>
-      <SectionContainer>
-        <SecondaryHeader>Meals</SecondaryHeader>
+
+      <SectionContainer ref={mealsSectionRef}>
+        <SecondaryHeader isSticky={activeHeaderTitle === 'Meals'}>Meals</SecondaryHeader>
         <StyledUl>
           {childrenToRender?.map((child) => (
             <ChildCard

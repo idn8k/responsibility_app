@@ -7,21 +7,19 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 import Button from './ui/Button';
+import SectionContainer from './SectionContainer';
 
 const StyledHeading = styled.h2`
   color: var(--primary-color);
   font-size: 32px;
+  margin: 40px 0;
 `;
 
 const StyledForm = styled.form`
-  height: 100%;
-  width: 80%;
-  margin: 80px 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 4rem;
+  gap: 5rem;
 `;
 
 const StyledInputContainer = styled.div`
@@ -281,9 +279,9 @@ export default function ChildForm({ child, isEdit, onEdit }) {
   const shortUrl = isEdit && child.imgUrl.slice(0, 20) + '...';
 
   return (
-    <>
+    <SectionContainer>
+      <StyledHeading>{isEdit ? 'Edit Child' : 'Add Child'}</StyledHeading>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledHeading>{isEdit ? 'Edit Child' : 'Add Child'}</StyledHeading>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {uploadStatus && <p style={{ color: 'blue' }}>{uploadStatus}</p>}
         <StyledInputContainer>
@@ -335,6 +333,6 @@ export default function ChildForm({ child, isEdit, onEdit }) {
           <StyledSpan>*Required</StyledSpan>
         </StyledBtnContainer>
       </StyledForm>
-    </>
+    </SectionContainer>
   );
 }
