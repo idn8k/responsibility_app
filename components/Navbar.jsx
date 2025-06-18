@@ -7,7 +7,8 @@ import { FaSquare, FaThList, FaPlusSquare } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 
 const StyledNavbar = styled.nav`
-  background: var(--primary-color);
+  background: white;
+  box-shadow: 0 -3px 0 0 rgba(0, 0, 0, 0.07);
 
   display: flex;
   align-items: center;
@@ -17,6 +18,7 @@ const StyledNavbar = styled.nav`
   bottom: 0;
   height: 80px;
   width: 100vw;
+  z-index: 999;
 `;
 
 const StyledLink = styled(Link)`
@@ -29,7 +31,7 @@ const StyledLink = styled(Link)`
   border: none;
   margin: 0;
   padding: 0;
-  color: ${(props) => (props.active ? 'white' : 'var(--primary-color-light)')};
+  color: ${(props) => (props.active ? '##581C87' : '#b37ee4')};
 `;
 
 const StyledBtn = styled.button`
@@ -62,7 +64,7 @@ export default function Navbar() {
         <FaPlusSquare
           color={
             pathname === '/addChildPage' || pathname === '/addTaskPage'
-              ? 'white'
+              ? '##581C87'
               : 'var(--primary-color-light)'
           }
           size="2.2rem"

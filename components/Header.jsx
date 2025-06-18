@@ -1,30 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Logo from './ui/Logo';
+import AOLogo from '../assets/ao-logo.svg';
 import { signOut } from 'next-auth/react';
-import Link from 'next/link';
-import Badge from './ui/Badge';
 
 const StyledHeader = styled.header`
-  background: var(--primary-color);
+  background: white;
 
+  box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-around;
   align-items: center;
 
   position: fixed;
   top: 0;
-  z-index: 1;
+  z-index: 990;
   height: 80px;
   width: 100%;
+`;
+
+const LogoutBtn = styled.button`
+  position: absolute;
+  left: 20px;
 `;
 
 export default function Header() {
   return (
     <StyledHeader>
-      <button onClick={() => signOut()}>Logout</button>
-      <Logo />
+      <LogoutBtn onClick={() => signOut()}>Logout</LogoutBtn>
+      <AOLogo />
     </StyledHeader>
   );
 }

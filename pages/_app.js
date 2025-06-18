@@ -2,13 +2,11 @@ import useSWR, { SWRConfig } from 'swr';
 import { SessionProvider, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-
 import GlobalStyle from '../styles';
 import { ThemeProvider } from 'styled-components';
 
 import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
-import MainContainer from '@/components/MainContainer';
 import Spinner from '@/components/ui/Spinner';
 
 function Auth({ children }) {
@@ -81,9 +79,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
           <SessionProvider session={session}>
             <Header />
             <Auth>
-              <MainContainer>
+              <main>
                 <Component handleCompleteTask={handleCompleteTask} {...pageProps} />
-              </MainContainer>
+              </main>
             </Auth>
             <Navbar />
           </SessionProvider>
